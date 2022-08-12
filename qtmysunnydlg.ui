@@ -55,12 +55,12 @@
     <attribute name="title">
      <string>Tab 1</string>
     </attribute>
-    <widget class="QLineEdit" name="tab1lineEdit1">
+    <widget class="QLineEdit" name="alg0_99_threshold">
      <property name="geometry">
       <rect>
        <x>70</x>
        <y>20</y>
-       <width>151</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -91,6 +91,32 @@
       <string>写入参数</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>20</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>(20-65535)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="readTab1Btn">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>250</y>
+       <width>151</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>读取参数</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -109,12 +135,12 @@
       <string>曝光:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="tab2lineEdit1">
+    <widget class="QLineEdit" name="alg100_threshold">
      <property name="geometry">
       <rect>
        <x>70</x>
        <y>20</y>
-       <width>151</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -130,6 +156,32 @@
      </property>
      <property name="text">
       <string>写入参数</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>20</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>(20-65535)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="readTab2Btn">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>250</y>
+       <width>151</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>读取参数</string>
      </property>
     </widget>
    </widget>

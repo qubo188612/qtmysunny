@@ -4,9 +4,9 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {
   _p=statci_p;
 /*
-  system("ros2 param set gpio_raspberry_node laser True");  //激光打开
-  system("ros2 param set /camera_tis_node power True");     //相机打开
-  _p->updata_parameter();                                   //应用相机参数
+  _p->roscmd_open_laser(true);  //激光打开
+  _p->roscmd_open_camera(true); //相机打开
+  _p->roscmd_set_exposure(_p->i32_exposure); //应用相机曝光
 */
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
         "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
@@ -29,8 +29,8 @@ void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
   }
   else
   {/*
-    system("ros2 param set gpio_raspberry_node laser False");  //激光关闭
-    system("ros2 param set /camera_tis_node power False");     //相机关闭
+    _p->roscmd_open_laser(false);  //激光打开
+    _p->roscmd_open_camera(false); //相机打开
    */
     rclcpp::shutdown();
     _p->stop_b_connect=true;
@@ -171,15 +171,61 @@ void SoptopCamera::DisConnect()
   }
 }
 
-void SoptopCamera::updata_parameter()
+void SoptopCamera::roscmd_set_exposure(int exposure)
 {
   if(b_connect==true)
   {
     QString array="ros2 param set /camera_tis_node exposure_time ";
-    QString data=QString::number(i32_exposure);
+    QString data=QString::number(exposure);
     array=array+data;
     system(array.toUtf8());
   }
+}
+
+int SoptopCamera::roscmd_get_exposure(int *exposure)
+{
+    if(b_connect==true)
+    {
+      QString array="ros2 param get /camera_tis_node exposure_time ";
+    //  system(array.toUtf8());
+      QProcess process;
+      process.start(array);
+      process.waitForFinished();
+      QString result = process.readAllStandardOutput();
+      if(result.size()>0)
+      {
+          QString msg="Integer value is: ";
+          if(result.contains(msg,Qt::CaseSensitive))
+          {
+              //正确值
+              int a = result.indexOf(msg);//定位
+              int b = result.indexOf("\n",a+msg.size());
+              QString data = result.mid(a+msg.size(),b-a-msg.size());
+              *exposure=data.toInt();
+          }
+          else
+          {
+              return 1;
+          }
+      }
+    }
+    return 0;
+}
+
+void SoptopCamera::roscmd_open_laser(bool b)
+{
+    if(b==false)
+        system("ros2 param set gpio_raspberry_node laser False");  //激光关闭
+    else if(b==true)
+        system("ros2 param set gpio_raspberry_node laser True");    //激光打开
+}
+
+void SoptopCamera::roscmd_open_camera(bool b)
+{
+    if(b==false)
+        system("ros2 param set /camera_tis_node power False");  //相机关闭
+    else if(b==true)
+        system("ros2 param set /camera_tis_node power True");    //相机打开
 }
 
 void SoptopCamera::int_show_image_inlab()

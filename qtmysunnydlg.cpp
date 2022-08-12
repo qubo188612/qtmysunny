@@ -82,7 +82,131 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->writeTab1Btn,&QPushButton::clicked,[=](){
        if(m_mcs->resultdata.link_param_state==true)
        {
+           int alg0_99_threshold=ui->alg0_99_threshold->text().toInt();
+           if(alg0_99_threshold<20||alg0_99_threshold>65535)
+           {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("设置相机曝光值超出范围");
+           }
+           else
+           {
+               m_mcs->cam->sop_cam[0].i32_exposure=alg0_99_threshold;
+               m_mcs->cam->sop_cam[0].roscmd_set_exposure(m_mcs->cam->sop_cam[0].i32_exposure);
+               m_mcs->resultdata.alg100_threshold=alg0_99_threshold;
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("设置相机曝光值成功");
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再设置曝光值");
+       }
+    });
 
+    connect(ui->readTab1Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           int exposure=0;
+           if(0==m_mcs->cam->sop_cam[0].roscmd_get_exposure(&exposure))
+           {
+               if(exposure>65535)
+               {
+                   m_mcs->resultdata.alg100_threshold=65535;
+               }
+               else if(exposure<20)
+               {
+                   m_mcs->resultdata.alg100_threshold=20;
+               }
+               else
+               {
+                   m_mcs->resultdata.alg100_threshold=exposure;
+               }
+               ui->alg0_99_threshold->setText(QString::number(exposure));
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取相机曝光值成功");
+           }
+           else
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取相机曝光值失败");
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再读取曝光值");
+       }
+    });
+
+    connect(ui->writeTab2Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           int alg100_threshold=ui->alg100_threshold->text().toInt();
+           if(alg100_threshold<20||alg100_threshold>65535)
+           {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("设置相机曝光值超出范围");
+           }
+           else
+           {
+               uint16_t tab_reg[1];
+               tab_reg[0]=alg100_threshold;
+               int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,REGEDIT_ALG100_THRESHOLD,1,tab_reg);
+               if(rc!=1)
+               {
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("设置相机曝光值失败");
+               }
+               else
+               {
+                   m_mcs->resultdata.alg100_threshold=alg100_threshold;
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("设置相机曝光值成功");
+               }
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再设置曝光值");
+       }
+    });
+
+    connect(ui->readTab2Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           int real_readnum=0;
+           u_int16_t exposure;
+           real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,REGEDIT_ALG100_THRESHOLD,1,&exposure);
+           if(real_readnum<0)
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取相机曝光值失败");
+           }
+           else
+           {
+               if(exposure>65535)
+               {
+                   m_mcs->resultdata.alg100_threshold=65535;
+               }
+               else if(exposure<20)
+               {
+                   m_mcs->resultdata.alg100_threshold=20;
+               }
+               else
+               {
+                   m_mcs->resultdata.alg100_threshold=exposure;
+               }
+               ui->alg100_threshold->setText(QString::number(exposure));
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取相机曝光值成功");
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再读取曝光值");
        }
     });
 
@@ -340,7 +464,7 @@ void qtmysunnyDlg::close_camer_modbus()
 
 void qtmysunnyDlg::init_show_pos_list()
 {
-    ui->label_9->setText(QString::number(pos_data[0],16));
+    ui->label_9->setText("0x"+QString::number(pos_data[0],16));
     float Y=(int16_t)pos_data[1]/100.0;
     float Z=(int16_t)pos_data[2]/100.0;
     ui->label_10->setText(QString::number(Y,'f',2));

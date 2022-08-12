@@ -14,13 +14,14 @@
 #include <QTimer>
 #include <QObject>
 #include <QTimerEvent>
+#include <QProcess>
 
 #define SOPTOPCAM_SAVEBUFF		32
 #define SOPTOPCAM_SYSPATH_MOTO	"./SAVE/SOPTOPCAM.bsd"
 
-#define SOPTOPCAM_EXPOSURE_MAX    20000
+#define SOPTOPCAM_EXPOSURE_MAX    65535
 #define SOPTOPCAM_EXPOSURE_USE    800
-#define SOPTOPCAM_EXPOSURE_MIN    0
+#define SOPTOPCAM_EXPOSURE_MIN    20
 
 using std::placeholders::_1;
 class StartCameraThread;
@@ -44,7 +45,13 @@ public:
     int i32_exposure_max;     //曝光最大值
     int i32_exposure_min;     //曝光最小值
     int i32_exposure_use;     //曝光默认值
-    void updata_parameter();  //刷新相机参数
+
+    void roscmd_set_exposure(int exposure); //ROS命令刷新相机曝光
+    int roscmd_get_exposure(int *exposure); //ROS命令获取相机曝光
+
+    void roscmd_open_laser(bool b);//ROS命令开关激光
+    void roscmd_open_camera(bool b);//ROS命令开关相机
+
 
     cv::Mat *cv_image;    //相机图像
     QLabel *m_lab_show;   //显示控件位置

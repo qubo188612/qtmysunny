@@ -22,4 +22,12 @@
 
 #define DEEPIMG_CALLBACKNUM_DNUM     5     //采集深度图时多采集的帧数
 
+
+/*****************************/
+//框架2寄存器地址
+//任务号100
+#define REGEDIT_ALG100_THRESHOLD        0x00        //任务号100曝光值
+
+/*****************************/
+
 #endif // GLOBAL_H
