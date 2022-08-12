@@ -9,7 +9,7 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
   _p->updata_parameter();                                   //应用相机参数
 */
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
-        "/rotate_image_node/image_rotated2", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
+        "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
 }
 
 Camshow::~Camshow()
@@ -25,6 +25,7 @@ void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
     cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
     *(_p->cv_image)=cv_ptr->image.clone();
     _p->b_updataimage_finish=true;
+    _p->callbacknumber++;
   }
   else
   {/*
@@ -46,8 +47,12 @@ SoptopCamera::SoptopCamera()
 
   cv_image=new cv::Mat;
   b_connect=false;
+  stop_b_connect=true;
   b_updataimage_finish=false;
   StartCamera_thread = new StartCameraThread(this);
+  callbacknumber=0;
+  oldcallbacknumber=0;
+  callback_error=0;
 }
 
 SoptopCamera::~SoptopCamera()
@@ -57,6 +62,25 @@ SoptopCamera::~SoptopCamera()
   delete StartCamera_thread;
   StartCamera_thread=NULL;
   delete cv_image;
+}
+
+void SoptopCamera::timerEvent(QTimerEvent *event)
+{
+    if(event->timerId()==timerid1)
+    {
+        if(b_connect==true||stop_b_connect==false)
+        {
+            if(callbacknumber==oldcallbacknumber)
+            {
+                callback_error=1;
+            }
+            else
+            {
+                callback_error=0;
+            }
+            oldcallbacknumber=callbacknumber;
+        }
+    }
 }
 
 void SoptopCamera::read_para()
@@ -118,6 +142,9 @@ void SoptopCamera::InitConnect(QLabel *lab_show)
 {
   if(b_connect==false)
   {
+    callbacknumber=0;
+    oldcallbacknumber=0;
+    timerid1 = startTimer(1000);
     m_lab_show=lab_show;
     b_connect=true;
     StartCamera_thread->start();
@@ -127,13 +154,20 @@ void SoptopCamera::InitConnect(QLabel *lab_show)
 void SoptopCamera::DisConnect()
 {
   if(b_connect==true)
-  {
+  {  
     stop_b_connect=false;
     b_connect=false;
     while (stop_b_connect==false)
     {
       QThread::sleep(0);
+      if(callback_error==1)//相机卡住了，强制退出ROS
+      {
+          rclcpp::shutdown();
+          stop_b_connect=true;
+          break;
+      }
     }
+    killTimer(timerid1);
   }
 }
 

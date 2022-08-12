@@ -11,6 +11,9 @@
 #include <QThread>
 #include <QLabel>
 #include "FileOut.h"
+#include <QTimer>
+#include <QObject>
+#include <QTimerEvent>
 
 #define SOPTOPCAM_SAVEBUFF		32
 #define SOPTOPCAM_SYSPATH_MOTO	"./SAVE/SOPTOPCAM.bsd"
@@ -22,8 +25,9 @@
 using std::placeholders::_1;
 class StartCameraThread;
 
-class SoptopCamera
+class SoptopCamera : public QObject
 {
+
 public:
     SoptopCamera();
     ~SoptopCamera();
@@ -51,11 +55,20 @@ public:
     void init_para();       //默认参赛
 
     volatile bool b_updataimage_finish; //获取最相机图像完成
+
+    volatile int callbacknumber;
+
+    bool callback_error;        //图像卡住
 protected:
     StartCameraThread *StartCamera_thread;
 
     void read_para();      //读取相机参数
     void check_para();     //核对相机参数从
+
+    virtual void timerEvent(QTimerEvent *event);
+    int timerid1;
+
+    volatile int oldcallbacknumber;
 };
 
 class StartCameraThread : public QThread
@@ -67,7 +80,6 @@ protected:
     void run();
 private:
     SoptopCamera *_p;
-
 };
 
 class Camshow : public rclcpp::Node

@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define DEBUG_TEST      //调试模式
+//#define DEBUG_TEST      //调试模式
 
 #define CAMIMAGE_HEIGHT             960     //初始化相机图像长宽
 #define CAMIMAGE_WIDTH              1280

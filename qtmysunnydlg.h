@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <my_parameters.h>
 
+#define DO_NOTHING         0
+#define DO_WRITE_TASK      1
+
 namespace Ui {
 class qtmysunnyDlg;
 }
@@ -33,12 +36,21 @@ public:
 
     unsigned short pos_data[3];
 
+    bool b_init_show_cvimage_inlab_finish;
+    bool b_init_show_pos_failed_finish;
+    bool b_init_show_pos_list_finish;
+    bool b_init_set_task;
+
+    int ctx_result_dosomeing;
+
 private:
     Ui::qtmysunnyDlg *ui;
 
 private slots:
     void init_show_pos_list();
     void init_show_pos_failed();
+    void init_show_cvimage_inlab();
+    void init_set_task();
 };
 
 class getposThread : public QThread
@@ -57,6 +69,8 @@ signals:
     // 自定义信号
     void Send_show_pos_list();
     void Send_show_pos_failed();
+    void Send_show_cvimage_inlab();
+    void Send_set_task();
 
 };
 
