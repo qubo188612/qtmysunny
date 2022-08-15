@@ -3,11 +3,22 @@
 Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {
   _p=statci_p;
+
+  _param_camera = std::make_shared<rclcpp::AsyncParametersClient>(this, "camera_tis_node");
+  _param_camera_get = std::make_shared<rclcpp::SyncParametersClient>(this, "camera_tis_node");
+  _param_gpio = std::make_shared<rclcpp::AsyncParametersClient>(this, "gpio_raspberry_node");
 /*
   _p->roscmd_open_laser(true);  //激光打开
   _p->roscmd_open_camera(true); //相机打开
   _p->roscmd_set_exposure(_p->i32_exposure); //应用相机曝光
+*/ 
+/*
+  ros_open_laser(true);  //激光打开
+  ros_open_camera(true); //相机打开
+  ros_set_exposure(_p->i32_exposure); //应用相机曝光
 */
+//ros_get_exposure(&_p->i32_exposure);//获取相机曝光
+
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
         "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
 }
@@ -35,6 +46,44 @@ void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
     rclcpp::shutdown();
     _p->stop_b_connect=true;
   }
+}
+
+void Camshow::ros_open_laser(bool b)
+{
+    if(b==false)
+        _param_gpio->set_parameters({rclcpp::Parameter("laser", false)});  //激光关闭
+    else if(b==true)
+        _param_gpio->set_parameters({rclcpp::Parameter("laser", true)});    //激光打开
+}
+
+void Camshow::ros_open_camera(bool b)
+{
+    if(b==false)
+        _param_camera->set_parameters({rclcpp::Parameter("power", false)});  //相机关闭
+    else if(b==true)
+        _param_camera->set_parameters({rclcpp::Parameter("power", true)});    //相机打开
+}
+
+void Camshow::ros_set_exposure(int exposure)
+{
+    _param_camera->set_parameters({rclcpp::Parameter("exposure_time", exposure)});
+}
+
+int Camshow::ros_get_exposure(int *exposure)
+{
+    const std::vector<std::string> KEYS2 = {"exposure_time"};
+    _param_camera_get->wait_for_service();
+    auto vp = _param_camera_get->get_parameters(KEYS2);
+    for (auto & p : vp)
+    {
+        if (p.get_name() == "exposure_time")
+        {
+            auto k = p.as_int();
+            *exposure=k;
+            return 0;
+        }
+    }
+    return -1;
 }
 
 SoptopCamera::SoptopCamera()
@@ -217,7 +266,7 @@ void SoptopCamera::roscmd_open_laser(bool b)
     if(b==false)
         system("ros2 param set gpio_raspberry_node laser False");  //激光关闭
     else if(b==true)
-        system("ros2 param set gpio_raspberry_node laser True");    //激光打开
+        system("ros2 param set gpio_raspberry_node laser True");    //激光打开   
 }
 
 void SoptopCamera::roscmd_open_camera(bool b)

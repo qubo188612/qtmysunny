@@ -46,11 +46,11 @@ public:
     int i32_exposure_min;     //曝光最小值
     int i32_exposure_use;     //曝光默认值
 
-    void roscmd_set_exposure(int exposure); //ROS命令刷新相机曝光
-    int roscmd_get_exposure(int *exposure); //ROS命令获取相机曝光
+    void roscmd_set_exposure(int exposure); //ROS终端命令刷新相机曝光
+    int roscmd_get_exposure(int *exposure); //ROS终端命令获取相机曝光
 
-    void roscmd_open_laser(bool b);//ROS命令开关激光
-    void roscmd_open_camera(bool b);//ROS命令开关相机
+    void roscmd_open_laser(bool b);//ROS终端命令开关激光
+    void roscmd_open_camera(bool b);//ROS终端命令开关相机
 
 
     cv::Mat *cv_image;    //相机图像
@@ -100,6 +100,16 @@ private:
 public:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
     void topic_callback(const sensor_msgs::msg::Image msg)  const;
+
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera;
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_gpio;
+    std::shared_ptr<rclcpp::SyncParametersClient> _param_camera_get;
+
+    void ros_open_laser(bool b);//ROS命令开关激光
+    void ros_open_camera(bool b);//RO2命令开关相机
+    void ros_set_exposure(int exposure); //ROS命令刷新相机曝光
+    int ros_get_exposure(int *exposure); //ROS命令获取相机曝光
+
 };
 
 #endif // SOPTOPCAMERA_H
