@@ -2,7 +2,11 @@
 #define QTMYSUNNYDLG_H
 
 #include <QDialog>
+#include "showtasknumdlg.h"
 #include <my_parameters.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include "TimeFunction.h"
 
 #define DO_NOTHING         0
 #define DO_WRITE_TASK      1
@@ -45,6 +49,8 @@ public:
 
 private:
     Ui::qtmysunnyDlg *ui;
+
+    showtasknumdlg *showtasknum;
 
 private slots:
     void init_show_pos_list();

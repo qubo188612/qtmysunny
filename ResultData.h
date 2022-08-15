@@ -22,6 +22,7 @@ public:
     uint8_t link_result_state;
     uint8_t link_param_state;
     uint8_t link_robotset_state;
+    uint8_t b_luzhi;
 
     modbus_t *ctx_robotset;     //机器人参数表
     modbus_t *ctx_param;        //激光头参数表

@@ -5,6 +5,12 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::qtmysunnyDlg)
 {
+    std::string dir = "./DATA";
+    if (access(dir.c_str(), 0) == -1)
+    {
+      mkdir("./DATA",S_IRWXU);
+    }
+
     ui->setupUi(this);
     ui->tabWidget->setTabText(0,"任务0-99");
     ui->tabWidget->setTabText(1,"任务100");
@@ -23,6 +29,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(thread1, SIGNAL(Send_show_pos_failed()), this, SLOT(init_show_pos_failed()));
     connect(thread1, SIGNAL(Send_show_cvimage_inlab()), this, SLOT(init_show_cvimage_inlab()));
     connect(thread1, SIGNAL(Send_set_task()), this, SLOT(init_set_task()));
+
+    showtasknum=new showtasknumdlg;
 
 
     m_mcs=m_mcs->Get();
@@ -210,6 +218,63 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        }
     });
 
+    connect(ui->tasknumshowBtn,&QPushButton::clicked,[=](){
+        showtasknum->setWindowTitle("任务号图示");
+        showtasknum->exec();
+    });
+
+    connect(ui->savebmpshowBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->cam->sop_cam[0].b_connect==true)
+        {
+            QString dir="./DATA/";
+            QString time;
+            TimeFunction to;
+            to.get_time_ms(&time);
+            QString format=".bmp";
+            dir=dir+time+format;
+            cv::imwrite(dir.toStdString(),*(m_mcs->cam->sop_cam[0].cv_image));
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("保存图片成功");
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("请连接相机后再保存图片");
+        }
+    });
+
+    connect(ui->saveavishowBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->cam->sop_cam[0].b_connect==true)
+        {
+            if(m_mcs->resultdata.b_luzhi==false)
+            {
+                QString dir="./DATA/";
+                QString time;
+                TimeFunction to;
+                to.get_time_ms(&time);
+                QString format=".avi";
+                dir=dir+time+format;
+                m_mcs->cam->sop_cam[0].StartRecord(dir);
+                m_mcs->resultdata.b_luzhi=true;
+                ui->saveavishowBtn->setText("停止录制");
+                if(ui->checkBox->isChecked()==false)
+                     ui->record->append("视频录制中");
+            }
+            else if(m_mcs->resultdata.b_luzhi==true)
+            {
+                m_mcs->resultdata.b_luzhi=false;
+                m_mcs->cam->sop_cam[0].StopRecord();
+                ui->saveavishowBtn->setText("录制视频");
+                if(ui->checkBox->isChecked()==false)
+                     ui->record->append("视频录制完成");
+            }
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("请连接相机后再录制视频");
+        }
+    });
 }
 
 qtmysunnyDlg::~qtmysunnyDlg()
@@ -218,6 +283,7 @@ qtmysunnyDlg::~qtmysunnyDlg()
     thread1->quit();
     thread1->wait();
     m_mcs->cam->sop_cam[0].DisConnect();
+    delete showtasknum;
     delete ui;
 }
 
@@ -381,6 +447,14 @@ void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
     }
     else
     {
+        if(m_mcs->resultdata.b_luzhi==true)
+        {
+            m_mcs->resultdata.b_luzhi=false;
+            m_mcs->cam->sop_cam[0].StopRecord();
+            ui->saveavishowBtn->setText("录制视频");
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("视频录制完成");
+        }
         m_mcs->cam->sop_cam[0].b_connect=false;
         if(ui->checkBox->isChecked()==false)
             ui->record->append("相机关闭");
@@ -402,6 +476,14 @@ void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
     }
     else
     {
+        if(m_mcs->resultdata.b_luzhi==true)
+        {
+            m_mcs->resultdata.b_luzhi=false;
+            m_mcs->cam->sop_cam[0].StopRecord();
+            ui->saveavishowBtn->setText("录制视频");
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("视频录制完成");
+        }
         m_mcs->cam->sop_cam[0].DisConnect();
         if(ui->checkBox->isChecked()==false)
             ui->record->append("相机关闭");

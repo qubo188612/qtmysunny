@@ -66,6 +66,12 @@ public:
     volatile int callbacknumber;
 
     bool callback_error;        //图像卡住
+
+    bool luzhi;		//是否录制视频
+    cv::VideoWriter writer;
+    double Getfps();//获取采集帧率
+    void StartRecord(QString filename);//开始录制视频
+    void StopRecord();//停止录制视频
 protected:
     StartCameraThread *StartCamera_thread;
 

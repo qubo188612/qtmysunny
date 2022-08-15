@@ -14,10 +14,12 @@ QT       += core gui network
 SOURCES += \
         FileOut.cpp \
         ResultData.cpp \
+        TimeFunction.cpp \
         cam_sen.cpp \
         main.cpp \
         my_parameters.cpp \
         qtmysunnydlg.cpp \
+        showtasknumdlg.cpp \
         soptopcamera.cpp
 
 # Default rules for deployment.
@@ -26,15 +28,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
-    qtmysunnydlg.ui
+    qtmysunnydlg.ui \
+    showtasknumdlg.ui
 
 HEADERS += \
     FileOut.h \
     ResultData.h \
+    TimeFunction.h \
     cam_sen.h \
     global.h \
     my_parameters.h \
     qtmysunnydlg.h \
+    showtasknumdlg.h \
     soptopcamera.h
 
 #opencv库的添加

@@ -37,6 +37,10 @@ void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
     *(_p->cv_image)=cv_ptr->image.clone();
     _p->b_updataimage_finish=true;
     _p->callbacknumber++;
+    if(_p->luzhi==true)
+    {
+        _p->writer << cv_ptr->image;
+    }
   }
   else
   {/*
@@ -102,6 +106,7 @@ SoptopCamera::SoptopCamera()
   callbacknumber=0;
   oldcallbacknumber=0;
   callback_error=0;
+  luzhi=false;
 }
 
 SoptopCamera::~SoptopCamera()
@@ -236,7 +241,6 @@ int SoptopCamera::roscmd_get_exposure(int *exposure)
     if(b_connect==true)
     {
       QString array="ros2 param get /camera_tis_node exposure_time ";
-    //  system(array.toUtf8());
       QProcess process;
       process.start(array);
       process.waitForFinished();
@@ -297,6 +301,29 @@ void SoptopCamera::int_show_image_inlab()
   img = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
   m_lab_show->setPixmap(QPixmap::fromImage(img));
 }
+
+double SoptopCamera::Getfps()
+{
+    return 50.0;
+}
+
+void SoptopCamera::StartRecord(QString filename)//开始录制视频
+{
+    bool isColor = (cv_image->type()==CV_8UC3);
+    double fps     = Getfps();
+    int frameW  = cv_image->cols;
+    int frameH  = cv_image->rows;
+    int codec=cv::VideoWriter::fourcc('X','V','I','D');
+    writer.open(filename.toStdString(),codec,fps,cv::Size(frameW,frameH),isColor);
+    luzhi=true;
+}
+
+void SoptopCamera::StopRecord()//停止录制视频
+{
+    luzhi=false;
+    writer.release();
+}
+
 
 StartCameraThread::StartCameraThread(SoptopCamera *statci_p)
 {

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>showtasknumdlg</class>
+ <widget class="QDialog" name="showtasknumdlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1126</width>
+    <height>629</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>30</y>
+     <width>161</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>任务号图示:</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>341</width>
+     <height>551</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>任务号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>框架号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>识别类型</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item row="0" column="2">
+    <property name="text">
+     <string>内角缝</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
