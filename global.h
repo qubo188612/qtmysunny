@@ -54,7 +54,7 @@
 #define ALS100_REG_TOTALNUM                    0x0015
 
 //显示图像处理步骤
-#define ALS_SHOW_STEP_REG_ADD                  0x0190
+#define ALS_SHOW_STEP_REG_ADD                  0x018f
 /*****************************/
 
 #endif // GLOBAL_H

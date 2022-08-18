@@ -20,7 +20,7 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 //ros_get_exposure(&_p->i32_exposure);//获取相机曝光
 #ifdef DEBUG_MYINTERFACES
   subscription_ = this->create_subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>(
-        "/laser_imagepos_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
+        "/laser_imagepos_node/result", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
 #else
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
         "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
