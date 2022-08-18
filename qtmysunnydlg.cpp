@@ -17,6 +17,21 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->IPadd->setText("192.168.1.2");
     ui->record->document()->setMaximumBlockCount(500);   //最大设置行数
 
+    ui->tab2tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
+    for(int i = 0; i < ui->tab2tableWidget->rowCount(); i++)//设置第一二列不可编辑
+    {
+        QTableWidgetItem *item0 = ui->tab2tableWidget->item(i, 0);
+        QTableWidgetItem *item1 = ui->tab2tableWidget->item(i, 1);
+        if(item0)
+        {
+            item0->setFlags(item0->flags() & (~Qt::ItemIsEditable));
+        }
+        if(item1)
+        {
+            item1->setFlags(item1->flags() & (~Qt::ItemIsEditable));
+        }
+    }
+
     b_init_show_cvimage_inlab_finish=true;
     b_init_show_pos_failed_finish=true;
     b_init_show_pos_list_finish=true;
@@ -158,26 +173,30 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
            }
            else
            {
-               uint16_t tab_reg[1];
+               uint16_t tab_reg[ALS100_REG_TOTALNUM];
                tab_reg[0]=alg100_threshold;
-               int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,REGEDIT_ALG100_THRESHOLD,1,tab_reg);
-               if(rc!=1)
+               for(int i=1;i<ALS100_REG_TOTALNUM;i++)
+               {
+                   tab_reg[i]=(uint16_t)(ui->tab2tableWidget->item(i-1,2)->text().toInt());
+               }
+               int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS100_EXPOSURE_TIME_REG_ADD,ALS100_REG_TOTALNUM,tab_reg);
+               if(rc!=ALS100_REG_TOTALNUM)
                {
                    if(ui->checkBox->isChecked()==false)
-                       ui->record->append("设置相机曝光值失败");
+                       ui->record->append("设置任务号100参数失败");
                }
                else
                {
                    m_mcs->resultdata.alg100_threshold=alg100_threshold;
                    if(ui->checkBox->isChecked()==false)
-                       ui->record->append("设置相机曝光值成功");
+                       ui->record->append("设置任务号100参数成功");
                }
            }
        }
        else
        {
            if(ui->checkBox->isChecked()==false)
-                ui->record->append("请连接相机后再设置曝光值");
+                ui->record->append("请连接相机后再设置任务号100参数");
        }
     });
 
@@ -185,42 +204,73 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        if(m_mcs->resultdata.link_param_state==true)
        {
            int real_readnum=0;
-           u_int16_t exposure;
-           real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,REGEDIT_ALG100_THRESHOLD,1,&exposure);
+           u_int16_t rcvdata[ALS100_REG_TOTALNUM];
+           real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS100_EXPOSURE_TIME_REG_ADD,ALS100_REG_TOTALNUM,rcvdata);
            if(real_readnum<0)
            {
                if(ui->checkBox->isChecked()==false)
-                   ui->record->append("读取相机曝光值失败");
+                   ui->record->append("读取任务号100参数失败");
            }
            else
            {
-               if(exposure>65535)
+               if(rcvdata[0]>65535)
                {
                    m_mcs->resultdata.alg100_threshold=65535;
                }
-               else if(exposure<20)
+               else if(rcvdata[0]<20)
                {
                    m_mcs->resultdata.alg100_threshold=20;
                }
                else
                {
-                   m_mcs->resultdata.alg100_threshold=exposure;
+                   m_mcs->resultdata.alg100_threshold=rcvdata[0];
                }
-               ui->alg100_threshold->setText(QString::number(exposure));
+               ui->alg100_threshold->setText(QString::number(m_mcs->resultdata.alg100_threshold));
+
+               for(int i=1;i<ALS100_REG_TOTALNUM;i++)
+               {
+                   ui->tab2tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+               }
+
                if(ui->checkBox->isChecked()==false)
-                   ui->record->append("读取相机曝光值成功");
+                   ui->record->append("读取任务号100参数成功");
            }
        }
        else
        {
            if(ui->checkBox->isChecked()==false)
-                ui->record->append("请连接相机后再读取曝光值");
+                ui->record->append("请连接相机后再读取任务号100参数");
        }
     });
 
     connect(ui->tasknumshowBtn,&QPushButton::clicked,[=](){
         showtasknum->setWindowTitle("任务号图示");
         showtasknum->exec();
+    });
+
+    connect(ui->savebmpstepBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->cam->sop_cam[0].b_connect==true)
+        {
+            int step=ui->bmpstepEdit->text().toInt();
+            u_int16_t tab_reg[1];
+            tab_reg[0]=step;
+            int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
+            if(rc!=1)
+            {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("写入视图步骤失败");
+            }
+            else
+            {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("写入视图步骤成功");
+            }
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("请连接相机后再写入视图步骤");
+        }
     });
 
     connect(ui->savebmpshowBtn,&QPushButton::clicked,[=](){
@@ -563,26 +613,29 @@ void qtmysunnyDlg::init_show_pos_failed()
 
 void qtmysunnyDlg::init_show_cvimage_inlab()
 {
-    QImage::Format format = QImage::Format_RGB888;
-    cv::Mat cvimg=m_mcs->cam->sop_cam[0].cv_image->clone();
-    switch (cvimg.type())
+    if(!m_mcs->cam->sop_cam[0].cv_image->empty())
     {
-    case CV_8UC1:
-      format = QImage::Format_Indexed8;
-      break;
-    case CV_8UC3:
-      format = QImage::Format_RGB888;
-      break;
-    case CV_8UC4:
-      format = QImage::Format_ARGB32;
-      break;
+        QImage::Format format = QImage::Format_RGB888;
+        cv::Mat cvimg=m_mcs->cam->sop_cam[0].cv_image->clone();
+        switch (cvimg.type())
+        {
+        case CV_8UC1:
+          format = QImage::Format_Indexed8;
+          break;
+        case CV_8UC3:
+          format = QImage::Format_RGB888;
+          break;
+        case CV_8UC4:
+          format = QImage::Format_ARGB32;
+          break;
+        }
+        QImage img = QImage((const uchar*)cvimg.data,
+                                          cvimg.cols,
+                                          cvimg.rows,
+                                          cvimg.cols * cvimg.channels(), format);
+        img = img.scaled(ui->imageshowlab->width(),ui->imageshowlab->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
+        ui->imageshowlab->setPixmap(QPixmap::fromImage(img));
     }
-    QImage img = QImage((const uchar*)cvimg.data,
-                                      cvimg.cols,
-                                      cvimg.rows,
-                                      cvimg.cols * cvimg.channels(), format);
-    img = img.scaled(ui->imageshowlab->width(),ui->imageshowlab->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
-    ui->imageshowlab->setPixmap(QPixmap::fromImage(img));
     b_init_show_cvimage_inlab_finish=true;
 }
 

@@ -53,6 +53,11 @@ INCLUDEPATH +=/opt/ros/galactic/include \
 LIBS += /opt/ros/galactic/lib/lib*.so
 LIBS += /opt/ros/galactic/lib/x86_64-linux-gnu/lib*.so
 
+#自定义ROS接口添加
+INCLUDEPATH +=/home/qubo/myRos2test/install/tutorial_interfaces/include \
+
+LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interfaces*.so
+
 #modbustcp库的添加
 INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
 #INCLUDEPATH += /home/qubo/modbus/libmodbus/src

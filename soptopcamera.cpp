@@ -18,9 +18,13 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
   ros_set_exposure(_p->i32_exposure); //应用相机曝光
 */
 //ros_get_exposure(&_p->i32_exposure);//获取相机曝光
-
+#ifdef DEBUG_MYINTERFACES
+  subscription_ = this->create_subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>(
+        "/laser_imagepos_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
+#else
   subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
         "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
+#endif
 }
 
 Camshow::~Camshow()
@@ -28,29 +32,61 @@ Camshow::~Camshow()
 
 }
 
-void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
-{
-  if(_p->b_connect==true)
-  {
-    cv_bridge::CvImagePtr cv_ptr;
-    cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
-    *(_p->cv_image)=cv_ptr->image.clone();
-    _p->b_updataimage_finish=true;
-    _p->callbacknumber++;
-    if(_p->luzhi==true)
+#ifdef DEBUG_MYINTERFACES
+    void Camshow::topic_callback(const tutorial_interfaces::msg::IfAlgorhmitmsg msg)  const
     {
-        _p->writer << cv_ptr->image;
+      if(_p->b_connect==true)
+      {
+        cv_bridge::CvImagePtr cv_ptr;
+        cv_ptr = cv_bridge::toCvCopy(msg.imageout, "mono8");
+        if(!cv_ptr->image.empty())
+        {
+            *(_p->cv_image)=cv_ptr->image.clone();
+            _p->b_updataimage_finish=true;
+            _p->callbacknumber++;
+            if(_p->luzhi==true)
+            {
+                _p->writer << cv_ptr->image;
+            }
+        }
+      }
+      else
+      {/*
+        _p->roscmd_open_laser(false);  //激光打开
+        _p->roscmd_open_camera(false); //相机打开
+       */
+        rclcpp::shutdown();
+        _p->stop_b_connect=true;
+      }
     }
-  }
-  else
-  {/*
-    _p->roscmd_open_laser(false);  //激光打开
-    _p->roscmd_open_camera(false); //相机打开
-   */
-    rclcpp::shutdown();
-    _p->stop_b_connect=true;
-  }
-}
+#else
+    void Camshow::topic_callback(const sensor_msgs::msg::Image msg)  const
+    {
+      if(_p->b_connect==true)
+      {
+        cv_bridge::CvImagePtr cv_ptr;
+        cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
+        if(!cv_ptr->image.empty())
+        {
+            *(_p->cv_image)=cv_ptr->image.clone();
+            _p->b_updataimage_finish=true;
+            _p->callbacknumber++;
+            if(_p->luzhi==true)
+            {
+                _p->writer << cv_ptr->image;
+            }
+        }
+      }
+      else
+      {/*
+        _p->roscmd_open_laser(false);  //激光打开
+        _p->roscmd_open_camera(false); //相机打开
+       */
+        rclcpp::shutdown();
+        _p->stop_b_connect=true;
+      }
+    }
+#endif
 
 void Camshow::ros_open_laser(bool b)
 {

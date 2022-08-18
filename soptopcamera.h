@@ -5,6 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include <sensor_msgs/msg/image.hpp>
+#include "tutorial_interfaces/msg/if_algorhmitmsg.hpp"
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include <QObject>
@@ -15,6 +16,7 @@
 #include <QObject>
 #include <QTimerEvent>
 #include <QProcess>
+#include <global.h>
 
 #define SOPTOPCAM_SAVEBUFF		32
 #define SOPTOPCAM_SYSPATH_MOTO	"./SAVE/SOPTOPCAM.bsd"
@@ -104,8 +106,19 @@ public:
 private:
     SoptopCamera *_p;
 public:
+
+#ifdef DEBUG_MYINTERFACES
+    rclcpp::Subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>::SharedPtr subscription_;
+#else
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
+#endif
+
+#ifdef DEBUG_MYINTERFACES
+    void topic_callback(const tutorial_interfaces::msg::IfAlgorhmitmsg msg)  const;
+#else
     void topic_callback(const sensor_msgs::msg::Image msg)  const;
+#endif
+
 
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera;
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_gpio;
