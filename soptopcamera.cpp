@@ -38,7 +38,8 @@ Camshow::~Camshow()
       if(_p->b_connect==true)
       {
         cv_bridge::CvImagePtr cv_ptr;
-        cv_ptr = cv_bridge::toCvCopy(msg.imageout, "mono8");
+
+        cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
         if(!cv_ptr->image.empty())
         {
             *(_p->cv_image)=cv_ptr->image.clone();
