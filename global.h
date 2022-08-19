@@ -49,9 +49,13 @@
 #define ALS100_ERZHISIZE2_REG_ADD              0x0012
 #define ALS100_SEARCHDECTANCEMAX_REG_ADD       0x0013
 #define ALS100_SEARCHDECTANCEMIN_REG_ADD       0x0014
+#define ALS100_DIS_CENTER_ST_REG_ADD           0x0015
+#define ALS100_DIS_CENTER_ED_REG_ADD           0x0016
 
 //任务号100寄存器总数
-#define ALS100_REG_TOTALNUM                    0x0015
+#define ALS100_REG_TOTALNUM                    0x0017
+//重置任务100参数寄存器
+#define ALS100_INIT_REG_ADD                    0x001f
 
 //显示图像处理步骤
 #define ALS_SHOW_STEP_REG_ADD                  0x018f

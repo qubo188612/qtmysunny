@@ -215,9 +215,9 @@ void showtasknumdlg::image_draw(int task_num)
         //内角缝
         L_line line1,line2;
         line1.st.y=nnHeight/16.0;
-        line1.ed.y=nnHeight/2.0;
+        line1.ed.y=nnHeight/2.0-nnHeight/16.0;
         line1.st.x=nnWidth/16.0*15;
-        line1.ed.x=nnWidth/16.0;
+        line1.ed.x=nnWidth/16.0*5;
         cv::line(image,line1.st,line1.ed,cv::Scalar(255,0,0),9);
         line2.st.y=nnHeight/16.0*15;
         line2.ed.y=nnHeight/2.0+nnHeight/16.0;
@@ -229,6 +229,9 @@ void showtasknumdlg::image_draw(int task_num)
         cv::Point2f p1=focal;
         cv::Point2f p2=line2.ed;
         draw_dotted_line2(image,p1,p2,cv::Scalar(0,255,0),3);
+        cv::Point2f p3=focal;
+        cv::Point2f p4=line1.ed;
+        draw_dotted_line2(image,p3,p4,cv::Scalar(0,255,0),3);
         cv::circle(image,focal,20,cv::Scalar(0,0,255),3);
         cv::Point2f p1_1=p1;
         p1_1.y=p1_1.y-25;
@@ -237,6 +240,10 @@ void showtasknumdlg::image_draw(int task_num)
         cv::Point2f p2_2=p2;
         p2_2.y=p2_2.y-25;
         cv::putText(image,"2",p2_2,cv::FONT_HERSHEY_SCRIPT_SIMPLEX,2,cv::Scalar(0,0,255),3);
+        cv::circle(image,p4,20,cv::Scalar(0,0,255),3);
+        cv::Point2f p3_3=p4;
+        p3_3.y=p3_3.y-25;
+        cv::putText(image,"3",p3_3,cv::FONT_HERSHEY_SCRIPT_SIMPLEX,2,cv::Scalar(0,0,255),3);
     }
     break;
     case 101:

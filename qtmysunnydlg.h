@@ -39,6 +39,8 @@ public:
     bool b_stop_thread1;
 
     unsigned short pos_data[3];
+    unsigned short pos_data2[4];    //附加点
+    unsigned short pos_data3[1];    //焊接点
 
     bool b_init_show_cvimage_inlab_finish;
     bool b_init_show_pos_failed_finish;

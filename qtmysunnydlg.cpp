@@ -200,6 +200,63 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        }
     });
 
+    connect(ui->initTab2Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           uint16_t tab_reg[1];
+           tab_reg[0]=1;
+           int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS100_INIT_REG_ADD,1,tab_reg);
+           if(rc!=1)
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("重置任务号100参数失败");
+           }
+           else
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("重置任务号100参数成功");
+               sleep(1);
+               int real_readnum=0;
+               u_int16_t rcvdata[ALS100_REG_TOTALNUM];
+               real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS100_EXPOSURE_TIME_REG_ADD,ALS100_REG_TOTALNUM,rcvdata);
+               if(real_readnum<0)
+               {
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("重新读取任务号100参数失败");
+               }
+               else
+               {
+                   if(rcvdata[0]>65535)
+                   {
+                       m_mcs->resultdata.alg100_threshold=65535;
+                   }
+                   else if(rcvdata[0]<20)
+                   {
+                       m_mcs->resultdata.alg100_threshold=20;
+                   }
+                   else
+                   {
+                       m_mcs->resultdata.alg100_threshold=rcvdata[0];
+                   }
+                   ui->alg100_threshold->setText(QString::number(m_mcs->resultdata.alg100_threshold));
+
+                   for(int i=1;i<ALS100_REG_TOTALNUM;i++)
+                   {
+                       ui->tab2tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+                   }
+
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("重新读取任务号100参数成功");
+               }
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再重置任务号100参数");
+       }
+    });
+
     connect(ui->readTab2Btn,&QPushButton::clicked,[=](){
        if(m_mcs->resultdata.link_param_state==true)
        {
@@ -606,6 +663,21 @@ void qtmysunnyDlg::init_show_pos_list()
     float Z=(int16_t)pos_data[2]/100.0;
     ui->label_10->setText(QString::number(Y,'f',2));
     ui->label_11->setText(QString::number(Z,'f',2));
+
+    float Y2=(int16_t)pos_data2[0]/100.0;
+    float Z2=(int16_t)pos_data2[1]/100.0;
+    float Y3=(int16_t)pos_data2[2]/100.0;
+    float Z3=(int16_t)pos_data2[3]/100.0;
+    ui->label_17->setText(QString::number(Y2,'f',2));
+    ui->label_19->setText(QString::number(Z2,'f',2));
+    ui->label_21->setText(QString::number(Y3,'f',2));
+    ui->label_23->setText(QString::number(Z3,'f',2));
+
+    if(pos_data3[0]==0xff)
+        ui->label_25->setText("是");
+    else if(pos_data3[0]==0)
+        ui->label_25->setText("否");
+
     b_init_show_pos_list_finish=true;
 }
 
@@ -688,13 +760,15 @@ void getposThread::run()
                 }
                 else if(_p->ctx_result_dosomeing==DO_NOTHING)
                 {
-                    int real_readnum=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,3,_p->pos_data);
-                    if(real_readnum<0)
+                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,3,_p->pos_data);
+                    int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x50,4,_p->pos_data2);
+                    int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x60,1,_p->pos_data3);
+                    if(real_readnum_1<0||real_readnum_2<0||real_readnum_3<0)
                     {
                         if(_p->b_init_show_pos_failed_finish==true)
                         {
                             _p->b_init_show_pos_failed_finish=false;
-                        //  emit Send_show_pos_failed();
+                        //  emit Send_show_pos_failed();      
                         }
                     }
                     else
