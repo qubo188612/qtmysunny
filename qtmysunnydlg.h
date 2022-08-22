@@ -34,6 +34,8 @@ public:
     void open_camer_modbus();       //打开相机采集
     void close_camer_modbus();      //关闭相机采集
 
+    void showupdata_tabWidget(int index);
+
     getposThread *thread1;
     bool b_thread1;
     bool b_stop_thread1;
@@ -59,6 +61,7 @@ private slots:
     void init_show_pos_failed();
     void init_show_cvimage_inlab();
     void init_set_task();
+    void on_tabWidget_tabBarClicked(int index);
 };
 
 class getposThread : public QThread

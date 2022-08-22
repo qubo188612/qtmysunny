@@ -55,8 +55,10 @@ public:
     void roscmd_open_camera(bool b);//ROS终端命令开关相机
 
 
-    cv::Mat *cv_image;    //相机图像
+    cv::Mat cv_image;    //相机图像
     QLabel *m_lab_show;   //显示控件位置
+
+    cv_bridge::CvImagePtr cv_ptr;
 
     void int_show_image_inlab();//刷新图像
 
@@ -105,6 +107,7 @@ public:
 
 private:
     SoptopCamera *_p;
+
 public:
 
 #ifdef DEBUG_MYINTERFACES

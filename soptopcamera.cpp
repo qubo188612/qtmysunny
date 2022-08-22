@@ -36,18 +36,16 @@ Camshow::~Camshow()
     void Camshow::topic_callback(const tutorial_interfaces::msg::IfAlgorhmitmsg msg)  const
     {
       if(_p->b_connect==true)
-      {
-        cv_bridge::CvImagePtr cv_ptr;
-
-        cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
-        if(!cv_ptr->image.empty())
+      { 
+        _p->cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
+        if(!_p->cv_ptr->image.empty())
         {
-            *(_p->cv_image)=cv_ptr->image.clone();
+            _p->cv_image=_p->cv_ptr->image;
             _p->b_updataimage_finish=true;
             _p->callbacknumber++;
             if(_p->luzhi==true)
             {
-                _p->writer << cv_ptr->image;
+                _p->writer << _p->cv_ptr->image;
             }
         }
       }
@@ -69,7 +67,7 @@ Camshow::~Camshow()
         cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
         if(!cv_ptr->image.empty())
         {
-            *(_p->cv_image)=cv_ptr->image.clone();
+            (_p->cv_image)=cv_ptr->image.clone();
             _p->b_updataimage_finish=true;
             _p->callbacknumber++;
             if(_p->luzhi==true)
@@ -135,7 +133,6 @@ SoptopCamera::SoptopCamera()
 
   read_para();
 
-  cv_image=new cv::Mat;
   b_connect=false;
   stop_b_connect=true;
   b_updataimage_finish=false;
@@ -152,7 +149,6 @@ SoptopCamera::~SoptopCamera()
   StartCamera_thread->wait();
   delete StartCamera_thread;
   StartCamera_thread=NULL;
-  delete cv_image;
 }
 
 void SoptopCamera::timerEvent(QTimerEvent *event)
@@ -321,7 +317,7 @@ void SoptopCamera::roscmd_open_camera(bool b)
 void SoptopCamera::int_show_image_inlab()
 {
   QImage::Format format = QImage::Format_RGB888;
-  switch (cv_image->type())
+  switch (cv_image.type())
   {
   case CV_8UC1:
     format = QImage::Format_Indexed8;
@@ -333,8 +329,8 @@ void SoptopCamera::int_show_image_inlab()
     format = QImage::Format_ARGB32;
     break;
   }
-  QImage img = QImage((const uchar*)cv_image->data, cv_image->cols, cv_image->rows,
-  cv_image->cols * cv_image->channels(), format);
+  QImage img = QImage((const uchar*)cv_image.data, cv_image.cols, cv_image.rows,
+  cv_image.cols * cv_image.channels(), format);
   img = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
   m_lab_show->setPixmap(QPixmap::fromImage(img));
 }
@@ -346,10 +342,10 @@ double SoptopCamera::Getfps()
 
 void SoptopCamera::StartRecord(QString filename)//开始录制视频
 {
-    bool isColor = (cv_image->type()==CV_8UC3);
+    bool isColor = (cv_image.type()==CV_8UC3);
     double fps     = Getfps();
-    int frameW  = cv_image->cols;
-    int frameH  = cv_image->rows;
+    int frameW  = cv_image.cols;
+    int frameH  = cv_image.rows;
     int codec=cv::VideoWriter::fourcc('X','V','I','D');
     writer.open(filename.toStdString(),codec,fps,cv::Size(frameW,frameH),isColor);
     luzhi=true;

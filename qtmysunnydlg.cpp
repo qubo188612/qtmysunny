@@ -308,19 +308,27 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->savebmpstepBtn,&QPushButton::clicked,[=](){
         if(m_mcs->cam->sop_cam[0].b_connect==true)
         {
-            int step=ui->bmpstepEdit->text().toInt();
-            u_int16_t tab_reg[1];
-            tab_reg[0]=step;
-            int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
-            if(rc!=1)
+            if(m_mcs->resultdata.b_luzhi==false)
             {
-                if(ui->checkBox->isChecked()==false)
-                    ui->record->append("写入视图步骤失败");
+                int step=ui->bmpstepEdit->text().toInt();
+                u_int16_t tab_reg[1];
+                tab_reg[0]=step;
+                int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
+                if(rc!=1)
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("写入视图步骤失败");
+                }
+                else
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("写入视图步骤成功");
+                }
             }
             else
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append("写入视图步骤成功");
+                     ui->record->append("请停止录制视频后再写入视图步骤");
             }
         }
         else
@@ -339,7 +347,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
             to.get_time_ms(&time);
             QString format=".bmp";
             dir=dir+time+format;
-            cv::imwrite(dir.toStdString(),*(m_mcs->cam->sop_cam[0].cv_image));
+            cv::imwrite(dir.toStdString(),(m_mcs->cam->sop_cam[0].cv_image));
             if(ui->checkBox->isChecked()==false)
                  ui->record->append("保存图片成功");
         }
@@ -512,6 +520,8 @@ void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
                 ui->record->append(msg);
             }
         }
+
+        showupdata_tabWidget(ui->tabWidget->currentIndex());
 
         b_thread1=true;
         thread1->start();
@@ -690,10 +700,10 @@ void qtmysunnyDlg::init_show_pos_failed()
 
 void qtmysunnyDlg::init_show_cvimage_inlab()
 {
-    if(!m_mcs->cam->sop_cam[0].cv_image->empty())
+    if(!m_mcs->cam->sop_cam[0].cv_image.empty())
     {
         QImage::Format format = QImage::Format_RGB888;
-        cv::Mat cvimg=m_mcs->cam->sop_cam[0].cv_image->clone();
+        cv::Mat cvimg=m_mcs->cam->sop_cam[0].cv_image;
         switch (cvimg.type())
         {
         case CV_8UC1:
@@ -734,6 +744,59 @@ void qtmysunnyDlg::init_set_task()
     }
     ctx_result_dosomeing=DO_NOTHING;
     b_init_set_task=true;
+}
+
+void qtmysunnyDlg::on_tabWidget_tabBarClicked(int index)
+{
+    showupdata_tabWidget(index);
+}
+
+void qtmysunnyDlg::showupdata_tabWidget(int index)
+{
+    if(m_mcs->resultdata.link_param_state==true)
+    {
+        switch(index)
+        {
+            case 1:
+            {
+                int real_readnum=0;
+                u_int16_t rcvdata[ALS100_REG_TOTALNUM];
+                real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS100_EXPOSURE_TIME_REG_ADD,ALS100_REG_TOTALNUM,rcvdata);
+                if(real_readnum<0)
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("读取任务号100参数失败");
+                }
+                else
+                {
+                    if(rcvdata[0]>65535)
+                    {
+                        m_mcs->resultdata.alg100_threshold=65535;
+                    }
+                    else if(rcvdata[0]<20)
+                    {
+                        m_mcs->resultdata.alg100_threshold=20;
+                    }
+                    else
+                    {
+                        m_mcs->resultdata.alg100_threshold=rcvdata[0];
+                    }
+                    ui->alg100_threshold->setText(QString::number(m_mcs->resultdata.alg100_threshold));
+
+                    for(int i=1;i<ALS100_REG_TOTALNUM;i++)
+                    {
+                        ui->tab2tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+                    }
+
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("读取任务号100参数成功");
+                }
+            }
+            break;
+            default:
+            break;
+        }
+    }
 }
 
 getposThread::getposThread(qtmysunnyDlg *statci_p)
@@ -811,3 +874,5 @@ void getposThread::Stop()
     }
   }
 }
+
+

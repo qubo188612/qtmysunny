@@ -2,7 +2,7 @@
 #define GLOBAL_H
 
 //#define DEBUG_TEST            //调试模式
-#define DEBUG_MYINTERFACES      //使用自定义接口
+//#define DEBUG_MYINTERFACES      //使用自定义接口
 
 
 #define CAMIMAGE_HEIGHT             960     //初始化相机图像长宽
