@@ -36,7 +36,7 @@ Camshow::~Camshow()
     void Camshow::topic_callback(const tutorial_interfaces::msg::IfAlgorhmitmsg msg)  const
     {
       if(_p->b_connect==true)
-      { 
+      {      
         _p->cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
         if(!_p->cv_ptr->image.empty())
         {
@@ -46,8 +46,9 @@ Camshow::~Camshow()
             if(_p->luzhi==true)
             {
                 _p->writer << _p->cv_ptr->image;
-            }
+            }    
         }
+        _p->int_show_image_inlab();
       }
       else
       {/*

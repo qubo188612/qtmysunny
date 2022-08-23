@@ -11,6 +11,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
       mkdir("./DATA",S_IRWXU);
     }
 
+    setAttribute(Qt::WA_Mapped);    //属性函数避免界面不刷新
+
     ui->setupUi(this);
     ui->tabWidget->setTabText(0,"任务0-99");
     ui->tabWidget->setTabText(1,"任务100");
@@ -402,6 +404,13 @@ qtmysunnyDlg::~qtmysunnyDlg()
     delete ui;
 }
 
+void qtmysunnyDlg::showEvent(QShowEvent *e)
+
+{
+    this->setAttribute(Qt::WA_Mapped);
+    QWidget::showEvent(e);
+}
+
 void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
 {
     if(b_show==true)
@@ -521,7 +530,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
             }
         }
 
+        //读取任务参数
         showupdata_tabWidget(ui->tabWidget->currentIndex());
+
+        //启动过程图
+        u_int16_t tab_reg[1];
+        tab_reg[0]=1;
+        modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
 
         b_thread1=true;
         thread1->start();
@@ -668,16 +683,17 @@ void qtmysunnyDlg::close_camer_modbus()
 
 void qtmysunnyDlg::init_show_pos_list()
 {
-    ui->label_9->setText("0x"+QString::number(pos_data[0],16));
     float Y=(int16_t)pos_data[1]/100.0;
     float Z=(int16_t)pos_data[2]/100.0;
-    ui->label_10->setText(QString::number(Y,'f',2));
-    ui->label_11->setText(QString::number(Z,'f',2));
 
     float Y2=(int16_t)pos_data2[0]/100.0;
     float Z2=(int16_t)pos_data2[1]/100.0;
     float Y3=(int16_t)pos_data2[2]/100.0;
     float Z3=(int16_t)pos_data2[3]/100.0;
+
+    ui->label_9->setText("0x"+QString::number(pos_data[0],16));
+    ui->label_10->setText(QString::number(Y,'f',2));
+    ui->label_11->setText(QString::number(Z,'f',2));
     ui->label_17->setText(QString::number(Y2,'f',2));
     ui->label_19->setText(QString::number(Z2,'f',2));
     ui->label_21->setText(QString::number(Y3,'f',2));
@@ -844,6 +860,7 @@ void getposThread::run()
                     }
                 }
             }
+            /*
             if(_p->m_mcs->cam->sop_cam[0].b_updataimage_finish==true)
             {
                 if(_p->b_init_show_cvimage_inlab_finish==true)
@@ -852,6 +869,7 @@ void getposThread::run()
                     emit Send_show_cvimage_inlab();
                 }
             }
+            */
             sleep(0);
         }
         else

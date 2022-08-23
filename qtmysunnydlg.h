@@ -51,6 +51,8 @@ public:
 
     int ctx_result_dosomeing;
 
+    void showEvent(QShowEvent *e);//重写函数避免界面不刷新
+
 private:
     Ui::qtmysunnyDlg *ui;
 
