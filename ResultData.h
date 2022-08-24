@@ -31,12 +31,9 @@ public:
     unsigned short red_robotset[MODBUS_ROBOT_REGISTERS_NUM];
 
     /******************/
-    //任务0-99参数
     uint16_t alg0_99_threshold;      //任务0-99曝光值
-    /******************/
-    //任务号100参数
-    uint16_t alg100_threshold;      //任务100曝光值
-    /*****************/
+    uint16_t alg100_threshold;       //任务100曝光值
+    uint16_t alg101_threshold;       //任务101曝光值
 
 
 protected:

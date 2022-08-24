@@ -26,6 +26,9 @@
 
 
 /*****************************/
+//当前起始任务号
+#define TASKNUM_START   100
+
 //框架2寄存器地址
 //任务号100
 #define ALS100_EXPOSURE_TIME_REG_ADD           0x0000
@@ -57,8 +60,41 @@
 //重置任务100参数寄存器
 #define ALS100_INIT_REG_ADD                    0x001f
 
+
+//任务号101
+#define ALS101_EXPOSURE_TIME_REG_ADD           0x0020
+#define ALS101_PINGJUN_REG_ADD                 0x0021
+#define ALS101_B_YANMOFUZHU_REG_ADD            0x0022
+#define ALS101_B_GUDINGQUYU_REG_ADD            0x0023
+#define ALS101_WIDTHLIANTONGDIS_REG_ADD        0x0024
+#define ALS101_HIGHLIANTONGDIS_REG_ADD         0x0025
+#define ALS101_GUJIAERZHI_REG_ADD              0x0026
+#define ALS101_JIGUANGHIGHT_REG_ADD            0x0027
+#define ALS101_JIGUANGLONG_REG_ADD             0x0028
+#define ALS101_JIGUANGKUANDU_REG_ADD           0x0029
+#define ALS101_UPDIF_REG_ADD                   0x002a
+#define ALS101_UPDIFMIN_REG_ADD                0x002b
+#define ALS101_UPLONG_REG_ADD                  0x002c
+#define ALS101_DOWNDIF_REG_ADD                 0x002d
+#define ALS101_DOWNDIFMIN_REG_ADD              0x002e
+#define ALS101_DOWNDLONG_REG_ADD               0x002f
+#define ALS101_DUANXIANERZHI_REG_ADD           0x0030
+#define ALS101_ERZHISIZE_REG_ADD               0x0031
+#define ALS101_ERZHISIZE2_REG_ADD              0x0032
+#define ALS101_SEARCHDECTANCEMAX_REG_ADD       0x0033
+#define ALS101_SEARCHDECTANCEMIN_REG_ADD       0x0034
+#define ALS101_DIS_CENTER_ST_REG_ADD           0x0035
+#define ALS101_DIS_CENTER_ED_REG_ADD           0x0036
+
+//任务号101寄存器总数
+#define ALS101_REG_TOTALNUM                    0x0017
+//重置任务101参数寄存器
+#define ALS101_INIT_REG_ADD                    0x003f
+
 //显示图像处理步骤
 #define ALS_SHOW_STEP_REG_ADD                  0x018f
 /*****************************/
+
+
 
 #endif // GLOBAL_H

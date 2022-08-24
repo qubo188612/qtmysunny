@@ -16,14 +16,34 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->setupUi(this);
     ui->tabWidget->setTabText(0,"任务0-99");
     ui->tabWidget->setTabText(1,"任务100");
+    ui->tabWidget->setTabText(2,"任务101");
+
+    ui->tabWidget->setCurrentIndex(0);
+
     ui->IPadd->setText("192.168.1.2");
-    ui->record->document()->setMaximumBlockCount(500);   //最大设置行数
+
+    ui->record->document()->setMaximumBlockCount(500);   //调试窗最大设置行数
 
     ui->tab2tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
+    ui->tab3tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
+
     for(int i = 0; i < ui->tab2tableWidget->rowCount(); i++)//设置第一二列不可编辑
     {
         QTableWidgetItem *item0 = ui->tab2tableWidget->item(i, 0);
         QTableWidgetItem *item1 = ui->tab2tableWidget->item(i, 1);
+        if(item0)
+        {
+            item0->setFlags(item0->flags() & (~Qt::ItemIsEditable));
+        }
+        if(item1)
+        {
+            item1->setFlags(item1->flags() & (~Qt::ItemIsEditable));
+        }
+    }
+    for(int i = 0; i < ui->tab3tableWidget->rowCount(); i++)//设置第一二列不可编辑
+    {
+        QTableWidgetItem *item0 = ui->tab3tableWidget->item(i, 0);
+        QTableWidgetItem *item1 = ui->tab3tableWidget->item(i, 1);
         if(item0)
         {
             item0->setFlags(item0->flags() & (~Qt::ItemIsEditable));
@@ -302,6 +322,144 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        }
     });
 
+    connect(ui->writeTab3Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           int alg101_threshold=ui->alg101_threshold->text().toInt();
+           if(alg101_threshold<20||alg101_threshold>65535)
+           {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("设置相机曝光值超出范围");
+           }
+           else
+           {
+               uint16_t tab_reg[ALS101_REG_TOTALNUM];
+               tab_reg[0]=alg101_threshold;
+               for(int i=1;i<ALS101_REG_TOTALNUM;i++)
+               {
+                   tab_reg[i]=(uint16_t)(ui->tab3tableWidget->item(i-1,2)->text().toInt());
+               }
+               int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS101_EXPOSURE_TIME_REG_ADD,ALS101_REG_TOTALNUM,tab_reg);
+               if(rc!=ALS101_REG_TOTALNUM)
+               {
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("设置任务号101参数失败");
+               }
+               else
+               {
+                   m_mcs->resultdata.alg101_threshold=alg101_threshold;
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("设置任务号101参数成功");
+               }
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再设置任务号101参数");
+       }
+    });
+
+    connect(ui->initTab3Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           uint16_t tab_reg[1];
+           tab_reg[0]=1;
+           int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS101_INIT_REG_ADD,1,tab_reg);
+           if(rc!=1)
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("重置任务号101参数失败");
+           }
+           else
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("重置任务号101参数成功");
+               sleep(1);
+               int real_readnum=0;
+               u_int16_t rcvdata[ALS101_REG_TOTALNUM];
+               real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS101_EXPOSURE_TIME_REG_ADD,ALS101_REG_TOTALNUM,rcvdata);
+               if(real_readnum<0)
+               {
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("重新读取任务号101参数失败");
+               }
+               else
+               {
+                   if(rcvdata[0]>65535)
+                   {
+                       m_mcs->resultdata.alg101_threshold=65535;
+                   }
+                   else if(rcvdata[0]<20)
+                   {
+                       m_mcs->resultdata.alg101_threshold=20;
+                   }
+                   else
+                   {
+                       m_mcs->resultdata.alg101_threshold=rcvdata[0];
+                   }
+                   ui->alg101_threshold->setText(QString::number(m_mcs->resultdata.alg101_threshold));
+
+                   for(int i=1;i<ALS101_REG_TOTALNUM;i++)
+                   {
+                       ui->tab3tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+                   }
+
+                   if(ui->checkBox->isChecked()==false)
+                       ui->record->append("重新读取任务号101参数成功");
+               }
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再重置任务号101参数");
+       }
+    });
+
+    connect(ui->readTab3Btn,&QPushButton::clicked,[=](){
+       if(m_mcs->resultdata.link_param_state==true)
+       {
+           int real_readnum=0;
+           u_int16_t rcvdata[ALS101_REG_TOTALNUM];
+           real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS101_EXPOSURE_TIME_REG_ADD,ALS101_REG_TOTALNUM,rcvdata);
+           if(real_readnum<0)
+           {
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取任务号101参数失败");
+           }
+           else
+           {
+               if(rcvdata[0]>65535)
+               {
+                   m_mcs->resultdata.alg101_threshold=65535;
+               }
+               else if(rcvdata[0]<20)
+               {
+                   m_mcs->resultdata.alg101_threshold=20;
+               }
+               else
+               {
+                   m_mcs->resultdata.alg101_threshold=rcvdata[0];
+               }
+               ui->alg101_threshold->setText(QString::number(m_mcs->resultdata.alg101_threshold));
+
+               for(int i=1;i<ALS101_REG_TOTALNUM;i++)
+               {
+                   ui->tab3tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+               }
+
+               if(ui->checkBox->isChecked()==false)
+                   ui->record->append("读取任务号101参数成功");
+           }
+       }
+       else
+       {
+           if(ui->checkBox->isChecked()==false)
+                ui->record->append("请连接相机后再读取任务号101参数");
+       }
+    });
+
     connect(ui->tasknumshowBtn,&QPushButton::clicked,[=](){
         showtasknum->setWindowTitle("任务号图示");
         showtasknum->exec();
@@ -531,6 +689,19 @@ void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
         }
 
         //读取任务参数
+        if(task>=TASKNUM_START)
+        {
+            u_int16_t num=task-TASKNUM_START+1;
+            if(num<ui->tabWidget->count())
+            {
+                ui->tabWidget->setCurrentIndex(num);
+                showupdata_tabWidget(num);
+            }
+        }
+        else if(task<TASKNUM_START)
+        {
+            ui->tabWidget->setCurrentIndex(0);
+        }
         showupdata_tabWidget(ui->tabWidget->currentIndex());
 
         //启动过程图
@@ -757,6 +928,19 @@ void qtmysunnyDlg::init_set_task()
     {
         if(ui->checkBox->isChecked()==false)
             ui->record->append("更新任务号成功");
+        if(tasknum>=TASKNUM_START)
+        {
+            u_int16_t num=tasknum-TASKNUM_START+1;
+            if(num<ui->tabWidget->count())
+            {
+                ui->tabWidget->setCurrentIndex(num);
+                showupdata_tabWidget(num);
+            }
+        }
+        else if(tasknum<TASKNUM_START)
+        {
+            ui->tabWidget->setCurrentIndex(0);
+        }
     }
     ctx_result_dosomeing=DO_NOTHING;
     b_init_set_task=true;
@@ -806,6 +990,41 @@ void qtmysunnyDlg::showupdata_tabWidget(int index)
 
                     if(ui->checkBox->isChecked()==false)
                         ui->record->append("读取任务号100参数成功");
+                }
+            }
+            case 2:
+            {
+                int real_readnum=0;
+                u_int16_t rcvdata[ALS101_REG_TOTALNUM];
+                real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_param,ALS101_EXPOSURE_TIME_REG_ADD,ALS101_REG_TOTALNUM,rcvdata);
+                if(real_readnum<0)
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("读取任务号101参数失败");
+                }
+                else
+                {
+                    if(rcvdata[0]>65535)
+                    {
+                        m_mcs->resultdata.alg101_threshold=65535;
+                    }
+                    else if(rcvdata[0]<20)
+                    {
+                        m_mcs->resultdata.alg101_threshold=20;
+                    }
+                    else
+                    {
+                        m_mcs->resultdata.alg101_threshold=rcvdata[0];
+                    }
+                    ui->alg101_threshold->setText(QString::number(m_mcs->resultdata.alg101_threshold));
+
+                    for(int i=1;i<ALS101_REG_TOTALNUM;i++)
+                    {
+                        ui->tab3tableWidget->item(i-1,2)->setText(QString::number((int16_t)rcvdata[i]));
+                    }
+
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("读取任务号101参数成功");
                 }
             }
             break;
