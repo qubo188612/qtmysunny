@@ -226,7 +226,7 @@ void SoptopCamera::init_para()
     i32_exposure=i32_exposure_use;
 }
 
-void SoptopCamera::InitConnect(QLabel *lab_show)
+void SoptopCamera::InitConnect(PictureBox *lab_show)
 {
   if(b_connect==false)
   {
@@ -333,7 +333,7 @@ void SoptopCamera::int_show_image_inlab()
   QImage img = QImage((const uchar*)cv_image.data, cv_image.cols, cv_image.rows,
   cv_image.cols * cv_image.channels(), format);
   img = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
-  m_lab_show->setPixmap(QPixmap::fromImage(img));
+  m_lab_show->setImage(img);
 }
 
 double SoptopCamera::Getfps()

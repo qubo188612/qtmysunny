@@ -75,12 +75,12 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->connectcameraBtn,&QPushButton::clicked,[=](){
        if(m_mcs->cam->sop_cam[0].b_connect==false)
        {
-          img_windowshow(true,ui->imageshowlab);
+          img_windowshow(true,ui->widget);
           UpdataUi();
        }
        else
        {
-         img_windowshow(false,ui->imageshowlab);
+         img_windowshow(false,ui->widget);
          UpdataUi();
        }
     });
@@ -569,7 +569,7 @@ void qtmysunnyDlg::showEvent(QShowEvent *e)
     QWidget::showEvent(e);
 }
 
-void qtmysunnyDlg::img_windowshow(bool b_show,QLabel *lab_show)
+void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
 {
     if(b_show==true)
     {
@@ -907,8 +907,8 @@ void qtmysunnyDlg::init_show_cvimage_inlab()
                                           cvimg.cols,
                                           cvimg.rows,
                                           cvimg.cols * cvimg.channels(), format);
-        img = img.scaled(ui->imageshowlab->width(),ui->imageshowlab->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
-        ui->imageshowlab->setPixmap(QPixmap::fromImage(img));
+        img = img.scaled(ui->widget->width(),ui->widget->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
+        ui->widget->setImage(img);
     }
     b_init_show_cvimage_inlab_finish=true;
 }

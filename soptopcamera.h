@@ -17,6 +17,7 @@
 #include <QTimerEvent>
 #include <QProcess>
 #include <global.h>
+#include "PictureBox.h"
 
 #define SOPTOPCAM_SAVEBUFF		32
 #define SOPTOPCAM_SYSPATH_MOTO	"./SAVE/SOPTOPCAM.bsd"
@@ -38,7 +39,7 @@ public:
     int argc;
     char **argv;
 
-    void InitConnect(QLabel *lab_show);   //连接相机
+    void InitConnect(PictureBox *lab_show);   //连接相机
     void DisConnect();    //断开相机
     bool b_connect;       //是否连接相机
     bool stop_b_connect;  //是否成功断开相机
@@ -56,7 +57,7 @@ public:
 
 
     cv::Mat cv_image;    //相机图像
-    QLabel *m_lab_show;   //显示控件位置
+    PictureBox *m_lab_show;   //显示控件位置
 
     cv_bridge::CvImagePtr cv_ptr;
 
@@ -99,6 +100,8 @@ private:
     SoptopCamera *_p;
 };
 
+typedef void (*pUpdateMainThreadQImage)(QImage image);
+
 class Camshow : public rclcpp::Node
 {
 public:
@@ -131,7 +134,6 @@ public:
     void ros_open_camera(bool b);//RO2命令开关相机
     void ros_set_exposure(int exposure); //ROS命令刷新相机曝光
     int ros_get_exposure(int *exposure); //ROS命令获取相机曝光
-
 };
 
 #endif // SOPTOPCAMERA_H

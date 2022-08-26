@@ -13,6 +13,7 @@ QT       += core gui network
 
 SOURCES += \
         FileOut.cpp \
+        PictureBox.cpp \
         ResultData.cpp \
         TimeFunction.cpp \
         cam_sen.cpp \
@@ -33,6 +34,7 @@ FORMS += \
 
 HEADERS += \
     FileOut.h \
+    PictureBox.h \
     ResultData.h \
     TimeFunction.h \
     cam_sen.h \

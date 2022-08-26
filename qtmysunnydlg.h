@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include "TimeFunction.h"
+#include "PictureBox.h"
 
 #define DO_NOTHING         0
 #define DO_WRITE_TASK      1
@@ -29,7 +30,7 @@ public:
 
     void UpdataUi();
 
-    void img_windowshow(bool b_show,QLabel *lab_show);
+    void img_windowshow(bool b_show,PictureBox *lab_show);
 
     void open_camer_modbus();       //打开相机采集
     void close_camer_modbus();      //关闭相机采集
