@@ -11,7 +11,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
       mkdir("./DATA",S_IRWXU);
     }
 
-    setAttribute(Qt::WA_Mapped);    //属性函数避免界面不刷新
+//  setAttribute(Qt::WA_Mapped);    //属性函数避免界面不刷新
 
     ui->setupUi(this);
     ui->tabWidget->setTabText(0,"任务0-99");
@@ -79,7 +79,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     thread1 = new getposThread(this);
     connect(thread1, SIGNAL(Send_show_pos_list()), this, SLOT(init_show_pos_list()));
     connect(thread1, SIGNAL(Send_show_pos_failed()), this, SLOT(init_show_pos_failed()));
-    connect(thread1, SIGNAL(Send_show_cvimage_inlab()), this, SLOT(init_show_cvimage_inlab()));
+    connect(thread1, SIGNAL(Send_show_cvimage_inlab(cv::Mat)), this, SLOT(init_show_cvimage_inlab(cv::Mat)));
     connect(thread1, SIGNAL(Send_set_task()), this, SLOT(init_set_task()));
 
     showtasknum=new showtasknumdlg;
@@ -715,14 +715,14 @@ qtmysunnyDlg::~qtmysunnyDlg()
     delete showtasknum;
     delete ui;
 }
-
+/*
 void qtmysunnyDlg::showEvent(QShowEvent *e)
 
 {
     this->setAttribute(Qt::WA_Mapped);
     QWidget::showEvent(e);
 }
-
+*/
 void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
 {
     if(b_show==true)
@@ -1039,16 +1039,17 @@ void qtmysunnyDlg::init_show_pos_failed()
     b_init_show_pos_failed_finish=true;
 }
 
-void qtmysunnyDlg::init_show_cvimage_inlab()
+void qtmysunnyDlg::init_show_cvimage_inlab(cv::Mat cv_image)
 {
-    if(!m_mcs->cam->sop_cam[0].cv_image.empty())
+    if(!cv_image.empty())
     {
         QImage::Format format = QImage::Format_RGB888;
-        cv::Mat cvimg=m_mcs->cam->sop_cam[0].cv_image;
+        cv::Mat cvimg=cv_image;
         switch (cvimg.type())
         {
         case CV_8UC1:
-          format = QImage::Format_Indexed8;
+          format = QImage::Format_RGB888;
+          cv::cvtColor(cvimg,cvimg,cv::COLOR_GRAY2BGR);
           break;
         case CV_8UC3:
           format = QImage::Format_RGB888;
@@ -1065,6 +1066,8 @@ void qtmysunnyDlg::init_show_cvimage_inlab()
         ui->widget->setImage(img);
     }
     b_init_show_cvimage_inlab_finish=true;
+    m_mcs->cam->sop_cam[0].b_int_show_image_inlab=false;
+    m_mcs->cam->sop_cam[0].b_updataimage_finish=false;
 }
 
 void qtmysunnyDlg::init_set_task()
@@ -1268,16 +1271,15 @@ void getposThread::run()
                     }
                 }
             }
-            /*
             if(_p->m_mcs->cam->sop_cam[0].b_updataimage_finish==true)
             {
                 if(_p->b_init_show_cvimage_inlab_finish==true)
                 {
                     _p->b_init_show_cvimage_inlab_finish=false;
-                    emit Send_show_cvimage_inlab();
+                    qRegisterMetaType< cv::Mat >("cv::Mat"); //传递自定义类型信号时要添加注册
+                    emit Send_show_cvimage_inlab(_p->m_mcs->cam->sop_cam[0].cv_image);
                 }
             }
-            */
             sleep(0);
         }
         else

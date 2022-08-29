@@ -4,6 +4,8 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {
   _p=statci_p;
 
+  _p->b_int_show_image_inlab=false;
+
   _param_camera = std::make_shared<rclcpp::AsyncParametersClient>(this, "camera_tis_node");
   _param_camera_get = std::make_shared<rclcpp::SyncParametersClient>(this, "camera_tis_node");
   _param_gpio = std::make_shared<rclcpp::AsyncParametersClient>(this, "gpio_raspberry_node");
@@ -36,19 +38,24 @@ Camshow::~Camshow()
     void Camshow::topic_callback(const tutorial_interfaces::msg::IfAlgorhmitmsg msg)  const
     {
       if(_p->b_connect==true)
-      {      
-        _p->cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
-        if(!_p->cv_ptr->image.empty())
+      {
+        if(_p->b_int_show_image_inlab==false&&_p->b_updataimage_finish==false)
         {
-            _p->cv_image=_p->cv_ptr->image;
-            _p->b_updataimage_finish=true;
-            _p->callbacknumber++;
-            if(_p->luzhi==true)
+            _p->b_int_show_image_inlab=true;
+            _p->cv_ptr = cv_bridge::toCvCopy(msg.imageout, msg.imageout.encoding);
+            if(!_p->cv_ptr->image.empty())
             {
-                _p->writer << _p->cv_ptr->image;
-            }    
+                _p->cv_image=_p->cv_ptr->image;
+                _p->b_updataimage_finish=true;
+                _p->callbacknumber++;
+                if(_p->luzhi==true)
+                {
+                    _p->writer << _p->cv_ptr->image;
+                }
+            }
+        //  _p->int_show_image_inlab();
+        //  _p->b_int_show_image_inlab=false;
         }
-        _p->int_show_image_inlab();
       }
       else
       {/*
@@ -64,17 +71,21 @@ Camshow::~Camshow()
     {
       if(_p->b_connect==true)
       {
-        cv_bridge::CvImagePtr cv_ptr;
-        cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
-        if(!cv_ptr->image.empty())
+        if(_p->b_int_show_image_inlab==false)
         {
-            (_p->cv_image)=cv_ptr->image.clone();
-            _p->b_updataimage_finish=true;
-            _p->callbacknumber++;
-            if(_p->luzhi==true)
+            cv_bridge::CvImagePtr cv_ptr;
+            cv_ptr = cv_bridge::toCvCopy(msg, "mono8");
+            if(!cv_ptr->image.empty())
             {
-                _p->writer << cv_ptr->image;
+                (_p->cv_image)=cv_ptr->image.clone();
+                _p->b_updataimage_finish=true;
+                _p->callbacknumber++;
+                if(_p->luzhi==true)
+                {
+                    _p->writer << cv_ptr->image;
+                }
             }
+        //  _p->b_int_show_image_inlab=false;
         }
       }
       else
@@ -321,7 +332,8 @@ void SoptopCamera::int_show_image_inlab()
   switch (cv_image.type())
   {
   case CV_8UC1:
-    format = QImage::Format_Indexed8;
+    format = QImage::Format_RGB888;
+    cv::cvtColor(cv_image,cv_image,cv::COLOR_GRAY2BGR);
     break;
   case CV_8UC3:
     format = QImage::Format_RGB888;
@@ -330,10 +342,10 @@ void SoptopCamera::int_show_image_inlab()
     format = QImage::Format_ARGB32;
     break;
   }
-  QImage img = QImage((const uchar*)cv_image.data, cv_image.cols, cv_image.rows,
+  img = QImage((const uchar*)cv_image.data, cv_image.cols, cv_image.rows,
   cv_image.cols * cv_image.channels(), format);
-  img = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
-  m_lab_show->setImage(img);
+  img2 = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
+  m_lab_show->setImage(img2);
 }
 
 double SoptopCamera::Getfps()

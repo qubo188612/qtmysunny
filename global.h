@@ -115,9 +115,12 @@
 #define ALS102_SEARCHDECTANCEMIN_REG_ADD       0x0054
 #define ALS102_DIS_CENTER_ST_REG_ADD           0x0055
 #define ALS102_DIS_CENTER_ED_REG_ADD           0x0056
+#define ALS102_B_OPENGUDINGDIMIAN_REG_ADD      0x0057
+#define ALS102_DIMIANPANGDINGJULI_REG_ADD      0x0058
+#define ALS102_DIMIANPINGJUNSHUNUM_REG_ADD     0x0059
 
-//任务号101寄存器总数
-#define ALS102_REG_TOTALNUM                    0x0017
+//任务号102寄存器总数
+#define ALS102_REG_TOTALNUM                    0x001a
 //重置任务101参数寄存器
 #define ALS102_INIT_REG_ADD                    0x005f
 

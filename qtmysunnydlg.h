@@ -45,14 +45,14 @@ public:
     unsigned short pos_data2[4];    //附加点
     unsigned short pos_data3[1];    //焊接点
 
-    bool b_init_show_cvimage_inlab_finish;
-    bool b_init_show_pos_failed_finish;
-    bool b_init_show_pos_list_finish;
-    bool b_init_set_task;
+    volatile bool b_init_show_cvimage_inlab_finish;
+    volatile bool b_init_show_pos_failed_finish;
+    volatile bool b_init_show_pos_list_finish;
+    volatile bool b_init_set_task;
 
     int ctx_result_dosomeing;
 
-    void showEvent(QShowEvent *e);//重写函数避免界面不刷新
+//  void showEvent(QShowEvent *e);//重写函数避免界面不刷新
 
 private:
     Ui::qtmysunnyDlg *ui;
@@ -62,7 +62,7 @@ private:
 private slots:
     void init_show_pos_list();
     void init_show_pos_failed();
-    void init_show_cvimage_inlab();
+    void init_show_cvimage_inlab(cv::Mat);
     void init_set_task();
     void on_tabWidget_tabBarClicked(int index);
 };
@@ -83,7 +83,7 @@ signals:
     // 自定义信号
     void Send_show_pos_list();
     void Send_show_pos_failed();
-    void Send_show_cvimage_inlab();
+    void Send_show_cvimage_inlab(cv::Mat);
     void Send_set_task();
 
 };

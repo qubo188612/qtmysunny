@@ -62,6 +62,7 @@ public:
     cv_bridge::CvImagePtr cv_ptr;
 
     void int_show_image_inlab();//刷新图像
+    volatile bool b_int_show_image_inlab;
 
     void write_para();     //保存相机参数
     void init_para();       //默认参赛
@@ -87,6 +88,8 @@ protected:
     int timerid1;
 
     volatile int oldcallbacknumber;
+
+    QImage img,img2;
 };
 
 class StartCameraThread : public QThread
