@@ -34,6 +34,7 @@ public:
     uint16_t alg0_99_threshold;      //任务0-99曝光值
     uint16_t alg100_threshold;       //任务100曝光值
     uint16_t alg101_threshold;       //任务101曝光值
+    uint16_t alg102_threshold;       //任务102曝光值
 
 
 protected:
