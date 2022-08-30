@@ -119,9 +119,13 @@
 #define ALS102_B_OPENGUDINGDIMIAN_REG_ADD      0x0058
 #define ALS102_DIMIANPANGDINGJULI_REG_ADD      0x0059
 #define ALS102_DIMIANPINGJUNSHUNUM_REG_ADD     0x005a
+#define ALS102_DIS_CENTER_ST2_REG_ADD          0x005b
+#define ALS102_DIS_CENTER_ED2_REG_ADD          0x005c
+#define ALS102_DIS_CENTER_ST3_REG_ADD          0x005d
+#define ALS102_DIS_CENTER_ED3_REG_ADD          0x005e
 
 //任务号102寄存器总数
-#define ALS102_REG_TOTALNUM                    0x001b
+#define ALS102_REG_TOTALNUM                    0x001f
 //重置任务101参数寄存器
 #define ALS102_INIT_REG_ADD                    0x005f
 
