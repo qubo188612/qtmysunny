@@ -1355,6 +1355,11 @@
        <string>25</string>
       </property>
      </row>
+     <row>
+      <property name="text">
+       <string>26</string>
+      </property>
+     </row>
      <column>
       <property name="text">
        <string>名称</string>
@@ -1597,12 +1602,12 @@
      </item>
      <item row="15" column="0">
       <property name="text">
-       <string>duanxianerzhi</string>
+       <string>St_Down</string>
       </property>
      </item>
      <item row="15" column="1">
       <property name="text">
-       <string>[0,255]</string>
+       <string>[0,500]</string>
       </property>
      </item>
      <item row="15" column="2">
@@ -1612,12 +1617,12 @@
      </item>
      <item row="16" column="0">
       <property name="text">
-       <string>erzhisize</string>
+       <string>Ed_Down</string>
       </property>
      </item>
      <item row="16" column="1">
       <property name="text">
-       <string>[80,500]</string>
+       <string>[0,500]</string>
       </property>
      </item>
      <item row="16" column="2">
@@ -1627,12 +1632,12 @@
      </item>
      <item row="17" column="0">
       <property name="text">
-       <string>erzhisize2</string>
+       <string>St_Up</string>
       </property>
      </item>
      <item row="17" column="1">
       <property name="text">
-       <string>[30,500]</string>
+       <string>[0,500]</string>
       </property>
      </item>
      <item row="17" column="2">
@@ -1642,12 +1647,12 @@
      </item>
      <item row="18" column="0">
       <property name="text">
-       <string>searchdectancemax</string>
+       <string>Ed_Up</string>
       </property>
      </item>
      <item row="18" column="1">
       <property name="text">
-       <string>[30,500]</string>
+       <string>[0,500]</string>
       </property>
      </item>
      <item row="18" column="2">
@@ -1657,12 +1662,12 @@
      </item>
      <item row="19" column="0">
       <property name="text">
-       <string>searchdectancemin</string>
+       <string>Updif2</string>
       </property>
      </item>
      <item row="19" column="1">
       <property name="text">
-       <string>[1,500]</string>
+       <string>[-255,255]</string>
       </property>
      </item>
      <item row="19" column="2">
@@ -1672,12 +1677,12 @@
      </item>
      <item row="20" column="0">
       <property name="text">
-       <string>dis_center_st</string>
+       <string>Updifmin2</string>
       </property>
      </item>
      <item row="20" column="1">
       <property name="text">
-       <string>[0,500]</string>
+       <string>[-255,255]</string>
       </property>
      </item>
      <item row="20" column="2">
@@ -1687,7 +1692,7 @@
      </item>
      <item row="21" column="0">
       <property name="text">
-       <string>dis_center_ed</string>
+       <string>dis_center_st</string>
       </property>
      </item>
      <item row="21" column="1">
@@ -1702,12 +1707,12 @@
      </item>
      <item row="22" column="0">
       <property name="text">
-       <string>b_opengudingdimian</string>
+       <string>dis_center_ed</string>
       </property>
      </item>
      <item row="22" column="1">
       <property name="text">
-       <string>[0,1]</string>
+       <string>[0,500]</string>
       </property>
      </item>
      <item row="22" column="2">
@@ -1717,12 +1722,12 @@
      </item>
      <item row="23" column="0">
       <property name="text">
-       <string>dimianpangdingjuli</string>
+       <string>b_opengudingdimian</string>
       </property>
      </item>
      <item row="23" column="1">
       <property name="text">
-       <string>[0,500]</string>
+       <string>[0,1]</string>
       </property>
      </item>
      <item row="23" column="2">
@@ -1732,7 +1737,7 @@
      </item>
      <item row="24" column="0">
       <property name="text">
-       <string>dimianpingjunshunum</string>
+       <string>dimianpangdingjuli</string>
       </property>
      </item>
      <item row="24" column="1">
@@ -1741,6 +1746,21 @@
       </property>
      </item>
      <item row="24" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item row="25" column="0">
+      <property name="text">
+       <string>dimianpingjunshunum</string>
+      </property>
+     </item>
+     <item row="25" column="1">
+      <property name="text">
+       <string>[0,500]</string>
+      </property>
+     </item>
+     <item row="25" column="2">
       <property name="text">
        <string/>
       </property>

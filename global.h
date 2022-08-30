@@ -108,19 +108,20 @@
 #define ALS102_DOWNDIF_REG_ADD                 0x004d
 #define ALS102_DOWNDIFMIN_REG_ADD              0x004e
 #define ALS102_DOWNDLONG_REG_ADD               0x004f
-#define ALS102_DUANXIANERZHI_REG_ADD           0x0050
-#define ALS102_ERZHISIZE_REG_ADD               0x0051
-#define ALS102_ERZHISIZE2_REG_ADD              0x0052
-#define ALS102_SEARCHDECTANCEMAX_REG_ADD       0x0053
-#define ALS102_SEARCHDECTANCEMIN_REG_ADD       0x0054
-#define ALS102_DIS_CENTER_ST_REG_ADD           0x0055
-#define ALS102_DIS_CENTER_ED_REG_ADD           0x0056
-#define ALS102_B_OPENGUDINGDIMIAN_REG_ADD      0x0057
-#define ALS102_DIMIANPANGDINGJULI_REG_ADD      0x0058
-#define ALS102_DIMIANPINGJUNSHUNUM_REG_ADD     0x0059
+#define ALS102_ST_DOWN_REG_ADD                 0x0050
+#define ALS102_ED_DOWN_REG_ADD                 0x0051
+#define ALS102_ST_UP_REG_ADD                   0x0052
+#define ALS102_ED_UP_REG_ADD                   0x0053
+#define ALS102_UPDIF2_REG_ADD                  0x0054
+#define ALS102_UPDIFMIN2_REG_ADD               0x0055
+#define ALS102_DIS_CENTER_ST_REG_ADD           0x0056
+#define ALS102_DIS_CENTER_ED_REG_ADD           0x0057
+#define ALS102_B_OPENGUDINGDIMIAN_REG_ADD      0x0058
+#define ALS102_DIMIANPANGDINGJULI_REG_ADD      0x0059
+#define ALS102_DIMIANPINGJUNSHUNUM_REG_ADD     0x005a
 
 //任务号102寄存器总数
-#define ALS102_REG_TOTALNUM                    0x001a
+#define ALS102_REG_TOTALNUM                    0x001b
 //重置任务101参数寄存器
 #define ALS102_INIT_REG_ADD                    0x005f
 
