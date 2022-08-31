@@ -185,7 +185,7 @@
    </item>
    <item row="4" column="2">
     <property name="text">
-     <string>未定义</string>
+     <string>轮廓检测</string>
     </property>
    </item>
    <item row="5" column="0">

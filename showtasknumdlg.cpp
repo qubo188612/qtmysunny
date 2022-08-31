@@ -316,6 +316,42 @@ void showtasknumdlg::image_draw(int task_num)
         cv::putText(image,"1",p1_1,cv::FONT_HERSHEY_SCRIPT_SIMPLEX,2,cv::Scalar(0,0,255),3);
     }
     break;
+    case 103:
+    {
+        //轮廓
+        L_line line1,line2,line3,line4,line5;
+        line1.st.y=nnHeight/16.0;
+        line1.ed.y=nnHeight/8.0;
+        line1.st.x=nnWidth/2.0;
+        line1.ed.x=nnWidth/2.0;
+        cv::line(image,line1.st,line1.ed,cv::Scalar(255,0,0),9);
+        draw_dotted_line1(image,line1.st,line1.ed,cv::Scalar(0,0,255),3);
+        line2.st.y=line1.ed.y;
+        line2.ed.y=nnHeight/4.0;
+        line2.st.x=line1.ed.x;
+        line2.ed.x=nnWidth/4.0*3;
+        cv::line(image,line2.st,line2.ed,cv::Scalar(255,0,0),9);
+        draw_dotted_line1(image,line2.st,line2.ed,cv::Scalar(0,0,255),3);
+        line3.st.y=line2.ed.y;
+        line3.ed.y=nnHeight/2.0;
+        line3.st.x=line2.ed.x;
+        line3.ed.x=nnWidth/4.0*3;
+        cv::line(image,line3.st,line3.ed,cv::Scalar(255,0,0),9);
+        draw_dotted_line1(image,line3.st,line3.ed,cv::Scalar(0,0,255),3);
+        line4.st.y=nnHeight/8.0*5;
+        line4.ed.y=nnHeight/4.0*3;
+        line4.st.x=nnWidth/3.0;
+        line4.ed.x=nnWidth/2.0;
+        cv::line(image,line4.st,line4.ed,cv::Scalar(255,0,0),9);
+        draw_dotted_line1(image,line4.st,line4.ed,cv::Scalar(0,0,255),3);
+        line5.st.y=line4.ed.y;
+        line5.ed.y=nnHeight/16.0*15;
+        line5.st.x=line4.ed.x;
+        line5.ed.x=nnWidth/2.0;
+        cv::line(image,line5.st,line5.ed,cv::Scalar(255,0,0),9);
+        draw_dotted_line1(image,line5.st,line5.ed,cv::Scalar(0,0,255),3);
+    }
+    break;
     default:
     break;
     }
