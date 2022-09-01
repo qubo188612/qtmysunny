@@ -153,6 +153,7 @@ SoptopCamera::SoptopCamera()
   oldcallbacknumber=0;
   callback_error=0;
   luzhi=false;
+  b_stopthred=true;
 }
 
 SoptopCamera::~SoptopCamera()
@@ -256,7 +257,7 @@ void SoptopCamera::DisConnect()
   {  
     stop_b_connect=false;
     b_connect=false;
-    while (stop_b_connect==false)
+    while (stop_b_connect==false||b_stopthred==false)
     {
       QThread::sleep(0);
       if(callback_error==1)//相机卡住了，强制退出ROS
@@ -378,11 +379,13 @@ StartCameraThread::StartCameraThread(SoptopCamera *statci_p)
 
 void StartCameraThread::run()
 {
+  _p->b_stopthred=false;
   if(_p->b_connect==true)
   {
     rclcpp::init(_p->argc,_p->argv);
     rclcpp::spin(std::make_shared<Camshow>(_p));
   }
+  _p->b_stopthred=true;
 }
 
 

@@ -78,6 +78,8 @@ public:
     double Getfps();//获取采集帧率
     void StartRecord(QString filename);//开始录制视频
     void StopRecord();//停止录制视频
+
+    volatile bool b_stopthred;
 protected:
     StartCameraThread *StartCamera_thread;
 
