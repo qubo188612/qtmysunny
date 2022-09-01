@@ -62,7 +62,6 @@ LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interf
 
 #modbustcp库的添加
 INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
-#INCLUDEPATH += /home/qubo/modbus/libmodbus/src
 
 LIBS += /home/qubo/modbus/libmodbus/install/lib/libmodbus.so
 

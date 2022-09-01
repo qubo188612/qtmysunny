@@ -110,8 +110,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        }
        else
        {
-         img_windowshow(false,ui->widget);
-         UpdataUi();
+          img_windowshow(false,ui->widget);
+          UpdataUi();
        }
     });
 
@@ -1017,12 +1017,42 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
 
         b_thread1=true;
         thread1->start();
+
+        m_mcs->cam->sop_cam[0].InitConnect(lab_show);
+        if(m_mcs->cam->sop_cam[0].b_connect==true)
+        {
+            if(ui->checkBox->isChecked()==false)
+                ui->record->append("相机连接成功");
+        }
+        else if(m_mcs->cam->sop_cam[0].b_connect==false)
+        {
+            if(ui->checkBox->isChecked()==false)
+                ui->record->append("相机连接失败");
+        }
     }
     else
     {
         thread1->Stop();
         thread1->quit();
         thread1->wait();
+
+        //关闭过程图
+        u_int16_t tab_reg[1];
+        tab_reg[0]=0;
+        modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
+
+        if(m_mcs->resultdata.b_luzhi==true)
+        {
+            m_mcs->resultdata.b_luzhi=false;
+            m_mcs->cam->sop_cam[0].StopRecord();
+            ui->saveavishowBtn->setText("录制视频");
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("视频录制完成");
+        }
+        m_mcs->cam->sop_cam[0].DisConnect();
+        if(ui->checkBox->isChecked()==false)
+            ui->record->append("相机关闭");
+
 
         if(m_mcs->resultdata.link_result_state==true)
         {
@@ -1065,40 +1095,6 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                  ui->record->append("视频录制完成");
         }
         m_mcs->cam->sop_cam[0].b_connect=false;
-        if(ui->checkBox->isChecked()==false)
-            ui->record->append("相机关闭");
-    }
-#else
-    if(b_show==true)
-    {
-        m_mcs->cam->sop_cam[0].InitConnect(lab_show);
-        if(m_mcs->cam->sop_cam[0].b_connect==true)
-        {
-            if(ui->checkBox->isChecked()==false)
-                ui->record->append("相机连接成功");
-        }
-        else if(m_mcs->cam->sop_cam[0].b_connect==false)
-        {
-            if(ui->checkBox->isChecked()==false)
-                ui->record->append("相机连接失败");
-        }
-    }
-    else
-    {
-        //关闭过程图
-        u_int16_t tab_reg[1];
-        tab_reg[0]=0;
-        modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
-
-        if(m_mcs->resultdata.b_luzhi==true)
-        {
-            m_mcs->resultdata.b_luzhi=false;
-            m_mcs->cam->sop_cam[0].StopRecord();
-            ui->saveavishowBtn->setText("录制视频");
-            if(ui->checkBox->isChecked()==false)
-                 ui->record->append("视频录制完成");
-        }     
-        m_mcs->cam->sop_cam[0].DisConnect();
         if(ui->checkBox->isChecked()==false)
             ui->record->append("相机关闭");
     }
