@@ -350,6 +350,19 @@ void showtasknumdlg::image_draw(int task_num)
         line5.ed.x=nnWidth/2.0;
         cv::line(image,line5.st,line5.ed,cv::Scalar(255,0,0),9);
         draw_dotted_line1(image,line5.st,line5.ed,cv::Scalar(0,0,255),3);
+        cv::Point focal;
+        focal=line1.st;
+        cv::circle(image,focal,20,cv::Scalar(0,0,255),3);
+        cv::Point2f p1_1=focal;
+        p1_1.y=p1_1.y;
+        p1_1.x=p1_1.x-75;
+        cv::putText(image,"1",p1_1,cv::FONT_HERSHEY_SCRIPT_SIMPLEX,2,cv::Scalar(0,0,255),3);
+        focal=line5.ed;
+        cv::circle(image,focal,20,cv::Scalar(0,0,255),3);
+        cv::Point2f p1_2=focal;
+        p1_2.y=p1_2.y;
+        p1_2.x=p1_2.x-75;
+        cv::putText(image,"2",p1_2,cv::FONT_HERSHEY_SCRIPT_SIMPLEX,2,cv::Scalar(0,0,255),3);
     }
     break;
     default:
