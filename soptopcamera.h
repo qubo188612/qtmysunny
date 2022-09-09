@@ -8,7 +8,6 @@
 #include "tutorial_interfaces/msg/if_algorhmitmsg.hpp"
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
-#include <QObject>
 #include <QThread>
 #include <QLabel>
 #include "FileOut.h"
