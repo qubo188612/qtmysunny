@@ -41,7 +41,7 @@ public:
     bool b_thread1;
     bool b_stop_thread1;
 
-    unsigned short pos_data[3];
+    unsigned short pos_data[11];
     unsigned short pos_data2[4];    //附加点
     unsigned short pos_data3[1];    //焊接点
 

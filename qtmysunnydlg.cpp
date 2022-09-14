@@ -1207,6 +1207,12 @@ void qtmysunnyDlg::init_show_pos_list()
 {
     float Y=(int16_t)pos_data[1]/100.0;
     float Z=(int16_t)pos_data[2]/100.0;
+    u_int16_t hour=(int16_t)pos_data[5];
+    u_int16_t min=(int16_t)pos_data[6];
+    u_int16_t sec=(int16_t)pos_data[7];
+    u_int16_t msec=(int16_t)pos_data[8];
+    float fps=(float)pos_data[9]/100.0;
+    float camfps=(float)pos_data[10]/100.0;
 
     float Y2=(int16_t)pos_data2[0]/100.0;
     float Z2=(int16_t)pos_data2[1]/100.0;
@@ -1220,6 +1226,12 @@ void qtmysunnyDlg::init_show_pos_list()
     ui->label_19->setText(QString::number(Z2,'f',2));
     ui->label_21->setText(QString::number(Y3,'f',2));
     ui->label_23->setText(QString::number(Z3,'f',2));
+
+    QString msg=QString::number(hour)+":"+QString::number(min)+":"+QString::number(sec)+":"+QString::number(msec);
+    ui->label_34->setText(msg);
+
+    ui->label_36->setText(QString::number(fps,'f',2));
+    ui->label_38->setText(QString::number(camfps,'f',2));
 
     if(pos_data3[0]==0xff)
         ui->label_25->setText("是");
@@ -1483,7 +1495,7 @@ void getposThread::run()
                 }
                 else if(_p->ctx_result_dosomeing==DO_NOTHING)
                 {
-                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,3,_p->pos_data);
+                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,11,_p->pos_data);
                     int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x50,4,_p->pos_data2);
                     int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x60,1,_p->pos_data3);
                     if(real_readnum_1<0||real_readnum_2<0||real_readnum_3<0)
