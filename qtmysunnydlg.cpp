@@ -159,25 +159,27 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         {
              u_int16_t width=ui->cam_width->text().toInt();
              u_int16_t height=ui->cam_height->text().toInt();
-             uint16_t tab_reg[2];
+             u_int16_t fps=ui->cam_fps->text().toInt();
+             uint16_t tab_reg[3];
              tab_reg[0]=width;
              tab_reg[1]=height;
-             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,0x05,2,tab_reg);
-             if(rc!=2)
+             tab_reg[2]=fps;
+             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,0x05,3,tab_reg);
+             if(rc!=3)
              {
                  if(ui->checkBox->isChecked()==false)
-                     ui->record->append("更新相机分辨率失败");
+                     ui->record->append("更新相机设置失败");
              }
              else
              {
                  if(ui->checkBox->isChecked()==false)
-                     ui->record->append("更新相机分辨率成功,请重启激光头");
+                     ui->record->append("更新相机设置成功,请重启激光头");
              }
         }
         else
         {
             if(ui->checkBox->isChecked()==false)
-                 ui->record->append("请连接相机后再设置相机分辨率参数");
+                 ui->record->append("请连接相机后再设置相机参数");
         }
     });
 
@@ -1004,7 +1006,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         }
 
         //读取相机分辨率信息
-        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,0x05,2,m_mcs->resultdata.red_robotset);
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,0x05,3,m_mcs->resultdata.red_robotset);
         if(real_readnum<0)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1014,12 +1016,14 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         {
             u_int16_t widht=m_mcs->resultdata.red_robotset[0];
             u_int16_t height=m_mcs->resultdata.red_robotset[1];
+            u_int16_t fps=m_mcs->resultdata.red_robotset[2];
             ui->cam_width->setText(QString::number(widht));
             ui->cam_height->setText(QString::number(height));
+            ui->cam_fps->setText(QString::number(fps));
             if(ui->checkBox->isChecked()==false)
             {
-                ui->record->append("获取当前相机分辨率:");
-                QString msg=QString::number(widht)+"x"+QString::number(height);
+                ui->record->append("获取当前相机设置:");
+                QString msg=QString::number(widht)+"x"+QString::number(height)+" fps:"+QString::number(fps);
                 ui->record->append(msg);
             }
         }

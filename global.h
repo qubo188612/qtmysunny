@@ -123,26 +123,32 @@
 #define ALS102_DIS_CENTER_ED2_REG_ADD          0x005c
 #define ALS102_DIS_CENTER_ST3_REG_ADD          0x005d
 #define ALS102_DIS_CENTER_ED3_REG_ADD          0x005e
+#define ALS102_XUEXIJULI_REG_ADD               0x005f
+#define ALS102_B_PINGPOWENGDING_REG_ADD        0x0060
+#define ALS102_PINGPOWENGDING_DIS_REG_ADD      0x0061
+#define ALS102_B_XIELVOPEN_REG_ADD             0x0062
+#define ALS102_XIELVFANWEI_REG_ADD             0x0063
 
 //任务号102寄存器总数
-#define ALS102_REG_TOTALNUM                    0x001f
+#define ALS102_REG_TOTALNUM                    0x0024
 //重置任务102参数寄存器
-#define ALS102_INIT_REG_ADD                    0x005f
+#define ALS102_INIT_REG_ADD                    0x006f
 
 //任务号103
-#define ALS103_EXPOSURE_TIME_REG_ADD           0x0060
-#define ALS103_PINGJUN_REG_ADD                 0x0061
-#define ALS103_GUJIAERZHI_REG_ADD              0x0062
-#define ALS103_WIDTHLIANTONGDIS_REG_ADD        0x0063
-#define ALS103_HIGHLIANTONGDIS_REG_ADD         0x0064
-#define ALS103_JIGUANGLONG_REG_ADD             0x0065
-#define ALS103_JIGUANGKUANDU_REG_ADD           0x0066
-#define ALS103_JIGUANGDUIBIDU_REG_ADD          0x0067
+#define ALS103_EXPOSURE_TIME_REG_ADD           0x0070
+#define ALS103_PINGJUN_REG_ADD                 0x0071
+#define ALS103_GUJIAERZHI_REG_ADD              0x0072
+#define ALS103_WIDTHLIANTONGDIS_REG_ADD        0x0073
+#define ALS103_HIGHLIANTONGDIS_REG_ADD         0x0074
+#define ALS103_JIGUANGLONG_REG_ADD             0x0075
+#define ALS103_JIGUANGKUANDU_REG_ADD           0x0076
+#define ALS103_JIGUANGDUIBIDU_REG_ADD          0x0077
+
 
 //任务号103寄存器总数
 #define ALS103_REG_TOTALNUM                    0x0008
 //重置任务103参数寄存器
-#define ALS103_INIT_REG_ADD                    0x006f
+#define ALS103_INIT_REG_ADD                    0x007f
 
 //显示图像处理步骤
 #define ALS_SHOW_STEP_REG_ADD                  0x018f

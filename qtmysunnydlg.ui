@@ -555,8 +555,8 @@
   <widget class="QPushButton" name="setcamsizeBtn">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>160</y>
+     <x>250</x>
+     <y>130</y>
      <width>151</width>
      <height>51</height>
     </rect>
@@ -575,7 +575,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1919,6 +1919,31 @@
        <string>30</string>
       </property>
      </row>
+     <row>
+      <property name="text">
+       <string>31</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>32</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>33</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>34</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>35</string>
+      </property>
+     </row>
      <column>
       <property name="text">
        <string>名称</string>
@@ -2384,6 +2409,81 @@
        <string/>
       </property>
      </item>
+     <item row="30" column="0">
+      <property name="text">
+       <string>xuexijuli</string>
+      </property>
+     </item>
+     <item row="30" column="1">
+      <property name="text">
+       <string>[0,255]</string>
+      </property>
+     </item>
+     <item row="30" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item row="31" column="0">
+      <property name="text">
+       <string>b_pingpowending</string>
+      </property>
+     </item>
+     <item row="31" column="1">
+      <property name="text">
+       <string>[0,1]</string>
+      </property>
+     </item>
+     <item row="31" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item row="32" column="0">
+      <property name="text">
+       <string>pingpowending_dis</string>
+      </property>
+     </item>
+     <item row="32" column="1">
+      <property name="text">
+       <string>[0,255]</string>
+      </property>
+     </item>
+     <item row="32" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item row="33" column="0">
+      <property name="text">
+       <string>b_xielvopen</string>
+      </property>
+     </item>
+     <item row="33" column="1">
+      <property name="text">
+       <string>[0,1]</string>
+      </property>
+     </item>
+     <item row="33" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item row="34" column="0">
+      <property name="text">
+       <string>xielvfanwei</string>
+      </property>
+     </item>
+     <item row="34" column="1">
+      <property name="text">
+       <string>[0,255]</string>
+      </property>
+     </item>
+     <item row="34" column="2">
+      <property name="text">
+       <string/>
+      </property>
+     </item>
     </widget>
     <widget class="QPushButton" name="initTab4Btn">
      <property name="geometry">
@@ -2799,6 +2899,42 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="cam_fps">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>160</y>
+     <width>91</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_39">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>51</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>帧率:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_40">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>160</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>(30-250)</string>
    </property>
   </widget>
  </widget>
