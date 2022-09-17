@@ -30,7 +30,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          target: qtmysunny
+          target: run
           platforms: linux/amd64
           push: true
           tags: qubo188612/ubuntu20.04:qtmysunny
