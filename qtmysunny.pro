@@ -12,11 +12,13 @@ QT       += core gui network
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        E2proomData.cpp \
         FileOut.cpp \
         PictureBox.cpp \
         ResultData.cpp \
         TimeFunction.cpp \
         cam_sen.cpp \
+        cambuilddlg.cpp \
         main.cpp \
         my_parameters.cpp \
         qtmysunnydlg.cpp \
@@ -29,20 +31,24 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
+    cambuilddlg.ui \
     qtmysunnydlg.ui \
     showtasknumdlg.ui
 
 HEADERS += \
+    E2proomData.h \
     FileOut.h \
     PictureBox.h \
     ResultData.h \
     TimeFunction.h \
     cam_sen.h \
+    cambuilddlg.h \
     global.h \
     my_parameters.h \
     qtmysunnydlg.h \
     showtasknumdlg.h \
-    soptopcamera.h
+    soptopcamera.h \
+    tistdtypes.h
 
 #opencv库的添加
 INCLUDEPATH += /usr/local/OpenCV/Release/include/opencv4 \

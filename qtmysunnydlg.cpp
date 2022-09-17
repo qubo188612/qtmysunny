@@ -10,7 +10,6 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     {
       mkdir("./DATA",S_IRWXU);
     }
-
 //  setAttribute(Qt::WA_Mapped);    //属性函数避免界面不刷新
 
     ui->setupUi(this);
@@ -97,10 +96,10 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(thread1, SIGNAL(Send_show_cvimage_inlab(cv::Mat)), this, SLOT(init_show_cvimage_inlab(cv::Mat)));
     connect(thread1, SIGNAL(Send_set_task()), this, SLOT(init_set_task()));
 
-    showtasknum=new showtasknumdlg;
-
-
     m_mcs=m_mcs->Get();
+
+    showtasknum=new showtasknumdlg;
+    cambuild=new cambuilddlg(m_mcs);
 
     connect(ui->connectcameraBtn,&QPushButton::clicked,[=](){
        if(m_mcs->cam->sop_cam[0].b_connect==false)
@@ -800,6 +799,21 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         showtasknum->exec();
     });
 
+    connect(ui->cambuildBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->resultdata.link_param_state==true)
+        {
+            cambuild->setWindowTitle("激光头标定");
+            cambuild->exec();
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append("请连接相机后再进行激光头标定");
+        }
+    });
+
+
+
     connect(ui->savebmpstepBtn,&QPushButton::clicked,[=](){
         if(m_mcs->cam->sop_cam[0].b_connect==true)
         {
@@ -894,6 +908,7 @@ qtmysunnyDlg::~qtmysunnyDlg()
     thread1->wait();
     m_mcs->cam->sop_cam[0].DisConnect();
     delete showtasknum;
+    delete cambuild;
     delete ui;
 }
 /*
@@ -1211,10 +1226,16 @@ void qtmysunnyDlg::init_show_pos_list()
 {
     float Y=(int16_t)pos_data[1]/100.0;
     float Z=(int16_t)pos_data[2]/100.0;
+
     u_int16_t hour=(int16_t)pos_data[5];
     u_int16_t min=(int16_t)pos_data[6];
     u_int16_t sec=(int16_t)pos_data[7];
     u_int16_t msec=(int16_t)pos_data[8];
+
+    u_int16_t hour2=(int16_t)pos_data[11];
+    u_int16_t min2=(int16_t)pos_data[12];
+    u_int16_t sec2=(int16_t)pos_data[13];
+    u_int16_t msec2=(int16_t)pos_data[14];
     float fps=(float)pos_data[9]/100.0;
     float camfps=(float)pos_data[10]/100.0;
 
@@ -1233,6 +1254,8 @@ void qtmysunnyDlg::init_show_pos_list()
 
     QString msg=QString::number(hour)+":"+QString::number(min)+":"+QString::number(sec)+":"+QString::number(msec);
     ui->label_34->setText(msg);
+    QString msg2=QString::number(hour2)+":"+QString::number(min2)+":"+QString::number(sec2)+":"+QString::number(msec2);
+    ui->label_42->setText(msg2);
 
     ui->label_36->setText(QString::number(fps,'f',2));
     ui->label_38->setText(QString::number(camfps,'f',2));
@@ -1499,7 +1522,7 @@ void getposThread::run()
                 }
                 else if(_p->ctx_result_dosomeing==DO_NOTHING)
                 {
-                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,11,_p->pos_data);
+                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,15,_p->pos_data);
                     int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x50,4,_p->pos_data2);
                     int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x60,1,_p->pos_data3);
                     if(real_readnum_1<0||real_readnum_2<0||real_readnum_3<0)

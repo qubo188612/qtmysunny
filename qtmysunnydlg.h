@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "showtasknumdlg.h"
+#include "cambuilddlg.h"
 #include <my_parameters.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -41,7 +42,7 @@ public:
     bool b_thread1;
     bool b_stop_thread1;
 
-    unsigned short pos_data[11];
+    unsigned short pos_data[15];
     unsigned short pos_data2[4];    //附加点
     unsigned short pos_data3[1];    //焊接点
 
@@ -58,6 +59,7 @@ private:
     Ui::qtmysunnyDlg *ui;
 
     showtasknumdlg *showtasknum;
+    cambuilddlg *cambuild;
 
 private slots:
     void init_show_pos_list();
