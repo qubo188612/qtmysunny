@@ -24,4 +24,4 @@ RUN sudo chmod -R 777 /workspace/qtmysunny
 WORKDIR /workspace/qtmysunny
 RUN sed -i '$c source /workspace/myRos2test/install/local_setup.sh' /home/linuxbrew/.bashrc
 
-CMD [ "/bin/bash","./qtmysunny" ]
+CMD <./workspace/qtmysunny/qtmysunny>
