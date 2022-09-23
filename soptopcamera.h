@@ -28,6 +28,11 @@
 using std::placeholders::_1;
 class StartCameraThread;
 
+struct Params
+{
+  std::vector<double> homography_matrix;
+};
+
 class SoptopCamera : public QObject
 {
 
@@ -47,6 +52,8 @@ public:
     int i32_exposure_max;     //曝光最大值
     int i32_exposure_min;     //曝光最小值
     int i32_exposure_use;     //曝光默认值
+
+    Params ros_Params;
 
     void roscmd_set_exposure(int exposure); //ROS终端命令刷新相机曝光
     int roscmd_get_exposure(int *exposure); //ROS终端命令获取相机曝光
@@ -79,6 +86,20 @@ public:
     void StopRecord();//停止录制视频
 
     volatile bool b_stopthred;
+
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera;
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_gpio;
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera_get;
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_homography_matrix;
+    std::shared_ptr<rclcpp::AsyncParametersClient> _param_homography_matrix_get;
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _pub_config;
+
+    void ros_open_laser(bool b);//ROS命令开关激光
+    void ros_open_camera(bool b);//RO2命令开关相机
+    void ros_set_exposure(int exposure); //ROS命令刷新相机曝光
+    void ros_set_homography_matrix(Params ros_Params);//ROS命令刷新相机矩阵
+
+    void ros_config_set(std::string msg);//ROS参数修改
 protected:
     StartCameraThread *StartCamera_thread;
 
@@ -115,7 +136,10 @@ public:
 private:
     SoptopCamera *_p;
 
-public:
+    void callbackGlobalParam(std::shared_future<std::vector<rclcpp::Parameter>> future);
+    void callbackMatrixParam(std::shared_future<std::vector<rclcpp::Parameter>> future);
+
+
 
 #ifdef DEBUG_MYINTERFACES
     rclcpp::Subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>::SharedPtr subscription_;
@@ -129,15 +153,9 @@ public:
     void topic_callback(const sensor_msgs::msg::Image msg)  const;
 #endif
 
+public:
 
-    std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera;
-    std::shared_ptr<rclcpp::AsyncParametersClient> _param_gpio;
-    std::shared_ptr<rclcpp::SyncParametersClient> _param_camera_get;
 
-    void ros_open_laser(bool b);//ROS命令开关激光
-    void ros_open_camera(bool b);//RO2命令开关相机
-    void ros_set_exposure(int exposure); //ROS命令刷新相机曝光
-    int ros_get_exposure(int *exposure); //ROS命令获取相机曝光
 };
 
 #endif // SOPTOPCAMERA_H

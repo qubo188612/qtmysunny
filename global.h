@@ -4,9 +4,11 @@
 //#define DEBUG_TEST            //调试模式
 #define DEBUG_MYINTERFACES      //使用自定义接口
 
-
 #define CAMIMAGE_HEIGHT             960     //初始化相机图像长宽
 #define CAMIMAGE_WIDTH              1280
+
+#define CAMBUILD_IMAGE_WIDTH  1024      //标定图像宽尺寸
+#define CAMBUILD_IMAGE_HEIGHT 1536      //标定图像高尺寸
 
 #define CAMTOTALNUM                 1       //当前同型号下支持几路相机
 

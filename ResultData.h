@@ -17,8 +17,6 @@ public:
     ResultData();
     ~ResultData();
 
-    cv::Mat cv_image;                                                //激光原图
-
     uint8_t link_result_state;
     uint8_t link_param_state;
     uint8_t link_robotset_state;

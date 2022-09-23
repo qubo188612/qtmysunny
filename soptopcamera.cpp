@@ -6,20 +6,13 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 
   _p->b_int_show_image_inlab=false;
 
-  _param_camera = std::make_shared<rclcpp::AsyncParametersClient>(this, "camera_tis_node");
-  _param_camera_get = std::make_shared<rclcpp::SyncParametersClient>(this, "camera_tis_node");
-  _param_gpio = std::make_shared<rclcpp::AsyncParametersClient>(this, "gpio_raspberry_node");
-/*
-  _p->roscmd_open_laser(true);  //激光打开
-  _p->roscmd_open_camera(true); //相机打开
-  _p->roscmd_set_exposure(_p->i32_exposure); //应用相机曝光
-*/ 
-/*
-  ros_open_laser(true);  //激光打开
-  ros_open_camera(true); //相机打开
-  ros_set_exposure(_p->i32_exposure); //应用相机曝光
-*/
-//ros_get_exposure(&_p->i32_exposure);//获取相机曝光
+  _p->_param_camera = std::make_shared<rclcpp::AsyncParametersClient>(this, "camera_tis_node");
+  _p->_param_camera_get = std::make_shared<rclcpp::AsyncParametersClient>(this, "camera_tis_node");
+  _p->_param_gpio = std::make_shared<rclcpp::AsyncParametersClient>(this, "gpio_raspberry_node");
+  _p->_param_homography_matrix =  std::make_shared<rclcpp::AsyncParametersClient>(this, "line_center_reconstruction_node");
+  _p->_param_homography_matrix_get = std::make_shared<rclcpp::AsyncParametersClient>(this, "line_center_reconstruction_node");
+  _p->_pub_config=this->create_publisher<std_msgs::msg::String>("config_tis_node/config", 10);//如果我们发布的消息的频率太高，缓冲区中的消息在大于 10 个的时候就会开始丢弃先前发布的消息
+
 
 #ifdef DEBUG_MYINTERFACES
   subscription_ = this->create_subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>(
@@ -29,11 +22,27 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
         "/rotate_image_node/image_rotated", rclcpp::SensorDataQoS(), std::bind(&Camshow::topic_callback, this, _1));
 #endif
 
+  _p->_param_camera_get->wait_for_service();
+  _p->_param_camera_get->get_parameters(
+                  {"exposure_time"},
+                  std::bind(&Camshow::callbackGlobalParam, this, std::placeholders::_1));
+
+  _p->_param_homography_matrix_get->wait_for_service();
+  _p->_param_homography_matrix_get->get_parameters(
+                  {"homography_matrix"},
+                  std::bind(&Camshow::callbackMatrixParam, this, std::placeholders::_1));
+
+
 }
 
 Camshow::~Camshow()
 {
-
+    _p->_param_camera.reset();
+    _p->_param_camera_get.reset();
+    _p->_param_gpio.reset();
+    _p->_param_homography_matrix.reset();
+    _p->_param_homography_matrix_get.reset();
+    _p->_pub_config.reset();
 }
 
 #ifdef DEBUG_MYINTERFACES
@@ -55,15 +64,10 @@ Camshow::~Camshow()
                     _p->writer << _p->cv_ptr->image;
                 }
             }
-        //  _p->int_show_image_inlab();
-        //  _p->b_int_show_image_inlab=false;
         }
       }
       else
-      {/*
-        _p->roscmd_open_laser(false);  //激光打开
-        _p->roscmd_open_camera(false); //相机打开
-       */
+      {
         rclcpp::shutdown();
         _p->stop_b_connect=true;
       }
@@ -87,21 +91,17 @@ Camshow::~Camshow()
                     _p->writer << cv_ptr->image;
                 }
             }
-        //  _p->b_int_show_image_inlab=false;
         }
       }
       else
-      {/*
-        _p->roscmd_open_laser(false);  //激光打开
-        _p->roscmd_open_camera(false); //相机打开
-       */
+      {
         rclcpp::shutdown();
         _p->stop_b_connect=true;
       }
     }
 #endif
 
-void Camshow::ros_open_laser(bool b)
+void SoptopCamera::ros_open_laser(bool b)
 {
     if(b==false)
         _param_gpio->set_parameters({rclcpp::Parameter("laser", false)});  //激光关闭
@@ -109,7 +109,7 @@ void Camshow::ros_open_laser(bool b)
         _param_gpio->set_parameters({rclcpp::Parameter("laser", true)});    //激光打开
 }
 
-void Camshow::ros_open_camera(bool b)
+void SoptopCamera::ros_open_camera(bool b)
 {
     if(b==false)
         _param_camera->set_parameters({rclcpp::Parameter("power", false)});  //相机关闭
@@ -117,26 +117,41 @@ void Camshow::ros_open_camera(bool b)
         _param_camera->set_parameters({rclcpp::Parameter("power", true)});    //相机打开
 }
 
-void Camshow::ros_set_exposure(int exposure)
+void SoptopCamera::ros_set_exposure(int exposure)
 {
     _param_camera->set_parameters({rclcpp::Parameter("exposure_time", exposure)});
 }
 
-int Camshow::ros_get_exposure(int *exposure)
+void SoptopCamera::ros_set_homography_matrix(Params ros_Params)
 {
-    const std::vector<std::string> KEYS2 = {"exposure_time"};
-    _param_camera_get->wait_for_service();
-    auto vp = _param_camera_get->get_parameters(KEYS2);
-    for (auto & p : vp)
+    _param_homography_matrix->set_parameters({rclcpp::Parameter("homography_matrix", ros_Params.homography_matrix)});
+}
+
+void SoptopCamera::ros_config_set(std::string msg)
+{
+    std_msgs::msg::String::UniquePtr config_msg(new std_msgs::msg::String());
+
+    config_msg->data=msg;
+
+    _pub_config->publish(std::move(config_msg));
+}
+
+void Camshow::callbackGlobalParam(std::shared_future<std::vector<rclcpp::Parameter>> future)
+{
+    auto result = future.get();
+    if(result.size()>=1)
     {
-        if (p.get_name() == "exposure_time")
-        {
-            auto k = p.as_int();
-            *exposure=k;
-            return 0;
-        }
+      _p->i32_exposure = result.at(0).as_int();
     }
-    return -1;
+}
+
+void Camshow::callbackMatrixParam(std::shared_future<std::vector<rclcpp::Parameter>> future)
+{
+    auto result = future.get();
+    if(result.size()>=1)
+    {
+      _p->ros_Params.homography_matrix = result.at(0).as_double_array();
+    }
 }
 
 SoptopCamera::SoptopCamera()

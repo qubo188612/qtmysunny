@@ -12,6 +12,7 @@ PictureBox::PictureBox(QWidget *parent) : QWidget(parent)
     m_scale = 1.0;
     m_mode = FIXED_SIZE;
     m_brush = QBrush(Qt::white);
+    b_mouse_push = false;
 }
 
 void PictureBox::setBackground(QBrush brush)
@@ -95,6 +96,23 @@ void PictureBox::paintEvent(QPaintEvent * event)
         painter.drawPixmap(0, 0, m_pixmap);
         break;
     }
+}
+
+void PictureBox::mousePressEvent(QMouseEvent *ev)
+{
+    mousePos = QPoint(ev->x(), ev->y());
+    b_mouse_push=true;
+}
+
+void PictureBox::mouseReleaseEvent(QMouseEvent *ev)
+{
+    mousePos = QPoint(ev->x(), ev->y());
+    b_mouse_push=false;
+}
+
+void PictureBox::mouseMoveEvent(QMouseEvent *ev)
+{
+    mousePos = QPoint(ev->x(), ev->y());
 }
 
 PictureBox::~PictureBox()

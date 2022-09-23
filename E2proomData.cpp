@@ -33,6 +33,31 @@ E2proomData::E2proomData()
     camdlg_modposY4_max=E2POOM_CAMDLG_MODPOSY4_MAX;
     camdlg_modposY4_use=E2POOM_CAMDLG_MODPOSY4_USE;
 
+    camdlg_cvimg_posX1_min=E2POOM_CAMDLG_CVIMG_POSX1_MIN;
+    camdlg_cvimg_posX1_max=E2POOM_CAMDLG_CVIMG_POSX1_MAX;
+    camdlg_cvimg_posX1_use=E2POOM_CAMDLG_CVIMG_POSX1_USE;
+    camdlg_cvimg_posY1_min=E2POOM_CAMDLG_CVIMG_POSY1_MIN;
+    camdlg_cvimg_posY1_max=E2POOM_CAMDLG_CVIMG_POSY1_MAX;
+    camdlg_cvimg_posY1_use=E2POOM_CAMDLG_CVIMG_POSY1_USE;
+    camdlg_cvimg_posX2_min=E2POOM_CAMDLG_CVIMG_POSX2_MIN;
+    camdlg_cvimg_posX2_max=E2POOM_CAMDLG_CVIMG_POSX2_MAX;
+    camdlg_cvimg_posX2_use=E2POOM_CAMDLG_CVIMG_POSX2_USE;
+    camdlg_cvimg_posY2_min=E2POOM_CAMDLG_CVIMG_POSY2_MIN;
+    camdlg_cvimg_posY2_max=E2POOM_CAMDLG_CVIMG_POSY2_MAX;
+    camdlg_cvimg_posY2_use=E2POOM_CAMDLG_CVIMG_POSY2_USE;
+    camdlg_cvimg_posX3_min=E2POOM_CAMDLG_CVIMG_POSX3_MIN;
+    camdlg_cvimg_posX3_max=E2POOM_CAMDLG_CVIMG_POSX3_MAX;
+    camdlg_cvimg_posX3_use=E2POOM_CAMDLG_CVIMG_POSX3_USE;
+    camdlg_cvimg_posY3_min=E2POOM_CAMDLG_CVIMG_POSY3_MIN;
+    camdlg_cvimg_posY3_max=E2POOM_CAMDLG_CVIMG_POSY3_MAX;
+    camdlg_cvimg_posY3_use=E2POOM_CAMDLG_CVIMG_POSY3_USE;
+    camdlg_cvimg_posX4_min=E2POOM_CAMDLG_CVIMG_POSX4_MIN;
+    camdlg_cvimg_posX4_max=E2POOM_CAMDLG_CVIMG_POSX4_MAX;
+    camdlg_cvimg_posX4_use=E2POOM_CAMDLG_CVIMG_POSX4_USE;
+    camdlg_cvimg_posY4_min=E2POOM_CAMDLG_CVIMG_POSY4_MIN;
+    camdlg_cvimg_posY4_max=E2POOM_CAMDLG_CVIMG_POSY4_MAX;
+    camdlg_cvimg_posY4_use=E2POOM_CAMDLG_CVIMG_POSY4_USE;
+
     read_para();
 }
 
@@ -59,7 +84,22 @@ void E2proomData::check_para()
         camdlg_modposX4=camdlg_modposX4_use;
     if(camdlg_modposY4<camdlg_modposY4_min||camdlg_modposY4>camdlg_modposY4_max)
         camdlg_modposY4=camdlg_modposY4_use;
-
+    if(camdlg_cvimg_posX1<camdlg_cvimg_posX1_min||camdlg_cvimg_posX1>camdlg_cvimg_posX1_max)
+        camdlg_cvimg_posX1=camdlg_cvimg_posX1_use;
+    if(camdlg_cvimg_posY1<camdlg_cvimg_posY1_min||camdlg_cvimg_posY1>camdlg_cvimg_posY1_max)
+        camdlg_cvimg_posY1=camdlg_cvimg_posY1_use;
+    if(camdlg_cvimg_posX2<camdlg_cvimg_posX2_min||camdlg_cvimg_posX2>camdlg_cvimg_posX2_max)
+        camdlg_cvimg_posX2=camdlg_cvimg_posX2_use;
+    if(camdlg_cvimg_posY2<camdlg_cvimg_posY2_min||camdlg_cvimg_posY2>camdlg_cvimg_posY2_max)
+        camdlg_cvimg_posY2=camdlg_cvimg_posY2_use;
+    if(camdlg_cvimg_posX3<camdlg_cvimg_posX3_min||camdlg_cvimg_posX3>camdlg_cvimg_posX3_max)
+        camdlg_cvimg_posX3=camdlg_cvimg_posX3_use;
+    if(camdlg_cvimg_posY3<camdlg_cvimg_posY3_min||camdlg_cvimg_posY3>camdlg_cvimg_posY3_max)
+        camdlg_cvimg_posY3=camdlg_cvimg_posY3_use;
+    if(camdlg_cvimg_posX4<camdlg_cvimg_posX4_min||camdlg_cvimg_posX4>camdlg_cvimg_posX4_max)
+        camdlg_cvimg_posX4=camdlg_cvimg_posX4_use;
+    if(camdlg_cvimg_posY4<camdlg_cvimg_posY4_min||camdlg_cvimg_posY4>camdlg_cvimg_posY4_max)
+        camdlg_cvimg_posY4=camdlg_cvimg_posY4_use;
 }
 
 void E2proomData::read_para()
@@ -99,6 +139,22 @@ void E2proomData::read_para()
       camdlg_modposX4=*i32_p;
       i32_p++;
       camdlg_modposY4=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX1=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY1=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX2=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY2=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX3=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY3=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX4=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY4=*i32_p;
       i32_p++;
     }
     if(buff!=NULL)
@@ -140,6 +196,22 @@ void E2proomData::write_camdlg_para()
     i32_p++;
     *i32_p=camdlg_modposY4;
     i32_p++;
+    *i32_p=camdlg_cvimg_posX1;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posY1;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posX2;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posY2;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posX3;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posY3;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posX4;
+    i32_p++;
+    *i32_p=camdlg_cvimg_posY4;
+    i32_p++;
 
     fo.WriteFile(E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF);
 
@@ -160,4 +232,12 @@ void E2proomData::init_camdlg_para()
     camdlg_modposY3=camdlg_modposY3_use;
     camdlg_modposX4=camdlg_modposX4_use;
     camdlg_modposY4=camdlg_modposY4_use;
+    camdlg_cvimg_posX1=camdlg_cvimg_posX1_use;
+    camdlg_cvimg_posY1=camdlg_cvimg_posY1_use;
+    camdlg_cvimg_posX2=camdlg_cvimg_posX2_use;
+    camdlg_cvimg_posY2=camdlg_cvimg_posY2_use;
+    camdlg_cvimg_posX3=camdlg_cvimg_posX3_use;
+    camdlg_cvimg_posY3=camdlg_cvimg_posY3_use;
+    camdlg_cvimg_posX4=camdlg_cvimg_posX4_use;
+    camdlg_cvimg_posY4=camdlg_cvimg_posY4_use;
 }

@@ -802,8 +802,29 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->cambuildBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_param_state==true)
         {
-            cambuild->setWindowTitle("激光头标定");
-            cambuild->exec();
+            //启动过程图
+            u_int16_t tab_reg[1];
+            tab_reg[0]=2;
+            int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
+            if(rc!=1)
+            {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append("写入视图步骤失败");
+            }
+            else
+            {
+                cambuild->init_dlg_show();
+                cambuild->setWindowTitle("激光头标定");
+                cambuild->exec();
+                cambuild->close_dlg_show();
+                tab_reg[0]=1;
+                int rc=modbus_write_registers(m_mcs->resultdata.ctx_param,ALS_SHOW_STEP_REG_ADD,1,tab_reg);
+                if(rc!=1)
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append("恢复视图步骤失败");
+                }
+            }
         }
         else
         {

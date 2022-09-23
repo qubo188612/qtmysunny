@@ -126,6 +126,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="y1_Edit">
    <property name="geometry">
@@ -135,6 +138,9 @@
      <width>113</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x2_Edit">
@@ -146,6 +152,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="y2_Edit">
    <property name="geometry">
@@ -155,6 +164,9 @@
      <width>113</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x3_Edit">
@@ -166,6 +178,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="y3_Edit">
    <property name="geometry">
@@ -175,6 +190,9 @@
      <width>113</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x4_Edit">
@@ -186,6 +204,9 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
   <widget class="QLineEdit" name="y4_Edit">
    <property name="geometry">
@@ -196,8 +217,11 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
   </widget>
-  <widget class="QTextBrowser" name="textBrowser">
+  <widget class="QTextBrowser" name="record">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -207,7 +231,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="cambuildBtn">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -215,6 +239,9 @@
      <width>141</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
    </property>
    <property name="text">
     <string>一键标定</string>
@@ -251,7 +278,7 @@
     <rect>
      <x>10</x>
      <y>340</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -264,7 +291,7 @@
     <rect>
      <x>70</x>
      <y>340</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -277,7 +304,7 @@
     <rect>
      <x>130</x>
      <y>340</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -285,12 +312,12 @@
     <string>a13</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_2">
+  <widget class="QLabel" name="a23_label">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>380</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -303,7 +330,7 @@
     <rect>
      <x>10</x>
      <y>380</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -311,12 +338,12 @@
     <string>a21</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a12_label_2">
+  <widget class="QLabel" name="a22_label">
    <property name="geometry">
     <rect>
      <x>70</x>
      <y>380</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -324,12 +351,12 @@
     <string>a22</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_3">
+  <widget class="QLabel" name="a33_label">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>420</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -337,12 +364,12 @@
     <string>a33</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a11_label_3">
+  <widget class="QLabel" name="a31_label">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>420</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -350,12 +377,12 @@
     <string>a31</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a12_label_3">
+  <widget class="QLabel" name="a32_label">
    <property name="geometry">
     <rect>
      <x>70</x>
      <y>420</y>
-     <width>51</width>
+     <width>61</width>
      <height>17</height>
     </rect>
    </property>
@@ -386,7 +413,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>x:</string>
+    <string>Y:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_13">
@@ -399,10 +426,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>y:</string>
+    <string>Z:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="posX_label">
+  <widget class="QLabel" name="posY_label">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -415,7 +442,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="posY_label">
+  <widget class="QLabel" name="posZ_label">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -428,7 +455,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="confimbuildBtn">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -437,11 +464,14 @@
      <height>51</height>
     </rect>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
    <property name="text">
     <string>确认导入</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="PictureBox" name="widget" native="true">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -451,7 +481,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_4">
+  <widget class="QLabel" name="label_14">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -464,7 +494,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_5">
+  <widget class="QLabel" name="label_15">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -477,7 +507,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_6">
+  <widget class="QLabel" name="label_16">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -490,7 +520,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_7">
+  <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -503,7 +533,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_8">
+  <widget class="QLabel" name="label_18">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -516,7 +546,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_9">
+  <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -529,7 +559,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_10">
+  <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -542,7 +572,7 @@
     <string>mm</string>
    </property>
   </widget>
-  <widget class="QLabel" name="a13_label_11">
+  <widget class="QLabel" name="label_21">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -556,6 +586,14 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PictureBox</class>
+   <extends>QWidget</extends>
+   <header location="global">PictureBox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
