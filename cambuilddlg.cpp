@@ -463,7 +463,7 @@ void cambuildThread::run()
                 qRegisterMetaType< cv::Mat >("cv::Mat"); //传递自定义类型信号时要添加注册
                 emit Send_show_cambuild_inlab(_p->m_mcs->cam->sop_cam[0].cv_image);
             }
-            usleep(10000);
+            sleep(0);
         }
         else
         {
