@@ -1,12 +1,17 @@
-#ifndef QTMYSUNNYDLG_H
+﻿#ifndef QTMYSUNNYDLG_H
 #define QTMYSUNNYDLG_H
 
 #include <QDialog>
 #include "showtasknumdlg.h"
 #include "cambuilddlg.h"
 #include <my_parameters.h>
+#if _MSC_VER
+#include <QDir>
+#include <synchapi.h>
+#else
 #include <unistd.h>
 #include <sys/stat.h>
+#endif
 #include "TimeFunction.h"
 #include "PictureBox.h"
 

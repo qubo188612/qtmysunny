@@ -1,38 +1,45 @@
-#ifndef GLOBAL_H
+﻿#ifndef GLOBAL_H
 #define GLOBAL_H
 
-//#define DEBUG_TEST            //调试模式
-#define DEBUG_MYINTERFACES      //使用自定义接口
+#if _MSC_VER
+#include "tistdtypes.h"
 
-#define CAMIMAGE_HEIGHT             960     //初始化相机图像长宽
+typedef uint8_t u_int8_t; /* u_int8_t is defined in <machine/types.h> */
+typedef uint16_t u_int16_t; /* u_int16_t is defined in <machine/types.h> */
+typedef uint32_t u_int32_t; /* u_int32_t is defined in <machine/types.h> */
+typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
+#endif
+
+//#define DEBUG_TEST
+#define DEBUG_MYINTERFACES
+
+#define CAMIMAGE_HEIGHT             960
 #define CAMIMAGE_WIDTH              1280
 
-#define CAMBUILD_IMAGE_WIDTH  1024      //标定图像宽尺寸
-#define CAMBUILD_IMAGE_HEIGHT 1536      //标定图像高尺寸
+#define CAMBUILD_IMAGE_WIDTH  1024
+#define CAMBUILD_IMAGE_HEIGHT 1536
 
-#define CAMTOTALNUM                 1       //当前同型号下支持几路相机
+#define CAMTOTALNUM                 1
 
-#define CLOULD_POINT_NOTDATE        FLT_MAX   //深度值不存在时点云的值
+#define CLOULD_POINT_NOTDATE        FLT_MAX
 
 /*************************/
 //采集模式
-#define AUTO_MOD                    0         //自适应采集模式
-#define CALLBACK_MOD                1         //相机节拍采集模式
-#define ACQUISITION_MOD             AUTO_MOD  //点云和深度图采集模式
+#define AUTO_MOD                    0
+#define CALLBACK_MOD                1
+#define ACQUISITION_MOD             AUTO_MOD
 /***************************/
 
-#define ROWS_PROPORTION              1.0     //相机图像高度比例   实际距离(mm)/相机像素距离
-#define COLS_PROPORTION              1.0     //相机图像宽度比例   实际距离(mm)/相机像素距离
+#define ROWS_PROPORTION              1.0
+#define COLS_PROPORTION              1.0
 
-#define DEEPIMG_CALLBACKNUM_DNUM     5     //采集深度图时多采集的帧数
-
+#define DEEPIMG_CALLBACKNUM_DNUM     5
 
 /*****************************/
-//当前起始任务号
+
 #define TASKNUM_START   100
 
-//框架2寄存器地址
-//任务号100
+
 #define ALS100_EXPOSURE_TIME_REG_ADD           0x0000
 #define ALS100_PINGJUN_REG_ADD                 0x0001
 #define ALS100_B_YANMOFUZHU_REG_ADD            0x0002
@@ -57,13 +64,13 @@
 #define ALS100_DIS_CENTER_ST_REG_ADD           0x0015
 #define ALS100_DIS_CENTER_ED_REG_ADD           0x0016
 
-//任务号100寄存器总数
+
 #define ALS100_REG_TOTALNUM                    0x0017
-//重置任务100参数寄存器
+
 #define ALS100_INIT_REG_ADD                    0x001f
 
 
-//任务号101
+
 #define ALS101_EXPOSURE_TIME_REG_ADD           0x0020
 #define ALS101_PINGJUN_REG_ADD                 0x0021
 #define ALS101_B_YANMOFUZHU_REG_ADD            0x0022
@@ -88,12 +95,12 @@
 #define ALS101_DIS_CENTER_ST_REG_ADD           0x0035
 #define ALS101_DIS_CENTER_ED_REG_ADD           0x0036
 
-//任务号101寄存器总数
+
 #define ALS101_REG_TOTALNUM                    0x0017
-//重置任务101参数寄存器
+
 #define ALS101_INIT_REG_ADD                    0x003f
 
-//任务号102
+
 #define ALS102_EXPOSURE_TIME_REG_ADD           0x0040
 #define ALS102_PINGJUN_REG_ADD                 0x0041
 #define ALS102_B_YANMOFUZHU_REG_ADD            0x0042
@@ -131,12 +138,12 @@
 #define ALS102_B_XIELVOPEN_REG_ADD             0x0062
 #define ALS102_XIELVFANWEI_REG_ADD             0x0063
 
-//任务号102寄存器总数
+
 #define ALS102_REG_TOTALNUM                    0x0024
-//重置任务102参数寄存器
+
 #define ALS102_INIT_REG_ADD                    0x006f
 
-//任务号103
+
 #define ALS103_EXPOSURE_TIME_REG_ADD           0x0070
 #define ALS103_PINGJUN_REG_ADD                 0x0071
 #define ALS103_GUJIAERZHI_REG_ADD              0x0072
@@ -147,12 +154,12 @@
 #define ALS103_JIGUANGDUIBIDU_REG_ADD          0x0077
 
 
-//任务号103寄存器总数
+
 #define ALS103_REG_TOTALNUM                    0x0008
-//重置任务103参数寄存器
+
 #define ALS103_INIT_REG_ADD                    0x007f
 
-//显示图像处理步骤
+
 #define ALS_SHOW_STEP_REG_ADD                  0x018f
 /*****************************/
 

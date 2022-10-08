@@ -22,18 +22,18 @@ public:
     uint8_t link_robotset_state;
     uint8_t b_luzhi;
 
-    modbus_t *ctx_robotset;     //机器人参数表
-    modbus_t *ctx_param;        //激光头参数表
-    modbus_t *ctx_result;       //激光头结果表
+    modbus_t *ctx_robotset;
+    modbus_t *ctx_param;
+    modbus_t *ctx_result;
 
     unsigned short red_robotset[MODBUS_ROBOT_REGISTERS_NUM];
 
     /******************/
-    uint16_t alg0_99_threshold;      //任务0-99曝光值
-    uint16_t alg100_threshold;       //任务100曝光值
-    uint16_t alg101_threshold;       //任务101曝光值
-    uint16_t alg102_threshold;       //任务102曝光值
-    uint16_t alg103_threshold;       //任务103曝光值
+    uint16_t alg0_99_threshold;
+    uint16_t alg100_threshold;
+    uint16_t alg101_threshold;
+    uint16_t alg102_threshold;
+    uint16_t alg103_threshold;
 
 protected:
 

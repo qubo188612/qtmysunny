@@ -1,4 +1,4 @@
-#include "soptopcamera.h"
+﻿#include "soptopcamera.h"
 
 Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {
@@ -11,8 +11,7 @@ Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
   _p->_param_gpio = std::make_shared<rclcpp::AsyncParametersClient>(this, "gpio_raspberry_node");
   _p->_param_homography_matrix =  std::make_shared<rclcpp::AsyncParametersClient>(this, "line_center_reconstruction_node");
   _p->_param_homography_matrix_get = std::make_shared<rclcpp::AsyncParametersClient>(this, "line_center_reconstruction_node");
-  _p->_pub_config=this->create_publisher<std_msgs::msg::String>("config_tis_node/config", 10);//如果我们发布的消息的频率太高，缓冲区中的消息在大于 10 个的时候就会开始丢弃先前发布的消息
-
+  _p->_pub_config=this->create_publisher<std_msgs::msg::String>("config_tis_node/config", 10);
 
 #ifdef DEBUG_MYINTERFACES
   subscription_ = this->create_subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>(
@@ -209,7 +208,7 @@ void SoptopCamera::read_para()
       return;
     }
     CFileOut fo;
-    if(0 > fo.ReadFile(SOPTOPCAM_SYSPATH_MOTO,buff,SOPTOPCAM_SAVEBUFF))
+    if(0 > fo.ReadFile((char*)SOPTOPCAM_SYSPATH_MOTO,buff,SOPTOPCAM_SAVEBUFF))
     {
       init_para();
       return;
@@ -236,7 +235,7 @@ void SoptopCamera::write_para()
     i32_p ++;
 
     CFileOut fo;
-    fo.WriteFile(SOPTOPCAM_SYSPATH_MOTO,buff,SOPTOPCAM_SAVEBUFF);
+    fo.WriteFile((char*)SOPTOPCAM_SYSPATH_MOTO,buff,SOPTOPCAM_SAVEBUFF);
 
     if(buff!=NULL)
       delete []buff;
@@ -277,7 +276,7 @@ void SoptopCamera::DisConnect()
     while (stop_b_connect==false||b_stopthred==false)
     {
       QThread::sleep(0);
-      if(callback_error==1)//相机卡住了，强制退出ROS
+      if(callback_error==1)
       {
           rclcpp::shutdown();
           stop_b_connect=true;
@@ -313,8 +312,7 @@ int SoptopCamera::roscmd_get_exposure(int *exposure)
           QString msg="Integer value is: ";
           if(result.contains(msg,Qt::CaseSensitive))
           {
-              //正确值
-              int a = result.indexOf(msg);//定位
+              int a = result.indexOf(msg);
               int b = result.indexOf("\n",a+msg.size());
               QString data = result.mid(a+msg.size(),b-a-msg.size());
               *exposure=data.toInt();
@@ -331,17 +329,17 @@ int SoptopCamera::roscmd_get_exposure(int *exposure)
 void SoptopCamera::roscmd_open_laser(bool b)
 {
     if(b==false)
-        system("ros2 param set gpio_raspberry_node laser False");  //激光关闭
+        system("ros2 param set gpio_raspberry_node laser False");
     else if(b==true)
-        system("ros2 param set gpio_raspberry_node laser True");    //激光打开   
+        system("ros2 param set gpio_raspberry_node laser True");
 }
 
 void SoptopCamera::roscmd_open_camera(bool b)
 {
     if(b==false)
-        system("ros2 param set /camera_tis_node power False");  //相机关闭
+        system("ros2 param set /camera_tis_node power False");
     else if(b==true)
-        system("ros2 param set /camera_tis_node power True");    //相机打开
+        system("ros2 param set /camera_tis_node power True");
 }
 
 void SoptopCamera::int_show_image_inlab()
@@ -362,7 +360,7 @@ void SoptopCamera::int_show_image_inlab()
   }
   img = QImage((const uchar*)cv_image.data, cv_image.cols, cv_image.rows,
   cv_image.cols * cv_image.channels(), format);
-  img2 = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//图片自适应lab大小
+  img2 = img.scaled(m_lab_show->width(),m_lab_show->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
   m_lab_show->setImage(img2);
 }
 
@@ -371,7 +369,7 @@ double SoptopCamera::Getfps()
     return 50.0;
 }
 
-void SoptopCamera::StartRecord(QString filename)//开始录制视频
+void SoptopCamera::StartRecord(QString filename)
 {
     bool isColor = (cv_image.type()==CV_8UC3);
     double fps     = Getfps();
@@ -382,7 +380,7 @@ void SoptopCamera::StartRecord(QString filename)//开始录制视频
     luzhi=true;
 }
 
-void SoptopCamera::StopRecord()//停止录制视频
+void SoptopCamera::StopRecord()
 {
     luzhi=false;
     writer.release();

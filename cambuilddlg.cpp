@@ -4,7 +4,7 @@
 template<typename _Tp>
 std::vector<_Tp> convertMat2Vector(cv::Mat &mat)
 {
-    return (std::vector<_Tp>)(mat.reshape(1, 1));//通道数不变，按行转为一行
+    return (std::vector<_Tp>)(mat.reshape(1, 1));
 }
 
 cambuilddlg::cambuilddlg(my_parameters *mcs,QWidget *parent) :

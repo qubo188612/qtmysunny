@@ -50,6 +50,30 @@ HEADERS += \
     soptopcamera.h \
     tistdtypes.h
 
+win32{
+#opencv库的添加
+INCLUDEPATH += D:/opencv-4.6.0/build/include \
+
+LIBS += D:/opencv-4.6.0/build/x64/vc16/lib/opencv*.lib \
+
+#自定义ROS接口添加
+INCLUDEPATH += C:/Users/34638/Documents/ros2topic/myRos2test/install/tutorial_interfaces/include \
+
+LIBS += C:/Users/34638/Documents/ros2topic/myRos2test/install/tutorial_interfaces/lib/*.lib \
+
+#ROS库添加
+INCLUDEPATH += C:/opt/ros/foxy/x64/include \
+
+LIBS += C:/opt/ros/foxy/x64/Lib/*.lib \
+
+
+#modbustcp库的添加
+INCLUDEPATH += D:/libmodbus/include \
+
+LIBS += D:/libmodbus/x64/lib/*.lib
+}
+
+unix {
 #opencv库的添加
 INCLUDEPATH += /usr/local/OpenCV/Release/include/opencv4 \
 
@@ -70,4 +94,4 @@ LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interf
 INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
 
 LIBS += /home/qubo/modbus/libmodbus/install/lib/libmodbus.so
-
+}

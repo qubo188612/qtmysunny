@@ -9,8 +9,8 @@ public:
   CFileOut(void);
   ~CFileOut(void);
 public:
-  int WriteFile(char* fileName,uint8_t *dt,int dtLen);//写数据
-  int ReadFile(char* fileName,uint8_t *dt,int rLen);//读数据
+  int WriteFile(char* fileName,uint8_t *dt,int dtLen);
+  int ReadFile(char* fileName,uint8_t *dt,int rLen);
 };
 
 #endif // FILEOUT_H

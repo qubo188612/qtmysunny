@@ -1,7 +1,7 @@
-#ifndef SOPTOPCAMERA_H
+﻿#ifndef SOPTOPCAMERA_H
 #define SOPTOPCAMERA_H
 
-
+#include "opencv2/core/mat.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include <sensor_msgs/msg/image.hpp>
@@ -43,47 +43,47 @@ public:
     int argc;
     char **argv;
 
-    void InitConnect(PictureBox *lab_show);   //连接相机
-    void DisConnect();    //断开相机
-    bool b_connect;       //是否连接相机
-    bool stop_b_connect;  //是否成功断开相机
+    void InitConnect(PictureBox *lab_show);
+    void DisConnect();
+    bool b_connect;
+    bool stop_b_connect;
 
-    int i32_exposure;         //曝光值
-    int i32_exposure_max;     //曝光最大值
-    int i32_exposure_min;     //曝光最小值
-    int i32_exposure_use;     //曝光默认值
+    int i32_exposure;
+    int i32_exposure_max;
+    int i32_exposure_min;
+    int i32_exposure_use;
 
     Params ros_Params;
 
-    void roscmd_set_exposure(int exposure); //ROS终端命令刷新相机曝光
-    int roscmd_get_exposure(int *exposure); //ROS终端命令获取相机曝光
+    void roscmd_set_exposure(int exposure);
+    int roscmd_get_exposure(int *exposure);
 
-    void roscmd_open_laser(bool b);//ROS终端命令开关激光
-    void roscmd_open_camera(bool b);//ROS终端命令开关相机
+    void roscmd_open_laser(bool b);
+    void roscmd_open_camera(bool b);
 
 
-    cv::Mat cv_image;    //相机图像
-    PictureBox *m_lab_show;   //显示控件位置
+    cv::Mat cv_image;
+    PictureBox *m_lab_show;
 
     cv_bridge::CvImagePtr cv_ptr;
 
-    void int_show_image_inlab();//刷新图像
+    void int_show_image_inlab();
     volatile bool b_int_show_image_inlab;
 
-    void write_para();     //保存相机参数
-    void init_para();       //默认参赛
+    void write_para();
+    void init_para();
 
-    volatile bool b_updataimage_finish; //获取最相机图像完成
+    volatile bool b_updataimage_finish;
 
     volatile int callbacknumber;
 
-    bool callback_error;        //图像卡住
+    bool callback_error;
 
-    bool luzhi;		//是否录制视频
+    bool luzhi;
     cv::VideoWriter writer;
-    double Getfps();//获取采集帧率
-    void StartRecord(QString filename);//开始录制视频
-    void StopRecord();//停止录制视频
+    double Getfps();
+    void StartRecord(QString filename);
+    void StopRecord();
 
     volatile bool b_stopthred;
 
@@ -94,17 +94,17 @@ public:
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_homography_matrix_get;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _pub_config;
 
-    void ros_open_laser(bool b);//ROS命令开关激光
-    void ros_open_camera(bool b);//RO2命令开关相机
-    void ros_set_exposure(int exposure); //ROS命令刷新相机曝光
-    void ros_set_homography_matrix(Params ros_Params);//ROS命令刷新相机矩阵
+    void ros_open_laser(bool b);
+    void ros_open_camera(bool b);
+    void ros_set_exposure(int exposure);
+    void ros_set_homography_matrix(Params ros_Params);
 
-    void ros_config_set(std::string msg);//ROS参数修改
+    void ros_config_set(std::string msg);
 protected:
     StartCameraThread *StartCamera_thread;
 
-    void read_para();      //读取相机参数
-    void check_para();     //核对相机参数从
+    void read_para();
+    void check_para();
 
     virtual void timerEvent(QTimerEvent *event);
     int timerid1;

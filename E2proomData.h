@@ -1,11 +1,16 @@
-#ifndef E2PROOMDATA_H
+﻿#ifndef E2PROOMDATA_H
 #define E2PROOMDATA_H
+
+#include "global.h"
 #include <string>
+#if _MSC_VER
+#include <QDir>
+#else
 #include <sys/stat.h>
 #include <unistd.h>
+#endif
 #include "tistdtypes.h"
 #include "FileOut.h"
-#include "global.h"
 
 #define E2POOM_CAMDLG_SAVEBUFF              64
 #define E2POOM_CAMDLG_SYSPATH_MOTO			"./SAVE/E2P_CAMDLG.bsd"
@@ -65,8 +70,7 @@ class E2proomData
 public:
     E2proomData();
     ~E2proomData();
-/****************************/
-//cambuilddld界面参数
+
     Int32 camdlg_modposX1;
     Int32 camdlg_modposY1;
     Int32 camdlg_modposX2;
@@ -85,8 +89,8 @@ public:
     Int32 camdlg_cvimg_posX4;
     Int32 camdlg_cvimg_posY4;
 
-    void write_camdlg_para();	//保存cambuilddld界面参数
-    void init_camdlg_para();	//初始化cambuilddld界面参数
+    void write_camdlg_para();
+    void init_camdlg_para();
 
     Int32 camdlg_modposX1_min;
     Int32 camdlg_modposX1_max;
@@ -138,12 +142,10 @@ public:
     Int32 camdlg_cvimg_posY4_max;
     Int32 camdlg_cvimg_posY4_use;
  /***************************/
-
-
     void write();
 private:
-    void read_para();				//读取
-    void check_para();			//检查参数
+    void read_para();
+    void check_para();
 };
 
 #endif // E2PROOMDATA_H

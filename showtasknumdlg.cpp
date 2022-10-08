@@ -207,9 +207,6 @@ void showtasknumdlg::image_draw(int task_num)
     cv::Mat image=cv::Mat::zeros(nnHeight,nnWidth,CV_8UC3);
     switch(task_num)
     {
-    case 0 ... 99:
-
-    break;
     case 100:
     {
         //内角缝

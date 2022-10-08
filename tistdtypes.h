@@ -1,4 +1,4 @@
-#ifndef TISTDTYPES_H
+﻿#ifndef TISTDTYPES_H
 #define TISTDTYPES_H
 
 #include <stdint.h>
@@ -13,6 +13,7 @@ typedef uint8_t   Uint8;
 typedef int32_t   Int32;
 typedef int16_t   Int16;
 typedef int8_t    Int8;
+
 #else
 #endif
 

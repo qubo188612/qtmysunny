@@ -1,4 +1,4 @@
-#ifndef CAMBUILDDLG_H
+﻿#ifndef CAMBUILDDLG_H
 #define CAMBUILDDLG_H
 
 #include <QDialog>

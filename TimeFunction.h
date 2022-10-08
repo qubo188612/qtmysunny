@@ -1,11 +1,18 @@
-#ifndef TIMEFUNCTION_H
+﻿#ifndef TIMEFUNCTION_H
 #define TIMEFUNCTION_H
 
+#include <global.h>
 #include <stdio.h>
 #include <stdlib.h>
+#if _MSC_VER
+#include<chrono>
+#else
 #include <sys/time.h>
+#endif
 #include <time.h>
-#include <QString>
+#include <string>
+
+//#include <QString>
 
 class TimeFunction
 {
@@ -13,6 +20,6 @@ public:
     TimeFunction();
     ~TimeFunction();
 
-    void get_time_ms(QString *timeOut);  //获取系统的字符串格式时间
+    void get_time_ms(std::string *timeOut);
 };
-#endif // TIMEFUNCTION_H
+#endif

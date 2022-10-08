@@ -2,11 +2,18 @@
 
 E2proomData::E2proomData()
 {
+#if _MSC_VER
+    QString filePath =  "./SAVE";
+    QDir dir(filePath);
+    if(!dir.exists())
+        QDir().mkdir(filePath);
+#else
     std::string dir = "./SAVE";
     if (access(dir.c_str(), 0) == -1)
     {
       mkdir("./SAVE",S_IRWXU);
     }
+#endif
 
     camdlg_modposX1_min=E2POOM_CAMDLG_MODPOSX1_MIN;
     camdlg_modposX1_max=E2POOM_CAMDLG_MODPOSX1_MAX;
@@ -110,7 +117,7 @@ void E2proomData::read_para()
     buff=new Uint8[E2POOM_CAMDLG_SAVEBUFF];
     if(buff==NULL)
         return;
-    if(0 > fo.ReadFile(E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF))
+    if(0 > fo.ReadFile((char*)E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF))
     {
         init_camdlg_para();
         if(buff!=NULL)
@@ -213,7 +220,7 @@ void E2proomData::write_camdlg_para()
     *i32_p=camdlg_cvimg_posY4;
     i32_p++;
 
-    fo.WriteFile(E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF);
+    fo.WriteFile((char*)E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF);
 
     if(buff!=NULL)
     {
