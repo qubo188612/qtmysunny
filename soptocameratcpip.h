@@ -1,6 +1,7 @@
-#ifndef SOPTOCAMERATCPIP_H
+﻿#ifndef SOPTOCAMERATCPIP_H
 #define SOPTOCAMERATCPIP_H
 #if _MSC_VER
+#include "global.h"
 #include "PictureBox.h"
 #include <opencv2/opencv.hpp>
 #include <QThread>

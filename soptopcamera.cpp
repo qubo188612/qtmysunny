@@ -1,5 +1,6 @@
 ﻿#include "soptopcamera.h"
-
+#if _MSC_VER
+#else
 Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {
   _p=statci_p;
@@ -402,5 +403,4 @@ void StartCameraThread::run()
   }
   _p->b_stopthred=true;
 }
-
-
+#endif

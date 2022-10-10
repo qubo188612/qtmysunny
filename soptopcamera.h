@@ -1,6 +1,8 @@
 ﻿#ifndef SOPTOPCAMERA_H
 #define SOPTOPCAMERA_H
 
+#if _MSC_VER
+#else
 #include "opencv2/core/mat.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -153,5 +155,5 @@ private:
 public:
 
 };
-
+#endif
 #endif // SOPTOPCAMERA_H
