@@ -17,12 +17,14 @@ SOURCES += \
         PictureBox.cpp \
         ResultData.cpp \
         TimeFunction.cpp \
+        XTcp.cpp \
         cam_sen.cpp \
         cambuilddlg.cpp \
         main.cpp \
         my_parameters.cpp \
         qtmysunnydlg.cpp \
         showtasknumdlg.cpp \
+        soptocameratcpip.cpp \
         soptopcamera.cpp
 
 # Default rules for deployment.
@@ -41,12 +43,14 @@ HEADERS += \
     PictureBox.h \
     ResultData.h \
     TimeFunction.h \
+    XTcp.h \
     cam_sen.h \
     cambuilddlg.h \
     global.h \
     my_parameters.h \
     qtmysunnydlg.h \
     showtasknumdlg.h \
+    soptocameratcpip.h \
     soptopcamera.h \
     tistdtypes.h
 

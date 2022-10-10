@@ -35,7 +35,6 @@ struct Params
 
 class SoptopCamera : public QObject
 {
-
 public:
     SoptopCamera();
     ~SoptopCamera();
@@ -139,8 +138,6 @@ private:
     void callbackGlobalParam(std::shared_future<std::vector<rclcpp::Parameter>> future);
     void callbackMatrixParam(std::shared_future<std::vector<rclcpp::Parameter>> future);
 
-
-
 #ifdef DEBUG_MYINTERFACES
     rclcpp::Subscription<tutorial_interfaces::msg::IfAlgorhmitmsg>::SharedPtr subscription_;
 #else
@@ -154,7 +151,6 @@ private:
 #endif
 
 public:
-
 
 };
 

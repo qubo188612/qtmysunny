@@ -1,6 +1,5 @@
 ﻿#include <QApplication>
 #include "qtmysunnydlg.h"
-#include "global.h"
 #include <QTextCodec>
 
 int main(int argc, char *argv[])
@@ -18,8 +17,11 @@ int main(int argc, char *argv[])
 #endif
     qtmysunnyDlg main_window;
     main_window.setWindowTitle(QString::fromLocal8Bit("3D激光跟踪参数设置软件"));
+#if _MSC_VER
+#else
     main_window.m_mcs->cam->sop_cam[0].argc=argc;
     main_window.m_mcs->cam->sop_cam[0].argv=argv;
+#endif
     main_window.show();
     return a.exec();
 }

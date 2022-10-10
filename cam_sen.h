@@ -1,8 +1,10 @@
 #ifndef CAM_SEN_H
 #define CAM_SEN_H
 
-#include "global.h"
 #include "soptopcamera.h"
+#if _MSC_VER
+#include "soptocameratcpip.h"
+#endif
 
 class my_parameters;
 
@@ -13,7 +15,11 @@ public:
 
 /****************************/
 //soptop相机
+#if _MSC_VER
+    Soptocameratcpip sop_cam[CAMTOTALNUM];
+#else
     SoptopCamera sop_cam[CAMTOTALNUM];
+#endif
 
 /****************************/
 //其他相机

@@ -1,6 +1,9 @@
 ﻿#ifndef CAMBUILDDLG_H
 #define CAMBUILDDLG_H
 
+#include "global.h"
+#if _MSC_VER
+#else
 #include <QDialog>
 #include <my_parameters.h>
 #include <QKeyEvent>
@@ -68,5 +71,7 @@ signals:
     // 自定义信号
     void Send_show_cambuild_inlab(cv::Mat);
 };
+
+#endif
 
 #endif // CAMBUILDDLG_H

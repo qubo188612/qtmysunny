@@ -106,8 +106,10 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     m_mcs=m_mcs->Get();
 
     showtasknum=new showtasknumdlg;
+#if _MSC_VER
+#else
     cambuild=new cambuilddlg(m_mcs);
-
+#endif
     connect(ui->connectcameraBtn,&QPushButton::clicked,[=](){
        if(m_mcs->cam->sop_cam[0].b_connect==false)
        {
@@ -188,7 +190,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                  ui->record->append(QString::fromLocal8Bit("请连接相机后再设置相机参数"));
         }
     });
-
+#if _MSC_VER
+#else
     connect(ui->writeTab1Btn,&QPushButton::clicked,[=](){
        if(m_mcs->resultdata.link_param_state==true)
        {
@@ -248,7 +251,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                 ui->record->append(QString::fromLocal8Bit("请连接相机后再读取曝光值"));
        }
     });
-
+#endif
     connect(ui->writeTab2Btn,&QPushButton::clicked,[=](){
        if(m_mcs->resultdata.link_param_state==true)
        {
@@ -821,7 +824,12 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         showtasknum->setWindowTitle(QString::fromLocal8Bit("任务号图示"));
         showtasknum->exec();
     });
-
+#if _MSC_VER
+    connect(ui->cambuildBtn,&QPushButton::clicked,[=](){
+        if(ui->checkBox->isChecked()==false)
+            ui->record->append(QString::fromLocal8Bit("Windows系统不支持该功能"));
+    });
+#else
     connect(ui->cambuildBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_param_state==true)
         {
@@ -854,7 +862,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                  ui->record->append(QString::fromLocal8Bit("请连接相机后再进行激光头标定"));
         }
     });
-
+#endif
 
 
     connect(ui->savebmpstepBtn,&QPushButton::clicked,[=](){
@@ -955,7 +963,10 @@ qtmysunnyDlg::~qtmysunnyDlg()
     thread1->wait();
     m_mcs->cam->sop_cam[0].DisConnect();
     delete showtasknum;
+#if _MSC_VER
+#else
     delete cambuild;
+#endif
     delete ui;
 }
 /*
@@ -1128,7 +1139,11 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         b_thread1=true;
         thread1->start();
 
+     #if _MSC_VER
+        m_mcs->cam->sop_cam[0].InitConnect(lab_show,ui->IPadd->text(),1498);
+     #else
         m_mcs->cam->sop_cam[0].InitConnect(lab_show);
+     #endif
         if(m_mcs->cam->sop_cam[0].b_connect==true)
         {
             if(ui->checkBox->isChecked()==false)

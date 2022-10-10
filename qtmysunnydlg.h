@@ -1,9 +1,13 @@
 ﻿#ifndef QTMYSUNNYDLG_H
 #define QTMYSUNNYDLG_H
 
+#include "global.h"
 #include <QDialog>
 #include "showtasknumdlg.h"
+#if _MSC_VER
+#else
 #include "cambuilddlg.h"
+#endif
 #include <my_parameters.h>
 #if _MSC_VER
 #include <QDir>
@@ -64,7 +68,10 @@ private:
     Ui::qtmysunnyDlg *ui;
 
     showtasknumdlg *showtasknum;
+#if _MSC_VER
+#else
     cambuilddlg *cambuild;
+#endif
 
 private slots:
     void init_show_pos_list();

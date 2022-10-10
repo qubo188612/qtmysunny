@@ -1,4 +1,6 @@
 #include "cambuilddlg.h"
+#if _MSC_VER
+#else
 #include "ui_cambuilddlg.h"
 
 template<typename _Tp>
@@ -485,3 +487,4 @@ void cambuildThread::Stop()
     }
   }
 }
+#endif
