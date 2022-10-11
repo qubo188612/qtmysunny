@@ -31,6 +31,10 @@ void Soptocameratcpip::InitConnect(PictureBox *lab_show,QString hostName, int po
       m_client.CreateSocket();
       m_client.Connect(ch,port);
       m_client.SetBlock(0);
+      if(0!=m_client.SetRcvBufferlong(RECVBUFFER_MAX))
+      {
+          printf("SetRcvBufferlong false");
+      }
       char data[1]={1};
       m_client.Send(data,1);
       b_rcv_thread=true;
@@ -96,18 +100,14 @@ void tcprcvThread::run()
             {
                 std::vector<uchar> decode;
                 decode.insert(decode.end(),_p->rcv_buf,_p->rcv_buf+rcvnum);
-                image = cv::imdecode(decode, CV_LOAD_IMAGE_COLOR);//图像解码
-                /*
-                cv::Mat image;
-                int result=0;
-                result=myimgtcp(decode,image);//图像自定义解码
-                */
+              //image = cv::imdecode(decode, CV_LOAD_IMAGE_COLOR);//图像解码
+                myimgtcp(decode,image);//图像自定义解码
                 if(_p->b_int_show_image_inlab==false&&_p->b_updataimage_finish==false)
                 {
-                    if(!image.empty())
+                    if(!_p->cv_image.empty())
                     {
                         _p->b_int_show_image_inlab=true;
-                        _p->cv_image=image;
+                    //  _p->cv_image=image;
                         _p->b_updataimage_finish=true;
                         _p->callbacknumber++;
                         if(_p->luzhi==true)
@@ -160,6 +160,7 @@ int tcprcvThread::myimgtcp(std::vector<uchar> decode,cv::Mat &image)
             image=cv::Mat(rows,cols,CV_8UC3,decode.data()+5);
         break;
     }
+    _p->cv_image=image.clone();
     return 0;
 }
 

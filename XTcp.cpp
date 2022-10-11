@@ -103,6 +103,40 @@ bool XTcp::Listen(unsigned short num) //监听端口号
     }
 }
 
+bool XTcp::SetRcvBufferlong(int bufferlong) //设置接收缓冲长度
+{
+    int sendBufLen = bufferlong;
+    int tmp;
+    socklen_t optlen = sizeof(int);
+    setsockopt(tsock,SOL_SOCKET, SO_RCVBUF,(const char*)&sendBufLen, sizeof(int));
+    getsockopt(tsock,SOL_SOCKET, SO_RCVBUF,(int *)&tmp, &optlen);
+    if(tmp==sendBufLen)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool XTcp::SetSentBufferlong(int bufferlong) //设置发送缓冲长度
+{
+    int sendBufLen = bufferlong;
+    int tmp;
+    socklen_t optlen = sizeof(int);
+    setsockopt(tsock,SOL_SOCKET, SO_SNDBUF,(const char*)&sendBufLen, sizeof(int));
+    getsockopt(tsock,SOL_SOCKET, SO_SNDBUF,(int *)&tmp, &optlen);
+    if(tmp==sendBufLen)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 bool XTcp::SetBlock(bool isblock)  //设置阻塞模式  （希望只有在connect的时候是非阻塞的，而接收数据时候是阻塞的）
 {
     if (tsock <= 0)

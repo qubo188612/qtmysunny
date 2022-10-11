@@ -17,6 +17,8 @@ public:
     int Send(const char *buf, int size);	//发送数据
     int SetRecvTimeout(int sec = 1);			 //设置udp接收超时
     int SetSendTimeout(int sec = 1);		     //设置udp发送超时
+    bool SetRcvBufferlong(int bufferlong);  //设置接收缓冲长度
+    bool SetSentBufferlong(int bufferlong); //设置发送缓冲长度
 
 
     char clientip[16];						//存放接收到的client ip
