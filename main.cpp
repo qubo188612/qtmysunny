@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 #endif
     qtmysunnyDlg main_window;
     main_window.setWindowTitle(QString::fromLocal8Bit("3D激光跟踪参数设置软件"));
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
     main_window.m_mcs->cam->sop_cam[0].argc=argc;
     main_window.m_mcs->cam->sop_cam[0].argv=argv;

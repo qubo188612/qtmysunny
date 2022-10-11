@@ -1,7 +1,7 @@
 ﻿#ifndef SOPTOPCAMERA_H
 #define SOPTOPCAMERA_H
-
-#if _MSC_VER
+#include "global.h"
+#if _MSC_VER||WINDOWS_TCP
 #else
 #include "opencv2/core/mat.hpp"
 #include "rclcpp/rclcpp.hpp"

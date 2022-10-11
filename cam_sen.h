@@ -2,7 +2,7 @@
 #define CAM_SEN_H
 
 #include "soptopcamera.h"
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #include "soptocameratcpip.h"
 #endif
 
@@ -15,7 +15,7 @@ public:
 
 /****************************/
 //soptop相机
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
     Soptocameratcpip sop_cam[CAMTOTALNUM];
 #else
     SoptopCamera sop_cam[CAMTOTALNUM];

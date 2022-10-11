@@ -1,5 +1,5 @@
 #include "cambuilddlg.h"
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
 #include "ui_cambuilddlg.h"
 

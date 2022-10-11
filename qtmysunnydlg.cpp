@@ -106,7 +106,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     m_mcs=m_mcs->Get();
 
     showtasknum=new showtasknumdlg;
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
     cambuild=new cambuilddlg(m_mcs);
 #endif
@@ -190,7 +190,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                  ui->record->append(QString::fromLocal8Bit("请连接相机后再设置相机参数"));
         }
     });
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
     connect(ui->writeTab1Btn,&QPushButton::clicked,[=](){
        if(m_mcs->resultdata.link_param_state==true)
@@ -824,7 +824,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         showtasknum->setWindowTitle(QString::fromLocal8Bit("任务号图示"));
         showtasknum->exec();
     });
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
     connect(ui->cambuildBtn,&QPushButton::clicked,[=](){
         if(ui->checkBox->isChecked()==false)
             ui->record->append(QString::fromLocal8Bit("Windows系统不支持该功能"));
@@ -958,12 +958,15 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 
 qtmysunnyDlg::~qtmysunnyDlg()
 {
+    img_windowshow(false,ui->widget);
+    /*
     thread1->Stop();
     thread1->quit();
     thread1->wait();
     m_mcs->cam->sop_cam[0].DisConnect();
+    */
     delete showtasknum;
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
     delete cambuild;
 #endif
@@ -1139,7 +1142,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         b_thread1=true;
         thread1->start();
 
-     #if _MSC_VER
+     #if _MSC_VER||WINDOWS_TCP
         m_mcs->cam->sop_cam[0].InitConnect(lab_show,ui->IPadd->text(),1498);
      #else
         m_mcs->cam->sop_cam[0].InitConnect(lab_show);

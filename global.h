@@ -1,6 +1,8 @@
 ﻿#ifndef GLOBAL_H
 #define GLOBAL_H
 
+#define WINDOWS_TCP 1   //linux仿windowstcp测试
+
 #if _MSC_VER
 #include "tistdtypes.h"
 

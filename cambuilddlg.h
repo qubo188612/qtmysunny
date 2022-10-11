@@ -2,7 +2,7 @@
 #define CAMBUILDDLG_H
 
 #include "global.h"
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
 #include <QDialog>
 #include <my_parameters.h>

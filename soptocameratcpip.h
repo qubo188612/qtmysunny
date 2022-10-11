@@ -1,12 +1,19 @@
 ﻿#ifndef SOPTOCAMERATCPIP_H
 #define SOPTOCAMERATCPIP_H
-#if _MSC_VER
 #include "global.h"
+#if _MSC_VER||WINDOWS_TCP
 #include "PictureBox.h"
 #include <opencv2/opencv.hpp>
 #include <QThread>
 #include "XTcp.h"
 #include "opencv2/imgcodecs/legacy/constants_c.h"
+#if _MSC_VER
+#include <QDir>
+#include <synchapi.h>
+#else
+#include <unistd.h>
+#include <sys/stat.h>
+#endif
 
 #define RECVBUFFER_MAX      CAMBUILD_IMAGE_HEIGHT*CAMBUILD_IMAGE_WIDTH*3
 
@@ -62,6 +69,9 @@ protected:
 private:
     Soptocameratcpip *_p;
 
+    int myimgtcp(std::vector<uchar> decode,cv::Mat &image);
+
+    cv::Mat image;
 };
 
 #endif

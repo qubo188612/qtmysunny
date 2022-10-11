@@ -1,5 +1,5 @@
 ﻿#include "soptopcamera.h"
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 #else
 Camshow::Camshow(SoptopCamera *statci_p): Node("my_eyes")
 {

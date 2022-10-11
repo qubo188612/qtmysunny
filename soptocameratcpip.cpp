@@ -1,6 +1,6 @@
 #include "soptocameratcpip.h"
 
-#if _MSC_VER
+#if _MSC_VER||WINDOWS_TCP
 
 Soptocameratcpip::Soptocameratcpip()
 {
@@ -43,6 +43,13 @@ void Soptocameratcpip::DisConnect()
 {
     if(b_connect==true)
     {
+      char data[1]={0};
+      m_client.Send(data,1);
+#if _MSC_VER
+      Sleep(50);
+#else
+      usleep(50000);
+#endif
       rcv_thread->Stop();
       rcv_thread->quit();
       rcv_thread->wait();
@@ -89,13 +96,18 @@ void tcprcvThread::run()
             {
                 std::vector<uchar> decode;
                 decode.insert(decode.end(),_p->rcv_buf,_p->rcv_buf+rcvnum);
-                cv::Mat image = cv::imdecode(decode, CV_LOAD_IMAGE_COLOR);//图像解码
+                image = cv::imdecode(decode, CV_LOAD_IMAGE_COLOR);//图像解码
+                /*
+                cv::Mat image;
+                int result=0;
+                result=myimgtcp(decode,image);//图像自定义解码
+                */
                 if(_p->b_int_show_image_inlab==false&&_p->b_updataimage_finish==false)
                 {
                     if(!image.empty())
                     {
                         _p->b_int_show_image_inlab=true;
-                        _p->cv_image=image.clone();
+                        _p->cv_image=image;
                         _p->b_updataimage_finish=true;
                         _p->callbacknumber++;
                         if(_p->luzhi==true)
@@ -125,6 +137,30 @@ void tcprcvThread::Stop()
       sleep(0);
     }
   }
+}
+
+int tcprcvThread::myimgtcp(std::vector<uchar> decode,cv::Mat &image)
+{
+    int cols,rows,channels;
+    if(decode.size()<5)
+        return 1;
+    channels=decode[0];
+    if(channels!=1&&channels!=3)
+        return 1;
+    cols=(((int)decode[1])<<8)+decode[2];
+    rows=(((int)decode[3])<<8)+decode[4];
+    if(decode.size()!=cols*rows*channels+5)
+        return 1;
+    switch(channels)
+    {
+        case 1:
+            image=cv::Mat(rows,cols,CV_8UC1,decode.data()+5);
+        break;
+        case 3:
+            image=cv::Mat(rows,cols,CV_8UC3,decode.data()+5);
+        break;
+    }
+    return 0;
 }
 
 #endif
