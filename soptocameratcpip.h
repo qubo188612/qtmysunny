@@ -70,6 +70,8 @@ private:
 
     int myimgtcp(std::vector<uchar> decode,cv::Mat &image);
 
+    int myimgtcp2(std::vector<uchar> decode,cv::Mat &image);
+
     cv::Mat image;
 };
 
