@@ -8,8 +8,7 @@
 #include "XTcp.h"
 #include "opencv2/imgcodecs/legacy/constants_c.h"
 #if _MSC_VER
-#include <QDir>
-#include <synchapi.h>
+
 #else
 #include <unistd.h>
 #include <sys/stat.h>

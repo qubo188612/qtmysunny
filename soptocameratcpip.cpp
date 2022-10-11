@@ -1,4 +1,4 @@
-#include "soptocameratcpip.h"
+﻿#include "soptocameratcpip.h"
 
 #if _MSC_VER||WINDOWS_TCP
 
@@ -46,7 +46,7 @@ void Soptocameratcpip::DisConnect()
       char data[1]={0};
       m_client.Send(data,1);
 #if _MSC_VER
-      Sleep(50);
+      _sleep(50);
 #else
       usleep(50000);
 #endif
