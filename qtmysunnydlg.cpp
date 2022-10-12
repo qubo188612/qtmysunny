@@ -1374,12 +1374,12 @@ void qtmysunnyDlg::init_set_task()
     if(rc!=1)
     {
         if(ui->checkBox->isChecked()==false)
-            ui->record->append(QString::fromLocal8Bit("更新任务号成功"));
+            ui->record->append(QString::fromLocal8Bit("更新任务号失败"));
     }
     else
     {
         if(ui->checkBox->isChecked()==false)
-            ui->record->append(QString::fromLocal8Bit("更新任务号失败"));
+            ui->record->append(QString::fromLocal8Bit("更新任务号成功"));
         if(tasknum>=TASKNUM_START)
         {
             u_int16_t num=tasknum-TASKNUM_START+1;
