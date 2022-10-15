@@ -6,7 +6,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui(new Ui::qtmysunnyDlg)
 {
 #if _MSC_VER
-    QString filePath =  "./SAVE";
+    QString filePath =  "./DATA";
     QDir dir(filePath);
     if(!dir.exists())
         QDir().mkdir(filePath);
