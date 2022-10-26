@@ -37,8 +37,18 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define DEEPIMG_CALLBACKNUM_DNUM     5
 
 /*****************************/
+//相机原图TCP传输端口
+#define PORT_ALSTCP_CAMIMAGE                  1497
+//相机处理结果图TCP传输端口
+#define PORT_ALSTCP_CAMIMAGE_RESULT           1498
+//点云轨迹处理结果TCP传输端口
+#define PORT_ALSTCP_POINTCLOUDS_RESULT        1499
 
-#define TASKNUM_START   100
+/*****************************/
+//激光头算法参数寄存器
+#define PORT_ALS_PARAMETER                    1500  //端口号1500: 激光头参数端口号
+
+#define TASKNUM_START   100         //激光头框架2起始任务号
 
 
 #define ALS100_EXPOSURE_TIME_REG_ADD           0x0000
@@ -141,6 +151,7 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALS102_UPLONG2_REG_ADD                 0x0064
 #define ALS102_CEBANKONGDONGDIS_REG_ADD        0x0065
 
+
 #define ALS102_REG_TOTALNUM                    0x0026
 
 #define ALS102_INIT_REG_ADD                    0x006f
@@ -163,6 +174,53 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 
 
 #define ALS_SHOW_STEP_REG_ADD                  0x018f
+
+/*****************************/
+//激光头机器人型号和相机尺寸寄存器
+#define PORT_ALSROBOTCAM_SET               1501  //端口号1501: 激光头机器人型号和相机尺寸端口号
+
+#define ALSROBOTCAM_ROBOTMOD_REG_ADD            0x0000  //机器人型号
+#define ALSROBOTCAM_ROBOTPORT_REG_ADD           0x0001  //机器人端口号
+
+#define ALSROBOTCAM_CAMWIDTH_REG_ADD            0x0005  //相机宽度视野
+#define ALSROBOTCAM_CAMHEIGHT_REG_ADD           0x0006  //相机高度视野
+#define ALSROBOTCAM_CAMFPS_REG_ADD              0x0007  //相机帧率
+
+/*****************************/
+//激光头计算结果寄存器
+#define PORT_ALS_RESULT                    1502  //端口号1502: 激光头计算结果寄存器
+
+#define ALS_VERSION_REG_ADD                     0x0000  //版本号
+#define ALS_DELAY_REG_ADD                       0x0001  //延迟
+#define ALS_STATE_REG_ADD                       0x0002  //搜索状态
+#define ALS_Y_POINT1_REG_ADD                    0x0003  //Y坐标POINT1
+#define ALS_Z_POINT1_REG_ADD                    0x0004  //Z坐标POINT1
+#define ALS_WELD_WIDTH_REG_ADD                  0x0005  //焊缝宽度
+#define ALS_WELD_HIGHT_REG_ADD                  0x0006  //焊缝高度
+#define ALS_TIMESTAMP_HOURS_REG_ADD             0x0007  //时间戳时
+#define ALS_TIMESTAMP_MINUTES_REG_ADD           0x0008  //时间戳分
+#define ALS_TIMESTAMP_SECONDS_REG_ADD           0x0009  //时间戳秒
+#define ALS_TIMESTAMP_MILLISECONDS_REG_ADD      0x000a  //时间戳毫秒
+#define ALS_RESULT_FPS_REG_ADD                  0x000b  //数据帧率
+#define ALS_CAM_FPS_REG_ADD                     0x000c  //相机帧率
+#define ALS_TIME_HOURS_REG_ADD                  0x000d  //当前时间时
+#define ALS_TIME_MINUTES_REG_ADD                0x000e  //当前时间分
+#define ALS_TIME_SECONDS_REG_ADD                0x000f  //当前时间秒
+#define ALS_TIME_MILLISECONDS_REG_ADD           0x0010  //当前时间毫秒
+
+#define ALS_Y_POINT2_REG_ADD                    0x0050  //Y坐标POINT2
+#define ALS_Z_POINT2_REG_ADD                    0x0051  //Z坐标POINT2
+#define ALS_Y_POINT3_REG_ADD                    0x0052  //Y坐标POINT3
+#define ALS_Z_POINT3_REG_ADD                    0x0053  //Z坐标POINT3
+#define ALS_Y_POINT4_REG_ADD                    0x0054  //Y坐标POINT4
+#define ALS_Z_POINT4_REG_ADD                    0x0055  //Z坐标POINT4
+
+#define ALS_SOLDER_REG_ADD                      0x0060  //焊点
+
+#define ALS_OPEN_REG_ADD                        0x0101  //跟踪开关
+#define ALS_TASKNUM_REG_ADD                     0x0102  //任务号
+
+
 /*****************************/
 
 

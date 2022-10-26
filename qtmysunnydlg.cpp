@@ -131,7 +131,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
             uint16_t tab_reg[2];
             tab_reg[0]=robotmod;
             tab_reg[1]=robotport;
-            int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,0x00,2,tab_reg);
+            int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_ROBOTMOD_REG_ADD,2,tab_reg);
             if(rc!=2)
             {
                 if(ui->checkBox->isChecked()==false)
@@ -172,7 +172,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
              tab_reg[0]=width;
              tab_reg[1]=height;
              tab_reg[2]=fps;
-             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,0x05,3,tab_reg);
+             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,3,tab_reg);
              if(rc!=3)
              {
                  if(ui->checkBox->isChecked()==false)
@@ -988,56 +988,56 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         if(m_mcs->resultdata.link_result_state==false)
         {
             QString server_ip=ui->IPadd->text();
-            QString server_port2="1502";
+            QString server_port2=QString::number(PORT_ALS_RESULT);
             m_mcs->resultdata.ctx_result = modbus_new_tcp(server_ip.toUtf8(), server_port2.toInt());
             if (modbus_connect(m_mcs->resultdata.ctx_result) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(QString::fromLocal8Bit("1502端口连接失败"));
+                    ui->record->append(server_port2+"端口连接失败");
                 modbus_free(m_mcs->resultdata.ctx_result);
                 return;
             }      
             m_mcs->resultdata.link_result_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1502端口连接成功"));
+                ui->record->append(server_port2+"端口连接成功");
             open_camer_modbus();
         }
         if(m_mcs->resultdata.link_param_state==false)
         {
             QString server_ip=ui->IPadd->text();
-            QString server_port1="1500";
+            QString server_port1=QString::number(PORT_ALS_PARAMETER);
             m_mcs->resultdata.ctx_param = modbus_new_tcp(server_ip.toUtf8(), server_port1.toInt());
             if (modbus_connect(m_mcs->resultdata.ctx_param) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(QString::fromLocal8Bit("1500端口连接失败"));
+                    ui->record->append(server_port1+"端口连接失败");
                 modbus_free(m_mcs->resultdata.ctx_param);
                 return;
             }
             m_mcs->resultdata.link_param_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1500端口连接成功"));
+                ui->record->append(server_port1+"端口连接成功");
         }
         if(m_mcs->resultdata.link_robotset_state==false)
         {
             QString server_ip=ui->IPadd->text();
-            QString server_port1="1501";
+            QString server_port1=QString::number(PORT_ALSROBOTCAM_SET);
             m_mcs->resultdata.ctx_robotset = modbus_new_tcp(server_ip.toUtf8(), server_port1.toInt());
             if (modbus_connect(m_mcs->resultdata.ctx_robotset) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(QString::fromLocal8Bit("1501端口连接失败"));
+                    ui->record->append(server_port1+"端口连接失败");
                 modbus_free(m_mcs->resultdata.ctx_robotset);
                 return;
             }
             m_mcs->resultdata.link_robotset_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1501端口连接成功"));
+                ui->record->append(server_port1+"端口连接成功");
         }
 
         int real_readnum;
 
-        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,0x00,2,m_mcs->resultdata.red_robotset);
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_ROBOTMOD_REG_ADD,2,m_mcs->resultdata.red_robotset);
         if(real_readnum<0)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1082,7 +1082,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             }
         }
 
-        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,0x05,3,m_mcs->resultdata.red_robotset);
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,3,m_mcs->resultdata.red_robotset);
         if(real_readnum<0)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1144,7 +1144,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         thread1->start();
 
      #if _MSC_VER||WINDOWS_TCP
-        m_mcs->cam->sop_cam[0].InitConnect(lab_show,ui->IPadd->text(),1498);
+        m_mcs->cam->sop_cam[0].InitConnect(lab_show,ui->IPadd->text(),PORT_ALSTCP_CAMIMAGE_RESULT);
      #else
         m_mcs->cam->sop_cam[0].InitConnect(lab_show);
      #endif
@@ -1190,24 +1190,27 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             modbus_close(m_mcs->resultdata.ctx_result);
             modbus_free(m_mcs->resultdata.ctx_result);
             m_mcs->resultdata.link_result_state=false;
+            QString msg=QString::number(PORT_ALS_RESULT);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1502端口关闭"));
+                ui->record->append(msg+"端口关闭");
         }
         if(m_mcs->resultdata.link_param_state==true)
         {
             modbus_close(m_mcs->resultdata.ctx_param);
             modbus_free(m_mcs->resultdata.ctx_param);
             m_mcs->resultdata.link_param_state=false;
+            QString msg=QString::number(PORT_ALS_PARAMETER);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1500端口关闭"));
+                ui->record->append(msg+"端口关闭");
         }
         if(m_mcs->resultdata.link_robotset_state==true)
         {
             modbus_close(m_mcs->resultdata.ctx_robotset);
             modbus_free(m_mcs->resultdata.ctx_robotset);
             m_mcs->resultdata.link_robotset_state=false;
+            QString msg=QString::number(PORT_ALSROBOTCAM_SET);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(QString::fromLocal8Bit("1501端口关闭"));
+                ui->record->append(msg+"端口关闭");
         }
     }
 #ifdef DEBUG_TEST
@@ -1253,7 +1256,7 @@ void qtmysunnyDlg::open_camer_modbus()
     {
         uint16_t tab_reg[1];
         tab_reg[0]=0xff;
-        int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,0x101,1,tab_reg);
+        int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,ALS_OPEN_REG_ADD,1,tab_reg);
         if(rc!=1)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1273,7 +1276,7 @@ void qtmysunnyDlg::close_camer_modbus()
     {
         uint16_t tab_reg[1];
         tab_reg[0]=0;
-        int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,0x101,1,tab_reg);
+        int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,ALS_OPEN_REG_ADD,1,tab_reg);
         if(rc!=1)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1376,7 +1379,7 @@ void qtmysunnyDlg::init_set_task()
     u_int16_t tasknum=ui->tasknum->text().toInt();
     uint16_t tab_reg[1];
     tab_reg[0]=tasknum;
-    int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,0x102,1,tab_reg);
+    int rc=modbus_write_registers(m_mcs->resultdata.ctx_result,ALS_TASKNUM_REG_ADD,1,tab_reg);
     if(rc!=1)
     {
         if(ui->checkBox->isChecked()==false)
@@ -1587,9 +1590,9 @@ void getposThread::run()
                 }
                 else if(_p->ctx_result_dosomeing==DO_NOTHING)
                 {
-                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x02,15,_p->pos_data);
-                    int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x50,4,_p->pos_data2);
-                    int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,0x60,1,_p->pos_data3);
+                    int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_STATE_REG_ADD,15,_p->pos_data);
+                    int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_Y_POINT2_REG_ADD,4,_p->pos_data2);
+                    int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_SOLDER_REG_ADD,1,_p->pos_data3);
                     if(real_readnum_1<0||real_readnum_2<0||real_readnum_3<0)
                     {
                         if(_p->b_init_show_pos_failed_finish==true)
