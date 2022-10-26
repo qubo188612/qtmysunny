@@ -993,13 +993,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             if (modbus_connect(m_mcs->resultdata.ctx_result) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(server_port2+"端口连接失败");
+                    ui->record->append((server_port2+QString::fromLocal8Bit("端口连接失败")));
                 modbus_free(m_mcs->resultdata.ctx_result);
                 return;
             }      
             m_mcs->resultdata.link_result_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(server_port2+"端口连接成功");
+                ui->record->append(server_port2+QString::fromLocal8Bit("端口连接成功"));
             open_camer_modbus();
         }
         if(m_mcs->resultdata.link_param_state==false)
@@ -1010,13 +1010,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             if (modbus_connect(m_mcs->resultdata.ctx_param) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(server_port1+"端口连接失败");
+                    ui->record->append(server_port1+QString::fromLocal8Bit("端口连接失败"));
                 modbus_free(m_mcs->resultdata.ctx_param);
                 return;
             }
             m_mcs->resultdata.link_param_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(server_port1+"端口连接成功");
+                ui->record->append(server_port1+QString::fromLocal8Bit("端口连接成功"));
         }
         if(m_mcs->resultdata.link_robotset_state==false)
         {
@@ -1026,13 +1026,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             if (modbus_connect(m_mcs->resultdata.ctx_robotset) == -1)
             {
                 if(ui->checkBox->isChecked()==false)
-                    ui->record->append(server_port1+"端口连接失败");
+                    ui->record->append(server_port1+QString::fromLocal8Bit("端口连接失败"));
                 modbus_free(m_mcs->resultdata.ctx_robotset);
                 return;
             }
             m_mcs->resultdata.link_robotset_state=true;
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(server_port1+"端口连接成功");
+                ui->record->append(server_port1+QString::fromLocal8Bit("端口连接成功"));
         }
 
         int real_readnum;
@@ -1105,7 +1105,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         }
 
         u_int16_t task;
-        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_result,0x102,1,&task);
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_result,ALS_TASKNUM_REG_ADD,1,&task);
         if(real_readnum<0)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1192,7 +1192,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             m_mcs->resultdata.link_result_state=false;
             QString msg=QString::number(PORT_ALS_RESULT);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(msg+"端口关闭");
+                ui->record->append(msg+QString::fromLocal8Bit("端口关闭"));
         }
         if(m_mcs->resultdata.link_param_state==true)
         {
@@ -1201,7 +1201,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             m_mcs->resultdata.link_param_state=false;
             QString msg=QString::number(PORT_ALS_PARAMETER);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(msg+"端口关闭");
+                ui->record->append(msg+QString::fromLocal8Bit("端口关闭"));
         }
         if(m_mcs->resultdata.link_robotset_state==true)
         {
@@ -1210,7 +1210,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             m_mcs->resultdata.link_robotset_state=false;
             QString msg=QString::number(PORT_ALSROBOTCAM_SET);
             if(ui->checkBox->isChecked()==false)
-                ui->record->append(msg+"端口关闭");
+                ui->record->append(msg+QString::fromLocal8Bit("端口关闭"));
         }
     }
 #ifdef DEBUG_TEST
