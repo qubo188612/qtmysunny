@@ -20,6 +20,19 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 //  setAttribute(Qt::WA_Mapped);    //属性函数避免界面不刷新
 
     ui->setupUi(this);
+
+#ifdef DEBUG_TIMEFPS
+    ui->label_48->show();
+    ui->label_49->show();
+    ui->label_50->show();
+    ui->label_51->show();
+#else
+    ui->label_48->hide();
+    ui->label_49->hide();
+    ui->label_50->hide();
+    ui->label_51->hide();
+#endif
+
     ui->tabWidget->setTabText(0,QString::fromLocal8Bit("任务0-99"));
     ui->tabWidget->setTabText(1,QString::fromLocal8Bit("任务100"));
     ui->tabWidget->setTabText(2,QString::fromLocal8Bit("任务101"));
@@ -168,12 +181,17 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
              u_int16_t width=ui->cam_width->text().toInt();
              u_int16_t height=ui->cam_height->text().toInt();
              u_int16_t fps=ui->cam_fps->text().toInt();
-             uint16_t tab_reg[3];
+             u_int16_t view_width=ui->cam_view_width->text().toInt();
+             u_int16_t view_height=ui->cam_view_height->text().toInt();
+
+             uint16_t tab_reg[5];
              tab_reg[0]=width;
              tab_reg[1]=height;
              tab_reg[2]=fps;
-             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,3,tab_reg);
-             if(rc!=3)
+             tab_reg[3]=view_width;
+             tab_reg[4]=view_height;
+             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,5,tab_reg);
+             if(rc!=5)
              {
                  if(ui->checkBox->isChecked()==false)
                      ui->record->append(QString::fromLocal8Bit("更新相机设置失败"));
@@ -1082,7 +1100,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             }
         }
 
-        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,3,m_mcs->resultdata.red_robotset);
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,5,m_mcs->resultdata.red_robotset);
         if(real_readnum<0)
         {
             if(ui->checkBox->isChecked()==false)
@@ -1093,9 +1111,14 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             u_int16_t widht=m_mcs->resultdata.red_robotset[0];
             u_int16_t height=m_mcs->resultdata.red_robotset[1];
             u_int16_t fps=m_mcs->resultdata.red_robotset[2];
+            u_int16_t view_widht=m_mcs->resultdata.red_robotset[3];
+            u_int16_t view_height=m_mcs->resultdata.red_robotset[4];
             ui->cam_width->setText(QString::number(widht));
             ui->cam_height->setText(QString::number(height));
             ui->cam_fps->setText(QString::number(fps));
+            ui->cam_view_width->setText(QString::number(view_widht));
+            ui->cam_view_height->setText(QString::number(view_height));
+
             if(ui->checkBox->isChecked()==false)
             {
                 ui->record->append(QString::fromLocal8Bit("获取当前相机设置:"));
@@ -1332,6 +1355,32 @@ void qtmysunnyDlg::init_show_pos_list()
         ui->label_25->setText(QString::fromLocal8Bit("是"));
     else if(pos_data3[0]==0)
         ui->label_25->setText(QString::fromLocal8Bit("否"));
+
+#ifdef DEBUG_TIMEFPS
+    QString time;
+    u_int16_t Year,mounth,days,H,M,S,ms;
+    TimeFunction to;
+    to.get_time_ms(Year,mounth,days,H,M,S,ms);
+    time=QString::number(H)+":"+QString::number(M)+":"+QString::number(S)+":"+QString::number(ms);
+    ui->label_49->setText(time);
+
+    long int l_ms1=ms+S*1000+M*60*1000+H*3600*1000;
+    long int l_ms2=(long int)msec2+(long int)sec2*1000+(long int)min2*60*1000+(long int)hour2*3600*1000;
+    static long int disms=l_ms1-l_ms2;
+    long int l_ms=l_ms1-l_ms2-disms;
+    QString dtime;
+    long int abs_ms=abs(l_ms);
+    uint16_t dH=abs_ms/(3600*1000);
+    uint16_t dM=(abs_ms-dH*(3600*1000))/(60*1000);
+    uint16_t dS=(abs_ms-dH*(3600*1000)-dM*60*1000)/1000;
+    uint16_t dmS=abs_ms-dH*(3600*1000)-dM*60*1000-dS*1000;
+    QString stime=QString::number(dH)+":"+QString::number(dM)+":"+QString::number(dS)+":"+QString::number(dmS).sprintf("%03d",dmS);
+    if(l_ms<0)
+    {
+        stime="-"+stime;
+    }
+    ui->label_51->setText(stime);
+#endif
 
     b_init_show_pos_list_finish=true;
 }
@@ -1593,6 +1642,7 @@ void getposThread::run()
                     int real_readnum_1=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_STATE_REG_ADD,15,_p->pos_data);
                     int real_readnum_2=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_Y_POINT2_REG_ADD,4,_p->pos_data2);
                     int real_readnum_3=modbus_read_registers(_p->m_mcs->resultdata.ctx_result,ALS_SOLDER_REG_ADD,1,_p->pos_data3);
+
                     if(real_readnum_1<0||real_readnum_2<0||real_readnum_3<0)
                     {
                         if(_p->b_init_show_pos_failed_finish==true)

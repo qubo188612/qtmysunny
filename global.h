@@ -12,6 +12,7 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #endif
 
 //#define DEBUG_TEST
+#define DEBUG_TIMEFPS               //上位机和下位机时间戳测试
 #define DEBUG_MYINTERFACES
 
 #define CAMIMAGE_HEIGHT             960
@@ -183,9 +184,11 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALSROBOTCAM_ROBOTMOD_REG_ADD            0x0000  //机器人型号
 #define ALSROBOTCAM_ROBOTPORT_REG_ADD           0x0001  //机器人端口号
 
-#define ALSROBOTCAM_CAMWIDTH_REG_ADD            0x0005  //相机宽度视野
-#define ALSROBOTCAM_CAMHEIGHT_REG_ADD           0x0006  //相机高度视野
+#define ALSROBOTCAM_CAMWIDTH_REG_ADD            0x0005  //相机算法宽度
+#define ALSROBOTCAM_CAMHEIGHT_REG_ADD           0x0006  //相机算法高度
 #define ALSROBOTCAM_CAMFPS_REG_ADD              0x0007  //相机帧率
+#define ALSROBOTCAM_VIEW_CAM_WIDTH_REG_ADD      0x0008  //相机视野宽度
+#define ALSROBOTCAM_VIEW_CAM_HEIGHT_REG_ADD     0x0009  //相机视野高度
 
 /*****************************/
 //激光头计算结果寄存器

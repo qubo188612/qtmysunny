@@ -21,5 +21,7 @@ public:
     ~TimeFunction();
 
     void get_time_ms(std::string *timeOut);
+
+    void get_time_ms(u_int16_t &Y,u_int16_t &m,u_int16_t &d,u_int16_t &H,u_int16_t &M,u_int16_t &S,u_int16_t &ms);
 };
 #endif
