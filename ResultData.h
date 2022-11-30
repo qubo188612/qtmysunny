@@ -33,6 +33,7 @@ public:
     uint16_t alg101_threshold;
     uint16_t alg102_threshold;
     uint16_t alg103_threshold;
+    uint16_t alg104_threshold;
 
 protected:
 
