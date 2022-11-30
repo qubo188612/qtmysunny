@@ -50,6 +50,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->tab3tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
     ui->tab4tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
     ui->tab5tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
+    ui->tab6tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
 
     for(int i = 0; i < ui->tab2tableWidget->rowCount(); i++)//设置第一二列不可编辑
     {
