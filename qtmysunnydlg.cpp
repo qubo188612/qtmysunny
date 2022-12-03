@@ -1523,8 +1523,8 @@ void qtmysunnyDlg::init_show_pos_list()
 
     long int l_ms1=ms+S*1000+M*60*1000+H*3600*1000;
     long int l_ms2=(long int)msec2+(long int)sec2*1000+(long int)min2*60*1000+(long int)hour2*3600*1000;
-    static long int disms=l_ms1-l_ms2;
-    long int l_ms=l_ms1-l_ms2-disms;
+    long int disms=l_ms1-l_ms2;
+    long int l_ms=disms;
     QString dtime;
     long int abs_ms=abs(l_ms);
     uint16_t dH=abs_ms/(3600*1000);
