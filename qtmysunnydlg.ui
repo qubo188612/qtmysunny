@@ -150,6 +150,11 @@
      <string>摩卡-纳伯特机器人</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>岗上机器人</string>
+    </property>
+   </item>
   </widget>
   <widget class="QCheckBox" name="checkBox">
    <property name="geometry">
