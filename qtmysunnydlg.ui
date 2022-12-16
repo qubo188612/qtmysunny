@@ -580,7 +580,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -1981,7 +1981,7 @@
      </column>
      <item row="0" column="0">
       <property name="text">
-       <string>pingjun</string>
+       <string>二值阈值</string>
       </property>
      </item>
      <item row="0" column="1">
@@ -1996,7 +1996,7 @@
      </item>
      <item row="1" column="0">
       <property name="text">
-       <string>b_yanmofuzhu</string>
+       <string>飞溅过滤</string>
       </property>
      </item>
      <item row="1" column="1">
@@ -2011,7 +2011,7 @@
      </item>
      <item row="2" column="0">
       <property name="text">
-       <string>b_gudingquyu</string>
+       <string>固定区域</string>
       </property>
      </item>
      <item row="2" column="1">
@@ -2026,7 +2026,7 @@
      </item>
      <item row="3" column="0">
       <property name="text">
-       <string>widthliantongdis</string>
+       <string>激光横向类聚</string>
       </property>
      </item>
      <item row="3" column="1">
@@ -2041,7 +2041,7 @@
      </item>
      <item row="4" column="0">
       <property name="text">
-       <string>highliantongdis</string>
+       <string>激光纵向类聚</string>
       </property>
      </item>
      <item row="4" column="1">
@@ -2056,7 +2056,7 @@
      </item>
      <item row="5" column="0">
       <property name="text">
-       <string>gujiaerzhi</string>
+       <string>激光二值阈值</string>
       </property>
      </item>
      <item row="5" column="1">
@@ -2071,7 +2071,7 @@
      </item>
      <item row="6" column="0">
       <property name="text">
-       <string>jiguanghight</string>
+       <string>激光最小高度</string>
       </property>
      </item>
      <item row="6" column="1">
@@ -2086,7 +2086,7 @@
      </item>
      <item row="7" column="0">
       <property name="text">
-       <string>jiguanglong</string>
+       <string>激光最小长度</string>
       </property>
      </item>
      <item row="7" column="1">
@@ -2101,7 +2101,7 @@
      </item>
      <item row="8" column="0">
       <property name="text">
-       <string>jiguangkuandu</string>
+       <string>激光最粗限制</string>
       </property>
      </item>
      <item row="8" column="1">
@@ -2116,7 +2116,7 @@
      </item>
      <item row="9" column="0">
       <property name="text">
-       <string>Updif</string>
+       <string>侧板激光最大斜率</string>
       </property>
      </item>
      <item row="9" column="1">
@@ -2131,7 +2131,7 @@
      </item>
      <item row="10" column="0">
       <property name="text">
-       <string>Updifmin</string>
+       <string>侧板激光最小斜率</string>
       </property>
      </item>
      <item row="10" column="1">
@@ -2146,7 +2146,7 @@
      </item>
      <item row="11" column="0">
       <property name="text">
-       <string>Uplong</string>
+       <string>侧板激光最小长度</string>
       </property>
      </item>
      <item row="11" column="1">
@@ -2161,7 +2161,7 @@
      </item>
      <item row="12" column="0">
       <property name="text">
-       <string>Downdif</string>
+       <string>底板激光最小斜率</string>
       </property>
      </item>
      <item row="12" column="1">
@@ -2176,7 +2176,7 @@
      </item>
      <item row="13" column="0">
       <property name="text">
-       <string>Downdifmin</string>
+       <string>底板激光最大斜率</string>
       </property>
      </item>
      <item row="13" column="1">
@@ -2191,7 +2191,7 @@
      </item>
      <item row="14" column="0">
       <property name="text">
-       <string>Downdlong</string>
+       <string>底板激光最小斜率</string>
       </property>
      </item>
      <item row="14" column="1">
@@ -2206,7 +2206,7 @@
      </item>
      <item row="15" column="0">
       <property name="text">
-       <string>St_Down</string>
+       <string>侧板激光最远起点</string>
       </property>
      </item>
      <item row="15" column="1">
@@ -2221,7 +2221,7 @@
      </item>
      <item row="16" column="0">
       <property name="text">
-       <string>Ed_Down</string>
+       <string>侧板激光最近终点</string>
       </property>
      </item>
      <item row="16" column="1">
@@ -2236,7 +2236,7 @@
      </item>
      <item row="17" column="0">
       <property name="text">
-       <string>St_Up</string>
+       <string>底板激光最远起点</string>
       </property>
      </item>
      <item row="17" column="1">
@@ -2251,7 +2251,7 @@
      </item>
      <item row="18" column="0">
       <property name="text">
-       <string>Ed_Up</string>
+       <string>底板激光最近终点</string>
       </property>
      </item>
      <item row="18" column="1">
@@ -2266,7 +2266,7 @@
      </item>
      <item row="19" column="0">
       <property name="text">
-       <string>Updif2</string>
+       <string>焊缝二值阈值</string>
       </property>
      </item>
      <item row="19" column="1">
@@ -2281,7 +2281,7 @@
      </item>
      <item row="20" column="0">
       <property name="text">
-       <string>Updifmin2</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="20" column="1">
@@ -2296,7 +2296,7 @@
      </item>
      <item row="21" column="0">
       <property name="text">
-       <string>dis_center_st</string>
+       <string>侧板距焊缝统计起点</string>
       </property>
      </item>
      <item row="21" column="1">
@@ -2311,7 +2311,7 @@
      </item>
      <item row="22" column="0">
       <property name="text">
-       <string>dis_center_ed</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="22" column="1">
@@ -2326,7 +2326,7 @@
      </item>
      <item row="23" column="0">
       <property name="text">
-       <string>b_opengudingdimian</string>
+       <string>底板拟合</string>
       </property>
      </item>
      <item row="23" column="1">
@@ -2341,7 +2341,7 @@
      </item>
      <item row="24" column="0">
       <property name="text">
-       <string>dimianpangdingjuli</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="24" column="1">
@@ -2356,7 +2356,7 @@
      </item>
      <item row="25" column="0">
       <property name="text">
-       <string>dimianpingjunshunum</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="25" column="1">
@@ -2371,7 +2371,7 @@
      </item>
      <item row="26" column="0">
       <property name="text">
-       <string>dis_center_st2</string>
+       <string>底板距焊缝统计起点</string>
       </property>
      </item>
      <item row="26" column="1">
@@ -2386,7 +2386,7 @@
      </item>
      <item row="27" column="0">
       <property name="text">
-       <string>dis_center_ed2</string>
+       <string>底板距焊缝统计终点</string>
       </property>
      </item>
      <item row="27" column="1">
@@ -2401,7 +2401,7 @@
      </item>
      <item row="28" column="0">
       <property name="text">
-       <string>dis_center_st3</string>
+       <string>缝宽检测距离</string>
       </property>
      </item>
      <item row="28" column="1">
@@ -2416,7 +2416,7 @@
      </item>
      <item row="29" column="0">
       <property name="text">
-       <string>dis_center_ed3</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="29" column="1">
@@ -2431,7 +2431,7 @@
      </item>
      <item row="30" column="0">
       <property name="text">
-       <string>xuexijuli</string>
+       <string>底板拟合学习距离</string>
       </property>
      </item>
      <item row="30" column="1">
@@ -2446,7 +2446,7 @@
      </item>
      <item row="31" column="0">
       <property name="text">
-       <string>b_pingpowending</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="31" column="1">
@@ -2461,7 +2461,7 @@
      </item>
      <item row="32" column="0">
       <property name="text">
-       <string>pingpowending_dis</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="32" column="1">
@@ -2476,7 +2476,7 @@
      </item>
      <item row="33" column="0">
       <property name="text">
-       <string>b_xielvopen</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="33" column="1">
@@ -2491,7 +2491,7 @@
      </item>
      <item row="34" column="0">
       <property name="text">
-       <string>xielvfanwei</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="34" column="1">
@@ -2506,7 +2506,7 @@
      </item>
      <item row="35" column="0">
       <property name="text">
-       <string>Uplong2</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="35" column="1">
@@ -2521,7 +2521,7 @@
      </item>
      <item row="36" column="0">
       <property name="text">
-       <string>cebankongdongdis</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="36" column="1">
@@ -2536,7 +2536,7 @@
      </item>
      <item row="37" column="0">
       <property name="text">
-       <string>qiatouquweijuli</string>
+       <string>预留</string>
       </property>
      </item>
      <item row="37" column="1">
