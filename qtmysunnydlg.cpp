@@ -1481,6 +1481,9 @@ void qtmysunnyDlg::init_show_pos_list()
 {
     float Y=(int16_t)pos_data[1]/100.0;
     float Z=(int16_t)pos_data[2]/100.0;
+    float RY=(int16_t)pos_data[3]/1000.0;
+    float RZ=(int16_t)pos_data[4]/1000.0;
+
 
     u_int16_t hour=(int16_t)pos_data[5];
     u_int16_t min=(int16_t)pos_data[6];
@@ -1519,6 +1522,10 @@ void qtmysunnyDlg::init_show_pos_list()
         ui->label_25->setText(QString::fromLocal8Bit("是"));
     else if(pos_data3[0]==0)
         ui->label_25->setText(QString::fromLocal8Bit("否"));
+
+
+    ui->label_55->setText(QString::number(RY,'f',3));
+    ui->label_56->setText(QString::number(RZ,'f',3));
 
 #ifdef DEBUG_TIMEFPS
     QString time;
