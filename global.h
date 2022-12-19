@@ -226,7 +226,9 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 
 #define ALSROBOTCAM_ROBOTMOD_REG_ADD            0x0000  //机器人型号
 #define ALSROBOTCAM_ROBOTPORT_REG_ADD           0x0001  //机器人端口号
-
+#define ALSROBOTCAM_COMPENSATION_X              0x0002  //标定补偿X
+#define ALSROBOTCAM_COMPENSATION_Y              0x0003  //标定补偿Y
+#define ALSROBOTCAM_COMPENSATION_Z              0x0004  //标定补偿Z
 #define ALSROBOTCAM_CAMWIDTH_REG_ADD            0x0005  //相机算法宽度
 #define ALSROBOTCAM_CAMHEIGHT_REG_ADD           0x0006  //相机算法高度
 #define ALSROBOTCAM_CAMFPS_REG_ADD              0x0007  //相机帧率
@@ -242,8 +244,8 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALS_STATE_REG_ADD                       0x0002  //搜索状态
 #define ALS_Y_POINT1_REG_ADD                    0x0003  //Y坐标POINT1
 #define ALS_Z_POINT1_REG_ADD                    0x0004  //Z坐标POINT1
-#define ALS_WELD_WIDTH_REG_ADD                  0x0005  //焊缝宽度
-#define ALS_WELD_HIGHT_REG_ADD                  0x0006  //焊缝高度
+#define ALS_WELD_WIDTH_REG_ADD                  0x0005  //焊缝Y法向量
+#define ALS_WELD_HIGHT_REG_ADD                  0x0006  //焊缝Z法向量
 #define ALS_TIMESTAMP_HOURS_REG_ADD             0x0007  //时间戳时
 #define ALS_TIMESTAMP_MINUTES_REG_ADD           0x0008  //时间戳分
 #define ALS_TIMESTAMP_SECONDS_REG_ADD           0x0009  //时间戳秒
@@ -263,6 +265,9 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALS_Z_POINT4_REG_ADD                    0x0055  //Z坐标POINT4
 
 #define ALS_SOLDER_REG_ADD                      0x0060  //焊点
+
+#define ALS_X_POINT1_REG_ADD                    0x0070  //X坐标POINT
+#define ALS_WELD_LONG_REG_ADD                   0x0071  //焊缝X法向量
 
 #define ALS_OPEN_REG_ADD                        0x0101  //跟踪开关
 #define ALS_TASKNUM_REG_ADD                     0x0102  //任务号
