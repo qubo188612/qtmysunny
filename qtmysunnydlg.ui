@@ -147,7 +147,7 @@
    </item>
    <item>
     <property name="text">
-     <string>摩卡-纳伯特机器人</string>
+     <string>藦卡-纳伯特机器人</string>
     </property>
    </item>
    <item>
@@ -158,6 +158,11 @@
    <item>
     <property name="text">
      <string>埃夫特机器人</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>藦卡机器人</string>
     </property>
    </item>
   </widget>
