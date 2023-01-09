@@ -208,35 +208,18 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
        }
     });
 
-    connect(ui->tasklistshowBtn,&QPushButton::clicked,[=](){
-        if(m_mcs->resultdata.link_ftp_state==true)
-        {
-            QJsonObject json;
-            json.insert("ls","task");
-            QString msg=JsonToQstring(json);
-            m_mcs->resultdata.client->write(msg.toUtf8());
-            if(ui->checkBox->isChecked()==false)
-                 ui->record->append(QString::fromLocal8Bit("查看任务号列表"));
-        }
-        else
-        {
-            if(ui->checkBox->isChecked()==false)
-                 ui->record->append(QString::fromLocal8Bit("请连接相机后再查看任务号列表"));
-        }
-     });
-
     connect(ui->taskclearBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_ftp_state==true)
         {
             taskclear->init_dlg_show();
-            taskclear->setWindowTitle(QString::fromLocal8Bit("清除任务号列表"));
+            taskclear->setWindowTitle(QString::fromLocal8Bit("查看任务号列表"));
             taskclear->exec();
             taskclear->close_dlg_show();
         }
         else
         {
             if(ui->checkBox->isChecked()==false)
-                 ui->record->append(QString::fromLocal8Bit("请连接相机后再清除任务号"));
+                 ui->record->append(QString::fromLocal8Bit("请连接相机后再查看任务号列表"));
         }
      });
 
