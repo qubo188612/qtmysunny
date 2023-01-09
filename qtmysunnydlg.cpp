@@ -151,6 +151,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     m_mcs->resultdata.client=new QTcpSocket(this);
 
     showtasknum=new showtasknumdlg;
+    taskclear=new taskcleardlg(m_mcs);
 #if _MSC_VER||WINDOWS_TCP
 #else
     cambuild=new cambuilddlg(m_mcs);
@@ -224,6 +225,21 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         }
      });
 
+    connect(ui->taskclearBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->resultdata.link_ftp_state==true)
+        {
+            taskclear->init_dlg_show();
+            taskclear->setWindowTitle(QString::fromLocal8Bit("清除任务号列表"));
+            taskclear->exec();
+            taskclear->close_dlg_show();
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append(QString::fromLocal8Bit("请连接相机后再清除任务号"));
+        }
+     });
+
     //FTP端接收数据
     connect(m_mcs->resultdata.client,&QTcpSocket::readyRead,[=](){
         if(m_mcs->resultdata.link_ftp_state==true)
@@ -269,13 +285,29 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                              ui->record->append(msg);
                          }
                     }
+                    taskclear->set_task_num();
                 }
                 else if(keyString=="touch")
                 {
                     if(it.value().toString()=="ok")
                     {
-                        ui->record->append(QString::fromLocal8Bit("自定义任务号生成成功"));
+                        if(ui->checkBox->isChecked()==false)
+                        {
+                            ui->record->append(QString::fromLocal8Bit("自定义任务号生成成功"));
+                        }
                     }
+                }
+                else if(keyString=="rm")
+                {
+                    if(it.value().toString()=="ok")
+                    {
+                        if(ui->checkBox->isChecked()==false)
+                        {
+                            ui->record->append(QString::fromLocal8Bit("删除自定义任务号完成"));
+                        }
+                    }
+                    taskclear->delete_task_num();
+                    taskclear->init_dlg_show();
                 }
             }
         }
@@ -1662,6 +1694,7 @@ qtmysunnyDlg::~qtmysunnyDlg()
     */
     delete thread1;
     delete showtasknum;
+    delete taskclear;
     delete m_mcs->resultdata.client;
 #if _MSC_VER||WINDOWS_TCP
 #else

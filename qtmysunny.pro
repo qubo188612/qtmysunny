@@ -25,7 +25,8 @@ SOURCES += \
         qtmysunnydlg.cpp \
         showtasknumdlg.cpp \
         soptocameratcpip.cpp \
-        soptopcamera.cpp
+        soptopcamera.cpp \
+        taskcleardlg.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,7 +36,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 FORMS += \
     cambuilddlg.ui \
     qtmysunnydlg.ui \
-    showtasknumdlg.ui
+    showtasknumdlg.ui \
+    taskcleardlg.ui
 
 HEADERS += \
     E2proomData.h \
@@ -52,6 +54,7 @@ HEADERS += \
     showtasknumdlg.h \
     soptocameratcpip.h \
     soptopcamera.h \
+    taskcleardlg.h \
     tistdtypes.h
 
 win32{

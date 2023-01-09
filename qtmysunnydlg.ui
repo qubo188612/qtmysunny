@@ -4997,14 +4997,27 @@
   <widget class="QPushButton" name="tasklistshowBtn">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>450</x>
      <y>160</y>
-     <width>151</width>
+     <width>111</width>
      <height>51</height>
     </rect>
    </property>
    <property name="text">
     <string>当前任务号列表</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="taskclearBtn">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>160</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>清除任务号</string>
    </property>
   </widget>
  </widget>
