@@ -211,6 +211,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->taskclearBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_ftp_state==true)
         {
+            taskclear->get_task_list();
             taskclear->init_dlg_show();
             taskclear->setWindowTitle(QString::fromLocal8Bit("查看任务号列表"));
             taskclear->exec();
@@ -290,7 +291,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                         }
                     }
                     taskclear->delete_task_num();
-                    taskclear->init_dlg_show();
+                    taskclear->get_task_list();
                 }
             }
         }
