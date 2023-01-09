@@ -1,4 +1,4 @@
-#include "taskcleardlg.h"
+﻿#include "taskcleardlg.h"
 #include "ui_taskcleardlg.h"
 
 taskcleardlg::taskcleardlg(my_parameters *mcs,QWidget *parent) :
@@ -44,7 +44,8 @@ taskcleardlg::taskcleardlg(my_parameters *mcs,QWidget *parent) :
      });
 
     connect(ui->taskclearallBtn,&QPushButton::clicked,[=](){
-        QMessageBox::StandardButton result= QMessageBox::information(this, QString::fromLocal8Bit("提示信息"),
+        QMessageBox::StandardButton result= QMessageBox::information(this,
+                                                                      QString::fromLocal8Bit("提示信息"),
                                                                       QString::fromLocal8Bit("确认删除全部自定义任务号？"),
                                                                       QMessageBox::Yes|QMessageBox::No,
                                                                       QMessageBox::No
