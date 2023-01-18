@@ -83,6 +83,15 @@ LIBS += D:/opencv-4.6.0/build/x64/vc16/lib/opencv*.lib \
 INCLUDEPATH += D:/libmodbus/include \
 
 LIBS += D:/libmodbus/x64/lib/*.lib
+
+#QSsh库的添加
+INCLUDEPATH += C:/Users/34638/Documents/QtProject/QSsh/src/libs/qssh \
+
+LIBS += C:/Users/34638/Documents/QtProject/QSsh/build/lib/QSsh.lib
+
+INCLUDEPATH += C:/Botan/include/botan-2 \
+
+LIBS += C:/Botan/lib/*.lib
 }
 
 unix {

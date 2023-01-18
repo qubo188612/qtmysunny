@@ -1,4 +1,4 @@
-#include "CConnectionForSshClient.h"
+﻿#include "CConnectionForSshClient.h"
 #include <QDebug>
 
 
@@ -112,12 +112,9 @@ void CConnectionForSshClient::slotInitForClild()
 
 void CConnectionForSshClient::slotCreateConnection()
 {
-
-    qDebug()<<"CConnectionForSshClient::slotCreateConnection检查连接" ;
-
+    qDebug()<<"CConnectionForSshClient::slotCreateConnection检查连接";
     if(true == m_bConnected)
         return;
-
     if(nullptr == m_pSshSocket){
         m_pSshSocket = new QSsh::SshConnection(m_argParameters);
         connect(m_pSshSocket,SIGNAL(connected()),SLOT(slotConnected()));
