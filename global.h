@@ -14,6 +14,7 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 //#define DEBUG_TEST
 #define DEBUG_TIMEFPS               //上位机和下位机时间戳测试
 #define DEBUG_MYINTERFACES
+#define DEBUS_SSH
 
 #define CAMIMAGE_HEIGHT             960
 #define CAMIMAGE_WIDTH              1280

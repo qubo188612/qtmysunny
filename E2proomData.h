@@ -11,6 +11,17 @@
 #endif
 #include "tistdtypes.h"
 #include "FileOut.h"
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QFile>
+#include <QJsonObject>
+#include <QDebug>
+#include <QJsonArray>
+#include <QByteArray>
+
+#define E2POOM_SUNNYDLG_SYSPATH_MOTO        "./SAVE/E2P_SUNNYDLG.bsd"
+
+#define E2POOM_SSHDLG_SYSPATH_MOTO          "./SAVE/E2P_SSHDLG.bsd"
 
 #define E2POOM_CAMDLG_SAVEBUFF              64
 #define E2POOM_CAMDLG_SYSPATH_MOTO			"./SAVE/E2P_CAMDLG.bsd"
@@ -71,6 +82,21 @@ public:
     E2proomData();
     ~E2proomData();
 
+    QString sunnydlg_ipaddress;
+    void write_sunnydlg_para();
+    void read_sunnydlg_para();
+    void init_sunnydlg_para();
+    QVariantHash sunnydlg_enjson();
+    int sunnydlg_dejson(QByteArray allData);
+
+    QString sshdlg_usename;
+    QString sshdlg_password;
+    void write_sshdlg_para();
+    void read_sshdlg_para();
+    void init_sshdlg_para();
+    QVariantHash sshdlg_enjson();
+    int sshdlg_dejson(QByteArray allData);
+
     Int32 camdlg_modposX1;
     Int32 camdlg_modposY1;
     Int32 camdlg_modposX2;
@@ -90,6 +116,7 @@ public:
     Int32 camdlg_cvimg_posY4;
 
     void write_camdlg_para();
+    void read_camdlg_para();
     void init_camdlg_para();
 
     Int32 camdlg_modposX1_min;

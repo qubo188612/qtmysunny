@@ -44,7 +44,6 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 
     ui->tabWidget->setCurrentIndex(0);
 
-    ui->IPadd->setText("192.168.1.2");
 
     ui->record->document()->setMaximumBlockCount(500);   //调试窗最大设置行数
 
@@ -148,7 +147,6 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         }
     }
 
-
     b_init_show_cvimage_inlab_finish=true;
     b_init_show_pos_failed_finish=true;
     b_init_show_pos_list_finish=true;
@@ -164,10 +162,15 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 
     m_mcs=m_mcs->Get();
 
+    ui->IPadd->setText(m_mcs->e2proomdata.sunnydlg_ipaddress);
+
     m_mcs->resultdata.client=new QTcpSocket(this);
 
     showtasknum=new showtasknumdlg;
     taskclear=new taskcleardlg(m_mcs);
+#ifdef DEBUS_SSH
+    sshpassword=new sshpasswordDlg(m_mcs);
+#endif
 #if _MSC_VER||WINDOWS_TCP
 #else
     cambuild=new cambuilddlg(m_mcs);
@@ -175,6 +178,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(ui->connectcameraBtn,&QPushButton::clicked,[=](){
        if(m_mcs->cam->sop_cam[0].b_connect==false)
        {
+          m_mcs->e2proomdata.sunnydlg_ipaddress=ui->IPadd->text();
+          m_mcs->e2proomdata.write_sunnydlg_para();
           img_windowshow(true,ui->widget);
           UpdataUi();
        }
@@ -1864,6 +1869,21 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                  ui->record->append(QString::fromLocal8Bit("请连接相机后再录制视频"));
         }
     });
+
+    connect(ui->stepupBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->cam->sop_cam[0].b_connect==true)
+        {
+            sshpassword->init_dlg_show();
+            sshpassword->setWindowTitle(QString::fromLocal8Bit("激光器升级"));
+            sshpassword->exec();
+            sshpassword->close_dlg_show();
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append(QString::fromLocal8Bit("请连接相机后再进行激光器升级"));
+        }
+    });
 }
 
 qtmysunnyDlg::~qtmysunnyDlg()
@@ -1878,6 +1898,9 @@ qtmysunnyDlg::~qtmysunnyDlg()
     delete thread1;
     delete showtasknum;
     delete taskclear;
+#ifdef DEBUS_SSH
+    delete sshpassword;
+#endif
     delete m_mcs->resultdata.client;
 #if _MSC_VER||WINDOWS_TCP
 #else
@@ -1999,7 +2022,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                     break;
                     case 3:
                     {
-                        ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:藦卡-纳伯特机器人"));
+                        ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:摩卡-纳伯特机器人"));
                         QString msg=QString::fromLocal8Bit("获取当前内部机器人端口号:")+QString::number(port);
                         ui->record->append(msg);
                     }
@@ -2343,7 +2366,7 @@ void qtmysunnyDlg::init_show_pos_list()
     uint16_t dM=(abs_ms-dH*(3600*1000))/(60*1000);
     uint16_t dS=(abs_ms-dH*(3600*1000)-dM*60*1000)/1000;
     uint16_t dmS=abs_ms-dH*(3600*1000)-dM*60*1000-dS*1000;
-    QString stime=QString::number(dH)+":"+QString::number(dM)+":"+QString::number(dS)+":"+QString::number(dmS).sprintf("%03d",dmS);
+    QString stime=QString::number(dH)+":"+QString::number(dM)+":"+QString::number(dS)+":"+QString::number(dmS).asprintf("%03d",dmS);
     if(l_ms<0)
     {
         stime="-"+stime;

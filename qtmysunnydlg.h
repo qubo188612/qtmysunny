@@ -5,6 +5,7 @@
 #include <QDialog>
 #include "showtasknumdlg.h"
 #include "taskcleardlg.h"
+#include "sshpassworddlg.h"
 #if _MSC_VER||WINDOWS_TCP
 #else
 #include "cambuilddlg.h"
@@ -71,6 +72,7 @@ public:
 
     int ctx_result_dosomeing;
 
+
 //  void showEvent(QShowEvent *e);//重写函数避免界面不刷新
 
 private:
@@ -78,6 +80,7 @@ private:
 
     showtasknumdlg *showtasknum;
     taskcleardlg *taskclear;
+    sshpasswordDlg *sshpassword;
 #if _MSC_VER||WINDOWS_TCP
 #else
     cambuilddlg *cambuild;
@@ -89,6 +92,7 @@ private slots:
     void init_show_cvimage_inlab(cv::Mat);
     void init_set_task();
     void on_tabWidget_tabBarClicked(int index);
+
 };
 
 class getposThread : public QThread

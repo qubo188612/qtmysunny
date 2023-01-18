@@ -12,6 +12,7 @@ QT       += core gui network
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        CConnectionForSshClient.cpp \
         E2proomData.cpp \
         FileOut.cpp \
         PictureBox.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
         showtasknumdlg.cpp \
         soptocameratcpip.cpp \
         soptopcamera.cpp \
+        sshpassworddlg.cpp \
         taskcleardlg.cpp
 
 # Default rules for deployment.
@@ -37,9 +39,11 @@ FORMS += \
     cambuilddlg.ui \
     qtmysunnydlg.ui \
     showtasknumdlg.ui \
+    sshpassworddlg.ui \
     taskcleardlg.ui
 
 HEADERS += \
+    CConnectionForSshClient.h \
     E2proomData.h \
     FileOut.h \
     PictureBox.h \
@@ -54,6 +58,7 @@ HEADERS += \
     showtasknumdlg.h \
     soptocameratcpip.h \
     soptopcamera.h \
+    sshpassworddlg.h \
     taskcleardlg.h \
     tistdtypes.h
 
@@ -101,4 +106,10 @@ LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interf
 INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
 
 LIBS += /home/qubo/modbus/libmodbus/install/lib/libmodbus.so
+
+#QSsh库的添加
+INCLUDEPATH += /home/qubo/QSsh/src/libs/qssh \
+
+LIBS += /home/qubo/QSsh/build/lib/lib*
+
 }

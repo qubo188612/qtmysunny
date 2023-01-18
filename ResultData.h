@@ -1,9 +1,13 @@
 #ifndef RESULTDATA_H
 #define RESULTDATA_H
+#include "global.h"
 #include "opencv2/opencv.hpp"
 #include <modbus/modbus.h>
 #include <QThread>
 #include <QTcpSocket>
+#ifdef DEBUS_SSH
+#include <CConnectionForSshClient.h>
+#endif
 
 #define MODBUS_ROBOT_REGISTERS_NUM      10
 #define MODBUS_RESULT_MAXNUM            400
@@ -34,6 +38,14 @@ public:
     modbus_t *ctx_param;
     modbus_t *ctx_result;
     QTcpSocket *client;
+#ifdef DEBUS_SSH
+    bool m_bConnectState;
+    bool m_bFileState;
+    CConnectionForSshClient *ctx_ssh;
+    QString setup_file;
+    int updata_step;
+    QString dockerid;
+#endif
 
     std::vector<taskinfo> taskfilename;//当前激光器有几个任务号
 

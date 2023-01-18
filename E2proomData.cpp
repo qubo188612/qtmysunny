@@ -111,66 +111,9 @@ void E2proomData::check_para()
 
 void E2proomData::read_para()
 {
-    Uint8 *buff=NULL;
-    CFileOut fo;
-
-    buff=new Uint8[E2POOM_CAMDLG_SAVEBUFF];
-    if(buff==NULL)
-        return;
-    if(0 > fo.ReadFile((char*)E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF))
-    {
-        init_camdlg_para();
-        if(buff!=NULL)
-        {
-          delete []buff;
-          buff=NULL;
-        }
-    }
-    else
-    {
-      Int32 *i32_p;
-
-      i32_p = (Int32*)buff;
-      camdlg_modposX1=*i32_p;
-      i32_p++;
-      camdlg_modposY1=*i32_p;
-      i32_p++;
-      camdlg_modposX2=*i32_p;
-      i32_p++;
-      camdlg_modposY2=*i32_p;
-      i32_p++;
-      camdlg_modposX3=*i32_p;
-      i32_p++;
-      camdlg_modposY3=*i32_p;
-      i32_p++;
-      camdlg_modposX4=*i32_p;
-      i32_p++;
-      camdlg_modposY4=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posX1=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posY1=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posX2=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posY2=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posX3=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posY3=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posX4=*i32_p;
-      i32_p++;
-      camdlg_cvimg_posY4=*i32_p;
-      i32_p++;
-    }
-    if(buff!=NULL)
-    {
-      delete []buff;
-      buff=NULL;
-    }
-
-
+    read_camdlg_para();
+    read_sunnydlg_para();
+    read_sshdlg_para();
     check_para();
 }
 
@@ -229,6 +172,68 @@ void E2proomData::write_camdlg_para()
     }
 }
 
+void E2proomData::read_camdlg_para()
+{
+    Uint8 *buff=NULL;
+    CFileOut fo;
+
+    buff=new Uint8[E2POOM_CAMDLG_SAVEBUFF];
+    if(buff==NULL)
+        return;
+    if(0 > fo.ReadFile((char*)E2POOM_CAMDLG_SYSPATH_MOTO,buff,E2POOM_CAMDLG_SAVEBUFF))
+    {
+        init_camdlg_para();
+        if(buff!=NULL)
+        {
+          delete []buff;
+          buff=NULL;
+        }
+    }
+    else
+    {
+      Int32 *i32_p;
+
+      i32_p = (Int32*)buff;
+      camdlg_modposX1=*i32_p;
+      i32_p++;
+      camdlg_modposY1=*i32_p;
+      i32_p++;
+      camdlg_modposX2=*i32_p;
+      i32_p++;
+      camdlg_modposY2=*i32_p;
+      i32_p++;
+      camdlg_modposX3=*i32_p;
+      i32_p++;
+      camdlg_modposY3=*i32_p;
+      i32_p++;
+      camdlg_modposX4=*i32_p;
+      i32_p++;
+      camdlg_modposY4=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX1=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY1=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX2=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY2=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX3=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY3=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posX4=*i32_p;
+      i32_p++;
+      camdlg_cvimg_posY4=*i32_p;
+      i32_p++;
+    }
+    if(buff!=NULL)
+    {
+      delete []buff;
+      buff=NULL;
+    }
+}
+
 void E2proomData::init_camdlg_para()
 {
     camdlg_modposX1=camdlg_modposX1_use;
@@ -247,4 +252,178 @@ void E2proomData::init_camdlg_para()
     camdlg_cvimg_posY3=camdlg_cvimg_posY3_use;
     camdlg_cvimg_posX4=camdlg_cvimg_posX4_use;
     camdlg_cvimg_posY4=camdlg_cvimg_posY4_use;
+}
+
+void E2proomData::write_sunnydlg_para()
+{
+    QVariantHash data=sunnydlg_enjson();
+
+    QJsonObject rootObj = QJsonObject::fromVariantHash(data);
+    QJsonDocument document;
+    document.setObject(rootObj);
+
+    QByteArray byte_array = document.toJson(QJsonDocument::Compact);
+    QString json_str(byte_array);
+    //根据实际填写路径
+    QFile file(E2POOM_SUNNYDLG_SYSPATH_MOTO);
+
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "file error!";
+        return;
+    }
+    QTextStream in(&file);
+    in << json_str;
+
+    file.close();   // 关闭file
+
+    return;
+}
+
+void E2proomData::read_sunnydlg_para()
+{
+    QFile loadFile(E2POOM_SUNNYDLG_SYSPATH_MOTO);
+
+    if (!loadFile.open(QIODevice::ReadOnly))
+    {
+        init_sunnydlg_para();
+        return;
+    }
+
+    QByteArray allData = loadFile.readAll();
+    loadFile.close();
+
+    if(0!=sunnydlg_dejson(allData))
+    {
+        init_sunnydlg_para();
+        return;
+    }
+}
+
+void E2proomData::init_sunnydlg_para()
+{
+    sunnydlg_ipaddress="192.168.1.2";
+}
+
+QVariantHash E2proomData::sunnydlg_enjson()
+{
+    QVariantHash data;
+    data.insert("sunnydlg_ipaddress", sunnydlg_ipaddress);
+
+    return data;
+}
+
+int E2proomData::sunnydlg_dejson(QByteArray allData)
+{
+    QJsonParseError json_error;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(allData, &json_error));
+
+    if (json_error.error != QJsonParseError::NoError)
+    {
+        qDebug() << "JSON error!";
+        return 1;
+    }
+
+    QJsonObject rootObj = jsonDoc.object();
+    QJsonObject::Iterator it;
+    for(it=rootObj.begin();it!=rootObj.end();it++)//遍历Key
+    {
+        QString keyString=it.key();
+        if(keyString=="sunnydlg_ipaddress")//相机
+        {
+            sunnydlg_ipaddress=it.value().toString();
+        }
+    }
+
+    return 0;
+}
+
+void E2proomData::write_sshdlg_para()
+{
+    QVariantHash data=sshdlg_enjson();
+
+    QJsonObject rootObj = QJsonObject::fromVariantHash(data);
+    QJsonDocument document;
+    document.setObject(rootObj);
+
+    QByteArray byte_array = document.toJson(QJsonDocument::Compact);
+    QString json_str(byte_array);
+    //根据实际填写路径
+    QFile file(E2POOM_SSHDLG_SYSPATH_MOTO);
+
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "file error!";
+        return;
+    }
+    QTextStream in(&file);
+    in << json_str;
+
+    file.close();   // 关闭file
+
+    return;
+}
+
+void E2proomData::read_sshdlg_para()
+{
+    QFile loadFile(E2POOM_SSHDLG_SYSPATH_MOTO);
+
+    if (!loadFile.open(QIODevice::ReadOnly))
+    {
+        init_sshdlg_para();
+        return;
+    }
+
+    QByteArray allData = loadFile.readAll();
+    loadFile.close();
+
+    if(0!=sshdlg_dejson(allData))
+    {
+        init_sshdlg_para();
+        return;
+    }
+}
+
+void E2proomData::init_sshdlg_para()
+{
+    sshdlg_usename="pi";
+    sshdlg_password="123456";
+}
+
+QVariantHash E2proomData::sshdlg_enjson()
+{
+    QVariantHash data;
+    data.insert("sshdlg_usename", sshdlg_usename);
+    data.insert("sshdlg_password", sshdlg_password);
+
+    return data;
+}
+
+int E2proomData::sshdlg_dejson(QByteArray allData)
+{
+    QJsonParseError json_error;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(allData, &json_error));
+
+    if (json_error.error != QJsonParseError::NoError)
+    {
+        qDebug() << "JSON error!";
+        return 1;
+    }
+
+    QJsonObject rootObj = jsonDoc.object();
+    QJsonObject::Iterator it;
+    for(it=rootObj.begin();it!=rootObj.end();it++)//遍历Key
+    {
+        QString keyString=it.key();
+        if(keyString=="sshdlg_usename")//相机
+        {
+            sshdlg_usename=it.value().toString();
+        }
+        if(keyString=="sshdlg_password")//相机
+        {
+            sshdlg_password=it.value().toString();
+        }
+    }
+
+    return 0;
 }
