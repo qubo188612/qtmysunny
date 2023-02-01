@@ -5,6 +5,8 @@
 #include <QDialog>
 #include "my_parameters.h"
 
+#ifdef DEBUS_SSH
+
 namespace Ui {
 class sshpasswordDlg;
 }
@@ -21,10 +23,9 @@ public:
 
     void init_dlg_show();
     void close_dlg_show();
-#ifdef DEBUS_SSH
     void SshConnect();
     void createSSHConnection();
-#endif
+
 private:
     Ui::sshpasswordDlg *ui;
 private slots:
@@ -36,5 +37,7 @@ signals:
     void sigDisconnected();
     void sigSendFile(QString file,QString scpto);
 };
+
+#endif
 
 #endif // SSHPASSWORDDLG_H

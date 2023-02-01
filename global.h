@@ -1,7 +1,7 @@
 ﻿#ifndef GLOBAL_H
 #define GLOBAL_H
 
-//#define WINDOWS_TCP 1   //linux仿windowstcp测试
+//#define WINDOWS_TCP 1   //linux仿windowstcp传输相机图像测试开关
 #if _MSC_VER
 #include "tistdtypes.h"
 
@@ -11,10 +11,9 @@ typedef uint32_t u_int32_t; /* u_int32_t is defined in <machine/types.h> */
 typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #endif
 
-//#define DEBUG_TEST
-#define DEBUG_TIMEFPS               //上位机和下位机时间戳测试
-#define DEBUG_MYINTERFACES
-#define DEBUS_SSH
+#define DEBUG_TIMEFPS               //上位机和下位机时间戳测试开关
+#define DEBUG_MYINTERFACES          //显示算法结果或者算法原图开关
+#define DEBUS_SSH                   //ssh升级方式开关
 
 #define CAMIMAGE_HEIGHT             960
 #define CAMIMAGE_WIDTH              1280

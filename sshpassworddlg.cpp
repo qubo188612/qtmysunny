@@ -1,6 +1,8 @@
 ﻿#include "sshpassworddlg.h"
 #include "ui_sshpassworddlg.h"
 
+#ifdef DEBUS_SSH
+
 sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::sshpasswordDlg)
@@ -38,8 +40,8 @@ sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
     });
 
     connect(ui->sshcmdBtn,&QPushButton::clicked,[=](){
-//        if(m_mcs->resultdata.m_bFileState==true)
-//        {
+//      if(m_mcs->resultdata.m_bFileState==true)
+//      {
             if(m_mcs->resultdata.m_bConnectState)
             {
                 m_mcs->resultdata.updata_step=0;
@@ -47,11 +49,11 @@ sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
                 strCmd += "\n"; //添加回车
                 emit sigSend(strCmd);
             }
-//        }
-//        else
-//        {
-//            ui->record->append(QString::fromLocal8Bit("请先传输升级文件"));
-//        }
+//      }
+//      else
+//      {
+//          ui->record->append(QString::fromLocal8Bit("请先传输升级文件"));
+//      }
     });
 }
 
@@ -79,7 +81,6 @@ void sshpasswordDlg::close_dlg_show()
     }
 }
 
-#ifdef DEBUS_SSH
 
 void sshpasswordDlg::SshConnect()
 {
