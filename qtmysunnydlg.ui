@@ -590,7 +590,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>7</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -2528,7 +2528,7 @@
      </item>
      <item row="31" column="0">
       <property name="text">
-       <string>预留</string>
+       <string>焊点处无数据</string>
       </property>
      </item>
      <item row="31" column="1">
