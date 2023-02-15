@@ -150,10 +150,11 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     b_init_show_cvimage_inlab_finish=true;
     b_init_show_pos_failed_finish=true;
     b_init_show_pos_list_finish=true;
-    b_init_set_task=true;
+    b_init_set_task=true; 
 
     ctx_result_dosomeing=DO_NOTHING;
 
+    b_thread1=false;
     thread1 = new getposThread(this);
     connect(thread1, SIGNAL(Send_show_pos_list()), this, SLOT(init_show_pos_list()));
     connect(thread1, SIGNAL(Send_show_pos_failed()), this, SLOT(init_show_pos_failed()));
