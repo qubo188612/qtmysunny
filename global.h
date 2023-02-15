@@ -292,6 +292,8 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALSROBOTCAM_CAMFPS_REG_ADD              0x0007  //相机帧率
 #define ALSROBOTCAM_VIEW_CAM_WIDTH_REG_ADD      0x0008  //相机视野宽度
 #define ALSROBOTCAM_VIEW_CAM_HEIGHT_REG_ADD     0x0009  //相机视野高度
+#define ALSROBOTCAM_REVERSE_Y_REG_ADD           0x000a  //相机Y数据反向
+#define ALSROBOTCAM_REVERSE_Z_REG_ADD           0x000b  //相机Z数据反向
 
 /*****************************/
 //激光头计算结果寄存器
