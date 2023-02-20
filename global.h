@@ -15,9 +15,6 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define DEBUG_MYINTERFACES          //显示算法结果或者算法原图开关
 #define DEBUS_SSH                   //ssh升级方式开关
 
-#define CAMIMAGE_HEIGHT             960
-#define CAMIMAGE_WIDTH              1280
-
 #define CAMBUILD_IMAGE_WIDTH  1024
 #define CAMBUILD_IMAGE_HEIGHT 1536
 
