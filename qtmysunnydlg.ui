@@ -5571,7 +5571,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>(640-3072)</string>
+    <string>(640-1536)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_31">
@@ -5584,7 +5584,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>(480-2048)</string>
+    <string>(480-1024)</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_33">
