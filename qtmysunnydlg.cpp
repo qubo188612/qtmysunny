@@ -33,6 +33,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->label_51->hide();
 #endif
 
+    drow_height=CAMBUILD_IMAGE_HEIGHT;
+    drow_width=CAMBUILD_IMAGE_WIDTH;
     tabWidget_task=0;
     zoom_left=0;
     zoom_right=0;
@@ -51,9 +53,6 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->tabWidget->setTabText(7,QString::fromLocal8Bit("任务106"));
     ui->tabWidget->setTabText(8,QString::fromLocal8Bit("任务107"));
     ui->tabWidget->setTabText(9,QString::fromLocal8Bit("任务108"));
-
-    ui->tabWidget->setCurrentIndex(0);
-
 
     ui->record->document()->setMaximumBlockCount(500);   //调试窗最大设置行数
 
@@ -190,6 +189,8 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     m_mcs=m_mcs->Get();
 
     ui->IPadd->setText(m_mcs->e2proomdata.sunnydlg_ipaddress);
+
+    ui->tabWidget->setCurrentIndex(0);
 
     m_mcs->resultdata.client=new QTcpSocket(this);
 
@@ -362,6 +363,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
              tab_reg[2]=fps;
              tab_reg[3]=view_width;
              tab_reg[4]=view_height;
+
              int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_CAMWIDTH_REG_ADD,5,tab_reg);
              if(rc!=5)
              {
@@ -2551,21 +2553,24 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         }
         else
         {
-            u_int16_t widht=m_mcs->resultdata.red_robotset[0];
+            u_int16_t width=m_mcs->resultdata.red_robotset[0];
             u_int16_t height=m_mcs->resultdata.red_robotset[1];
             u_int16_t fps=m_mcs->resultdata.red_robotset[2];
             u_int16_t view_widht=m_mcs->resultdata.red_robotset[3];
             u_int16_t view_height=m_mcs->resultdata.red_robotset[4];
-            ui->cam_width->setText(QString::number(widht));
+            ui->cam_width->setText(QString::number(width));
             ui->cam_height->setText(QString::number(height));
             ui->cam_fps->setText(QString::number(fps));
             ui->cam_view_width->setText(QString::number(view_widht));
             ui->cam_view_height->setText(QString::number(view_height));
 
+            drow_height=height;
+            drow_width=width;
+
             if(ui->checkBox->isChecked()==false)
             {
                 ui->record->append(QString::fromLocal8Bit("获取当前相机设置:"));
-                QString msg=QString::number(widht)+"x"+QString::number(height)+" fps:"+QString::number(fps);
+                QString msg=QString::number(width)+"x"+QString::number(height)+" fps:"+QString::number(fps);
                 ui->record->append(msg);
             }
         }
@@ -3089,7 +3094,7 @@ void qtmysunnyDlg::init_show_cvimage_inlab(cv::Mat cv_image)
                                           cvimg.rows,
                                           cvimg.cols * cvimg.channels(), format);
         img = img.scaled(ui->widget->width(),ui->widget->height(),Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        drow_image(CAMBUILD_IMAGE_HEIGHT,CAMBUILD_IMAGE_WIDTH,&img);
+        drow_image(drow_height,drow_width,&img);
         ui->widget->setImage(img);
     }
     b_init_show_cvimage_inlab_finish=true;
