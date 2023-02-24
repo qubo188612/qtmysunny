@@ -2759,8 +2759,8 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             ui->cam_view_width->setText(QString::number(view_widht));
             ui->cam_view_height->setText(QString::number(view_height));
 
-            drow_height=height;
-            drow_width=width;
+            drow_height=width;
+            drow_width=height;
 
             if(ui->checkBox->isChecked()==false)
             {
