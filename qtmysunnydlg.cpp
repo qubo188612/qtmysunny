@@ -3751,7 +3751,7 @@ void getposThread::run()
                     emit Send_show_cvimage_inlab(_p->m_mcs->cam->sop_cam[0].cv_image);
                 }
             }
-            sleep(0);
+            usleep(30000);
         }
         else
         {
