@@ -1,7 +1,7 @@
 ﻿#include "sshpassworddlg.h"
 #include "ui_sshpassworddlg.h"
 
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
 
 sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
     QDialog(parent),

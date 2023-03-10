@@ -13,8 +13,55 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #endif
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMutex>
 
 #define RECVBUFFER_MAX      CAMBUILD_IMAGE_HEIGHT*CAMBUILD_IMAGE_WIDTH*3
+
+class Stamp
+{
+public:
+    int32_t sec;
+    u_int32_t nanosec;
+};
+
+class Header
+{
+public:
+    Stamp stamp;
+    QString frame_id;
+};
+
+class Lasertrackoutcloud
+{
+public:
+    float x;
+    float y;
+    int32_t u;
+    int32_t v;
+};
+
+class Targetpointoutcloud
+{
+public:
+    float x;
+    float y;
+    int32_t u;
+    int32_t v;
+    QString name;
+};
+
+class IFAlgorhmitcloud  //轮廓信息
+{
+public:
+    Header header;
+    std::vector<Lasertrackoutcloud> lasertrackoutcloud;
+    std::vector<Targetpointoutcloud> targetpointoutcloud;
+    bool solderjoints;
+};
 
 class tcprcvThread;
 
@@ -24,7 +71,9 @@ public:
     Soptocameratcpip();
     ~Soptocameratcpip();
 
-    void InitConnect(PictureBox *lab_show,QString hostName,int port);
+    u_int8_t connect_mod;       //当前连接方式:0为获取图像，1为获取点云
+    void InitConnect(PictureBox *lab_show,QString hostName,int port);       //tcp方式获取图像
+    void InitConnect_cloud(QString hostName,int port);  //tcp方式获取点云
     void DisConnect();
     bool b_connect;
 
@@ -49,6 +98,13 @@ public:
     bool luzhi;
     cv::VideoWriter writer;
 
+    QString JsonToQstring(QJsonObject jsonObject);
+
+    QJsonObject QstringToJson(QString jsonString);
+
+    IFAlgorhmitcloud IfAlgorhmitcloud;
+
+    volatile bool b_updatacloud_finish;
 protected:
 
     PictureBox *m_lab_show;
@@ -67,6 +123,7 @@ protected:
     void run();
 private:
     Soptocameratcpip *_p;
+
 };
 
 #endif

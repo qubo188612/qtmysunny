@@ -5,7 +5,7 @@
 #include <QDialog>
 #include "my_parameters.h"
 
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
 
 namespace Ui {
 class sshpasswordDlg;

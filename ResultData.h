@@ -5,7 +5,7 @@
 #include <modbus/modbus.h>
 #include <QThread>
 #include <QTcpSocket>
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
 #include <CConnectionForSshClient.h>
 #endif
 
@@ -38,7 +38,7 @@ public:
     modbus_t *ctx_param;
     modbus_t *ctx_result;
     QTcpSocket *client;
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
     bool m_bConnectState;
     bool m_bFileState;
     CConnectionForSshClient *ctx_ssh;

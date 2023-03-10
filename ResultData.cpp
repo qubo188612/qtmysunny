@@ -7,7 +7,7 @@ ResultData::ResultData()
     link_robotset_state=false;
     link_ftp_state=false;
     b_luzhi=false;
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
     m_bConnectState=false;
     m_bFileState=false;
     ctx_ssh=NULL;

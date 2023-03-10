@@ -1,6 +1,10 @@
 ﻿#include "qtmysunnydlg.h"
 #include "ui_qtmysunnydlg.h"
 
+#if _MSC_VER||WINDOWS_TCP
+extern QMutex mutex_IfAlgorhmitcloud;
+#endif
+
 qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::qtmysunnyDlg)
@@ -53,8 +57,14 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     ui->tabWidget->setTabText(7,QString::fromLocal8Bit("任务106"));
     ui->tabWidget->setTabText(8,QString::fromLocal8Bit("任务107"));
     ui->tabWidget->setTabText(9,QString::fromLocal8Bit("任务108"));
-
+#if _MSC_VER||WINDOWS_TCP
+#ifdef DEBUG_CLOUD_TCP
+#else
+    ui->record->document()->setMaximumBlockCount(500);
+#endif
+#else
     ui->record->document()->setMaximumBlockCount(500);   //调试窗最大设置行数
+#endif
 
     ui->tab2tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
     ui->tab3tableWidget->setColumnWidth(0, 170);    //设置第一列宽度
@@ -188,6 +198,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     b_init_show_pos_failed_finish=true;
     b_init_show_pos_list_finish=true;
     b_init_set_task=true; 
+    b_init_show_cloud_inlab_finish=true;
 
     ctx_result_dosomeing=DO_NOTHING;
 
@@ -197,6 +208,11 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     connect(thread1, SIGNAL(Send_show_pos_failed()), this, SLOT(init_show_pos_failed()));
     connect(thread1, SIGNAL(Send_show_cvimage_inlab(cv::Mat)), this, SLOT(init_show_cvimage_inlab(cv::Mat)));
     connect(thread1, SIGNAL(Send_set_task()), this, SLOT(init_set_task()));
+#if _MSC_VER||WINDOWS_TCP
+#ifdef DEBUG_CLOUD_TCP
+    connect(thread1, SIGNAL(Send_show_cloud_list(IFAlgorhmitcloud)), this, SLOT(init_show_cloud_list(IFAlgorhmitcloud)));
+#endif
+#endif
 
     m_mcs=m_mcs->Get();
 
@@ -208,7 +224,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 
     showtasknum=new showtasknumdlg;
     taskclear=new taskcleardlg(m_mcs);
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
     sshpassword=new sshpasswordDlg(m_mcs);
 #else
     ui->stepupBtn->hide();
@@ -2485,7 +2501,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         }
     });
 
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
 
     connect(ui->stepupBtn,&QPushButton::clicked,[=](){
         if(m_mcs->cam->sop_cam[0].b_connect==true)
@@ -2516,7 +2532,7 @@ qtmysunnyDlg::~qtmysunnyDlg()
     delete thread1;
     delete showtasknum;
     delete taskclear;
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
     delete sshpassword;
 #endif
     delete m_mcs->resultdata.client;
@@ -2817,7 +2833,11 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         thread1->start();
 
      #if _MSC_VER||WINDOWS_TCP
+     #ifdef DEBUG_CLOUD_TCP
+        m_mcs->cam->sop_cam[0].InitConnect_cloud(ui->IPadd->text(),PORT_ALSTCP_POINTCLOUDS_RESULT);
+     #else
         m_mcs->cam->sop_cam[0].InitConnect(lab_show,ui->IPadd->text(),PORT_ALSTCP_CAMIMAGE_RESULT);
+     #endif
      #else
         m_mcs->cam->sop_cam[0].InitConnect(lab_show);
      #endif
@@ -3304,6 +3324,50 @@ void qtmysunnyDlg::init_show_cvimage_inlab(cv::Mat cv_image)
     m_mcs->cam->sop_cam[0].b_updataimage_finish=false;
 }
 
+#if _MSC_VER||WINDOWS_TCP
+#ifdef DEBUG_CLOUD_TCP
+//点云解码历程
+void qtmysunnyDlg::init_show_cloud_list(IFAlgorhmitcloud IfAlgorhmitcloud)
+{
+//  mutex_IfAlgorhmitcloud.lock();
+    QString msg;
+    msg="header.stamp.sec:"+QString::number(IfAlgorhmitcloud.header.stamp.sec)+"\n";
+    printf(msg.toStdString().c_str());
+    msg="header.stamp.nanosec:"+QString::number(IfAlgorhmitcloud.header.stamp.nanosec)+"\n";
+    printf(msg.toStdString().c_str());
+    msg="header.frame_id:"+IfAlgorhmitcloud.header.frame_id+"\n";
+    printf(msg.toStdString().c_str());
+    for(int i=0;i<IfAlgorhmitcloud.targetpointoutcloud.size();i++)
+    {
+        msg="targetpointoutcloud name:"+IfAlgorhmitcloud.targetpointoutcloud[i].name+"\n";
+        printf(msg.toStdString().c_str());
+        msg="targetpointoutcloud x:"+QString::number(IfAlgorhmitcloud.targetpointoutcloud[i].x,'f',3)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="targetpointoutcloud y:"+QString::number(IfAlgorhmitcloud.targetpointoutcloud[i].y,'f',3)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="targetpointoutcloud u:"+QString::number(IfAlgorhmitcloud.targetpointoutcloud[i].u)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="targetpointoutcloud v:"+QString::number(IfAlgorhmitcloud.targetpointoutcloud[i].v)+"\n";
+        printf(msg.toStdString().c_str());
+    }
+    for(int i=0;i<IfAlgorhmitcloud.lasertrackoutcloud.size();i++)
+    {
+        msg="lasertrackoutcloud x:"+QString::number(IfAlgorhmitcloud.lasertrackoutcloud[i].x,'f',3)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="lasertrackoutcloud y:"+QString::number(IfAlgorhmitcloud.lasertrackoutcloud[i].y,'f',3)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="lasertrackoutcloud u:"+QString::number(IfAlgorhmitcloud.lasertrackoutcloud[i].u)+"\n";
+        printf(msg.toStdString().c_str());
+        msg="lasertrackoutcloud v:"+QString::number(IfAlgorhmitcloud.lasertrackoutcloud[i].v)+"\n";
+        printf(msg.toStdString().c_str());
+    }
+    b_init_show_cloud_inlab_finish=true;
+    m_mcs->cam->sop_cam[0].b_updatacloud_finish=false;
+//  mutex_IfAlgorhmitcloud.unlock();
+}
+#endif
+#endif
+
 void qtmysunnyDlg::init_set_task()
 {
     u_int16_t tasknum=ui->tasknum->text().toInt();
@@ -3751,6 +3815,23 @@ void getposThread::run()
                     emit Send_show_cvimage_inlab(_p->m_mcs->cam->sop_cam[0].cv_image);
                 }
             }
+
+            #if _MSC_VER||WINDOWS_TCP
+            #ifdef DEBUG_CLOUD_TCP
+            if(_p->m_mcs->cam->sop_cam[0].b_updatacloud_finish==true)
+            {
+                if(_p->b_init_show_cloud_inlab_finish==true)
+                {
+                    mutex_IfAlgorhmitcloud.lock();
+                    _p->b_init_show_cloud_inlab_finish=false;
+                    qRegisterMetaType<IFAlgorhmitcloud>("IFAlgorhmitcloud");
+                    emit Send_show_cloud_list(_p->m_mcs->cam->sop_cam[0].IfAlgorhmitcloud);
+                    mutex_IfAlgorhmitcloud.unlock();
+                }
+            }
+            #endif
+            #endif
+
             usleep(30000);
         }
         else

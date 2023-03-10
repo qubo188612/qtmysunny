@@ -13,7 +13,8 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 
 #define DEBUG_TIMEFPS               //上位机和下位机时间戳测试开关
 #define DEBUG_MYINTERFACES          //显示算法结果或者算法原图开关
-#define DEBUS_SSH                   //ssh升级方式开关
+#define DEBUG_SSH                   //ssh升级方式开关
+//#define DEBUG_CLOUD_TCP             //tcp显示轮廓
 
 #define CAMBUILD_IMAGE_WIDTH  1024
 #define CAMBUILD_IMAGE_HEIGHT 1536

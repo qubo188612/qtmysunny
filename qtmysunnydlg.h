@@ -5,7 +5,7 @@
 #include <QDialog>
 #include "showtasknumdlg.h"
 #include "taskcleardlg.h"
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
 #include "sshpassworddlg.h"
 #endif
 #if _MSC_VER||WINDOWS_TCP
@@ -81,6 +81,7 @@ public:
     volatile bool b_init_show_pos_failed_finish;
     volatile bool b_init_show_pos_list_finish;
     volatile bool b_init_set_task;
+    volatile bool b_init_show_cloud_inlab_finish;
 
     int ctx_result_dosomeing;
 
@@ -110,7 +111,7 @@ private:
 
     showtasknumdlg *showtasknum;
     taskcleardlg *taskclear;
-#ifdef DEBUS_SSH
+#ifdef DEBUG_SSH
     sshpasswordDlg *sshpassword;
 #endif
 #if _MSC_VER||WINDOWS_TCP
@@ -124,6 +125,11 @@ private slots:
     void init_show_cvimage_inlab(cv::Mat);
     void init_set_task();
     void on_tabWidget_currentChanged(int index);
+#if _MSC_VER||WINDOWS_TCP
+#ifdef DEBUG_CLOUD_TCP
+    void init_show_cloud_list(IFAlgorhmitcloud);
+#endif
+#endif
 };
 
 class getposThread : public QThread
@@ -144,6 +150,12 @@ signals:
     void Send_show_pos_failed();
     void Send_show_cvimage_inlab(cv::Mat);
     void Send_set_task();
+
+#if _MSC_VER||WINDOWS_TCP
+#ifdef DEBUG_CLOUD_TCP
+    void Send_show_cloud_list(IFAlgorhmitcloud);
+#endif
+#endif
 
 };
 
