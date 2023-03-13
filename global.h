@@ -1,7 +1,7 @@
 ﻿#ifndef GLOBAL_H
 #define GLOBAL_H
 
-//#define WINDOWS_TCP 1   //linux仿windowstcp传输相机图像测试开关
+#define WINDOWS_TCP 1   //linux仿windowstcp传输相机图像测试开关
 #if _MSC_VER
 #include "tistdtypes.h"
 
