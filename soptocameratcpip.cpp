@@ -171,7 +171,7 @@ void tcprcvThread::run()
                 {
                     mutex_IfAlgorhmitcloud.lock();//锁住线程，防止在修改IfAlgorhmitcloud内存时被其他线程调用
                     _p->rcv_buf[rcvnum]='\0';
-                    QString msg=QString::fromLocal8Bit(_p->rcv_buf);
+                    QString msg=QString::fromLocal8Bit((char*)_p->rcv_buf);
                     QJsonObject json=_p->QstringToJson(msg);
                     QJsonObject header=json["header"].toObject();
                     QJsonObject stamp=header["stamp"].toObject();
