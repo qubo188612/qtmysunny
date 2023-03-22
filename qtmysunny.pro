@@ -23,6 +23,7 @@ SOURCES += \
         cambuilddlg.cpp \
         main.cpp \
         my_parameters.cpp \
+        pshowdlg.cpp \
         qtmysunnydlg.cpp \
         showtasknumdlg.cpp \
         soptocameratcpip.cpp \
@@ -37,6 +38,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 FORMS += \
     cambuilddlg.ui \
+    pshowdlg.ui \
     qtmysunnydlg.ui \
     showtasknumdlg.ui \
     sshpassworddlg.ui \
@@ -54,6 +56,7 @@ HEADERS += \
     cambuilddlg.h \
     global.h \
     my_parameters.h \
+    pshowdlg.h \
     qtmysunnydlg.h \
     showtasknumdlg.h \
     soptocameratcpip.h \

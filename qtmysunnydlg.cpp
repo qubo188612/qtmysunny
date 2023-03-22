@@ -224,6 +224,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
 
     showtasknum=new showtasknumdlg;
     taskclear=new taskcleardlg(m_mcs);
+    pshow=new pshowdlg(m_mcs);
 #ifdef DEBUG_SSH
     sshpassword=new sshpasswordDlg(m_mcs);
 #else
@@ -234,23 +235,23 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     cambuild=new cambuilddlg(m_mcs);
 #endif
     connect(ui->connectcameraBtn,&QPushButton::clicked,[=](){
-       if(m_mcs->cam->sop_cam[0].b_connect==false)
-       {
+        if(m_mcs->cam->sop_cam[0].b_connect==false)
+        {
           m_mcs->e2proomdata.sunnydlg_ipaddress=ui->IPadd->text();
           m_mcs->e2proomdata.write_sunnydlg_para();
           img_windowshow(true,ui->widget);
           UpdataUi();
-       }
-       else
-       {
+        }
+        else
+        {
           img_windowshow(false,ui->widget);
           UpdataUi();
-       }
+        }
     });
 
     connect(ui->robotsetBtn,&QPushButton::clicked,[=](){
-       if(m_mcs->resultdata.link_robotset_state==true)
-       {
+        if(m_mcs->resultdata.link_robotset_state==true)
+        {
             u_int16_t robotmod=ui->comboBox->currentIndex();
             u_int16_t robotport=ui->robotport->text().toInt();
             uint16_t tab_reg[2];
@@ -267,24 +268,24 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                 if(ui->checkBox->isChecked()==false)
                     ui->record->append(QString::fromLocal8Bit("更新机器人设置成功,请重启激光头"));
             }
-       }
-       else
-       {
+        }
+        else
+        {
            if(ui->checkBox->isChecked()==false)
                 ui->record->append(QString::fromLocal8Bit("请连接相机后再设置机器人参数"));
-       }
+        }
     });
 
     connect(ui->tasknumsetBtn,&QPushButton::clicked,[=](){
-       if(m_mcs->resultdata.link_result_state==true)
-       {
+        if(m_mcs->resultdata.link_result_state==true)
+        {
            ctx_result_dosomeing=DO_WRITE_TASK;
-       }
-       else
-       {
+        }
+        else
+        {
            if(ui->checkBox->isChecked()==false)
                 ui->record->append(QString::fromLocal8Bit("请连接相机后再设置任务号"));
-       }
+        }
     });
 
     connect(ui->taskclearBtn,&QPushButton::clicked,[=](){
@@ -302,6 +303,21 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                  ui->record->append(QString::fromLocal8Bit("请连接相机后再查看任务号列表"));
         }
      });
+
+    connect(ui->pshowBtn,&QPushButton::clicked,[=](){
+        if(m_mcs->resultdata.link_result_state==true)
+        {
+            pshow->init_dlg_show();
+            pshow->setWindowTitle(QString::fromLocal8Bit("查看P变量图示"));
+            pshow->exec();
+            pshow->close_dlg_show();
+        }
+        else
+        {
+            if(ui->checkBox->isChecked()==false)
+                 ui->record->append(QString::fromLocal8Bit("请连接相机后再查看P变量图示"));
+        }
+    });
 
     //FTP端接收数据
     connect(m_mcs->resultdata.client,&QTcpSocket::readyRead,[=](){
@@ -2532,6 +2548,7 @@ qtmysunnyDlg::~qtmysunnyDlg()
     delete thread1;
     delete showtasknum;
     delete taskclear;
+    delete pshow;
 #ifdef DEBUG_SSH
     delete sshpassword;
 #endif
@@ -2692,6 +2709,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                     case 8:
                     {
                         ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:华成工控-创想"));
+                        QString msg=QString::fromLocal8Bit("获取当前内部机器人端口号:")+QString::number(port);
+                        ui->record->append(msg);
+                    }
+                    break;
+                    case 9:
+                    {
+                        ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:新时达机器人"));
                         QString msg=QString::fromLocal8Bit("获取当前内部机器人端口号:")+QString::number(port);
                         ui->record->append(msg);
                     }
