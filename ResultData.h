@@ -34,6 +34,12 @@ public:
     uint8_t link_ftp_state;
     uint8_t b_luzhi;
 
+    std::vector<double> homography_matrix;//激光器中的相机内参
+    std::vector<double> pData_demdlg_R;//激光器中的眼在手外标定矩阵R
+    std::vector<double> pData_demdlg_T;//激光器中的眼在手外标定矩阵T
+    std::vector<double> pData_matrix_camera2plane;//激光器中的眼在手上标定矩阵
+    std::vector<double> pData_matrix_plane2robot;//激光器中的眼在手上标定矩阵
+
     modbus_t *ctx_robotset;
     modbus_t *ctx_param;
     modbus_t *ctx_result;
