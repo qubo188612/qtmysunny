@@ -37,8 +37,13 @@ public:
 private:
     Ui::pshowdlg *ui;
 
+    QString JsonToQstring(QJsonObject jsonObject);
+
+    QJsonObject QstringToJson(QString jsonString);
+
 private slots:
     void init_show_pshow_text();
+    void on_pushButton_10_clicked();
 };
 
 class pshowdlgThread : public QThread

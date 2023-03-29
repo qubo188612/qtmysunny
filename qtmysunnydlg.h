@@ -25,6 +25,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+
 #define DO_NOTHING         0
 #define DO_WRITE_TASK      1
 

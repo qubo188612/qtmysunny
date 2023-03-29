@@ -47,7 +47,15 @@ void pshowdlg::init_dlg_show()
     ui->p21_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[7],'f',3));
     ui->p22_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[8],'f',3));
 
-
+    switch(m_mcs->resultdata.P_data_eye_hand_calibrationmode)
+    {
+        case HAND_IN_EYE:
+            ui->radio1->setChecked(1);
+        break;
+        case HAND_OUT_EYE:
+            ui->radio2->setChecked(1);
+        break;
+    }
 
     link_pshow_state=false;
     b_init_show_pshow_text_finish=true;
@@ -182,3 +190,60 @@ void pshowdlgThread::Stop()
     }
   }
 }
+
+QJsonObject pshowdlg::QstringToJson(QString jsonString)
+{
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toLocal8Bit().data());
+    if(jsonDocument.isNull())
+    {
+        qDebug()<< "String NULL"<< jsonString.toLocal8Bit().data();
+    }
+    QJsonObject jsonObject = jsonDocument.object();
+    return jsonObject;
+}
+
+QString pshowdlg::JsonToQstring(QJsonObject jsonObject)
+{
+    return QString(QJsonDocument(jsonObject).toJson());
+}
+
+
+//导入标定结果
+void pshowdlg::on_pushButton_10_clicked()
+{
+    QJsonObject jsent;
+    QJsonObject json;
+    QJsonObject js;
+    for(int i=0;i<m_mcs->resultdata.P_data.size();i++)
+    {
+        QJsonArray jarry;
+        int id=m_mcs->resultdata.P_data[i].pID;
+        for(int j=0;j<m_mcs->resultdata.P_data[i].pos.size();j++)
+        {
+            QJsonObject pos;
+            pos["x"]=m_mcs->resultdata.P_data[i].pos[j].x;
+            pos["y"]=m_mcs->resultdata.P_data[i].pos[j].y;
+            pos["z"]=m_mcs->resultdata.P_data[i].pos[j].z;
+            pos["rx"]=m_mcs->resultdata.P_data[i].pos[j].rx;
+            pos["ry"]=m_mcs->resultdata.P_data[i].pos[j].ry;
+            pos["rz"]=m_mcs->resultdata.P_data[i].pos[j].rz;
+            pos["out1"]=m_mcs->resultdata.P_data[i].pos[j].out1;
+            pos["out2"]=m_mcs->resultdata.P_data[i].pos[j].out2;
+            pos["out3"]=m_mcs->resultdata.P_data[i].pos[j].out3;
+            pos["tool"]=m_mcs->resultdata.P_data[i].pos[j].tool;
+            pos["tcp"]=m_mcs->resultdata.P_data[i].pos[j].tcp;
+            pos["usertcp"]=m_mcs->resultdata.P_data[i].pos[j].usertcp;
+            pos["uy"]=m_mcs->resultdata.P_data[i].pos[j].uy;
+        //    pos["vz"]=m_mcs->resultdata.P_data[i].pos[j].vz;
+            pos["vz"]=1;
+            jarry.append(pos);
+        }
+        js[QString::number(id)]=jarry;
+    }
+    json["pData_point"]=js;
+    jsent["echo"]=json;
+
+    QString msg=JsonToQstring(jsent);
+    m_mcs->resultdata.client->write(msg.toUtf8());
+}
+

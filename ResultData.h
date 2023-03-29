@@ -8,6 +8,7 @@
 #ifdef DEBUG_SSH
 #include <CConnectionForSshClient.h>
 #endif
+#include "calibration.h"
 
 #define MODBUS_ROBOT_REGISTERS_NUM      0x10
 #define MODBUS_RESULT_MAXNUM            400
@@ -18,6 +19,34 @@ class taskinfo
 public:
     uint16_t taskname;      //任务号
     uint16_t alsnum;        //算法号
+};
+
+class rob_pinfo
+{
+public:
+  float x;
+  float y;
+  float z;
+  float rx;
+  float ry;
+  float rz;
+  int32_t out1;
+  int32_t out2;
+  int32_t out3;
+  uint16_t tool;
+  uint16_t tcp;
+  uint16_t usertcp;
+
+  float uy;
+  float vz;
+  rob_pinfo();
+};
+
+class rob_group
+{
+public:
+  std::vector<rob_pinfo> pos;
+  int pID;
 };
 
 class modbustcpThread;
@@ -39,6 +68,10 @@ public:
     std::vector<double> pData_demdlg_T;//激光器中的眼在手外标定矩阵T
     std::vector<double> pData_matrix_camera2plane;//激光器中的眼在手上标定矩阵
     std::vector<double> pData_matrix_plane2robot;//激光器中的眼在手上标定矩阵
+
+    CAL_POSTURE P_data_cal_posture; //P变量姿态内外旋
+    Eye_Hand_calibrationmode P_data_eye_hand_calibrationmode;//P寄存器激光器安装方式
+    std::vector<rob_group> P_data; //P变量
 
     modbus_t *ctx_robotset;
     modbus_t *ctx_param;

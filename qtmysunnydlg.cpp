@@ -558,6 +558,41 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                                 ui->record->append(msg);
                             }
                         }
+                        else if(qkey=="pData_point")
+                        {
+                            m_mcs->resultdata.P_data.clear();
+                            QJsonObject qtask2=oit.value().toObject();
+                            QJsonObject::Iterator oit2;
+                            for(oit2=qtask2.begin();oit2!=qtask2.end();oit2++)//遍历Key
+                            {
+                                QString qkey2=oit2.key();
+                                int id=qkey2.toInt();
+                                rob_group singl;
+                                singl.pID=id;
+                                QJsonArray versionArray=oit2.value().toArray();
+                                for(int i=0;i<versionArray.size();i++)
+                                {
+                                    QJsonObject jpos=versionArray[i].toObject();
+                                    rob_pinfo pos;
+                                    pos.x=jpos["x"].toDouble();
+                                    pos.y=jpos["y"].toDouble();
+                                    pos.z=jpos["z"].toDouble();
+                                    pos.rx=jpos["rx"].toDouble();
+                                    pos.ry=jpos["ry"].toDouble();
+                                    pos.rz=jpos["rz"].toDouble();
+                                    pos.out1=jpos["out1"].toInt();
+                                    pos.out2=jpos["out2"].toInt();
+                                    pos.out3=jpos["out3"].toInt();
+                                    pos.tool=jpos["tool"].toInt();
+                                    pos.tcp=jpos["tcp"].toInt();
+                                    pos.usertcp=jpos["usertcp"].toInt();
+                                    pos.uy=jpos["uy"].toDouble();
+                                    pos.vz=jpos["vz"].toDouble();
+                                    singl.pos.push_back(pos);
+                                }
+                                m_mcs->resultdata.P_data.push_back(singl);
+                            }
+                        }
                     }
                 }
             }
@@ -2804,6 +2839,7 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             jarry.append("pData_demdlg_T");
             jarry.append("pData_matrix_camera2plane");
             jarry.append("pData_matrix_plane2robot");
+            jarry.append("pData_point");
             json.insert("cat",jarry);
             QString msg=JsonToQstring(json);
             m_mcs->resultdata.client->write(msg.toUtf8());
@@ -3002,11 +3038,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
         else
         {
             bool pEn=m_mcs->resultdata.red_robotset[0];
-            u_int16_t CAL_POSTURE=m_mcs->resultdata.red_robotset[1];
-            u_int16_t Eye_Hand_calibrationmode=m_mcs->resultdata.red_robotset[2];
+            u_int16_t u16_CAL_POSTURE=m_mcs->resultdata.red_robotset[1];
+            u_int16_t u16_Eye_Hand_calibrationmode=m_mcs->resultdata.red_robotset[2];
+            m_mcs->resultdata.P_data_cal_posture=(CAL_POSTURE)u16_CAL_POSTURE;
+            m_mcs->resultdata.P_data_eye_hand_calibrationmode=(Eye_Hand_calibrationmode)u16_Eye_Hand_calibrationmode;
             ui->checkBox_pEn->setChecked(pEn);
-            ui->comboBox_2->setCurrentIndex(CAL_POSTURE);
-            ui->comboBox_3->setCurrentIndex(Eye_Hand_calibrationmode);
+            ui->comboBox_2->setCurrentIndex(u16_CAL_POSTURE);
+            ui->comboBox_3->setCurrentIndex(u16_Eye_Hand_calibrationmode);
             if(ui->checkBox->isChecked()==false)
             {
                 QString msg;
