@@ -16,6 +16,39 @@ pshowdlg::~pshowdlg()
 
 void pshowdlg::init_dlg_show()
 {
+    ui->a00_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[0],'f',3));
+    ui->a01_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[1],'f',3));
+    ui->a02_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[2],'f',3));
+    ui->a10_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[3],'f',3));
+    ui->a11_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[4],'f',3));
+    ui->a12_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[5],'f',3));
+    ui->a20_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[6],'f',3));
+    ui->a21_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[7],'f',3));
+    ui->a22_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_R[8],'f',3));
+    ui->t0_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_T[0],'f',3));
+    ui->t1_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_T[1],'f',3));
+    ui->t2_label->setText(QString::number(m_mcs->resultdata.pData_demdlg_T[2],'f',3));
+    ui->c00_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[0],'f',3));
+    ui->c01_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[1],'f',3));
+    ui->c02_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[2],'f',3));
+    ui->c10_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[3],'f',3));
+    ui->c11_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[4],'f',3));
+    ui->c12_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[5],'f',3));
+    ui->c20_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[6],'f',3));
+    ui->c21_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[7],'f',3));
+    ui->c22_label->setText(QString::number(m_mcs->resultdata.pData_matrix_camera2plane[8],'f',3));
+    ui->p00_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[0],'f',3));
+    ui->p01_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[1],'f',3));
+    ui->p02_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[2],'f',3));
+    ui->p10_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[3],'f',3));
+    ui->p11_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[4],'f',3));
+    ui->p12_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[5],'f',3));
+    ui->p20_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[6],'f',3));
+    ui->p21_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[7],'f',3));
+    ui->p22_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[8],'f',3));
+
+
+
     link_pshow_state=false;
     b_init_show_pshow_text_finish=true;
 

@@ -93,14 +93,12 @@ public:
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_camera_get;
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_homography_matrix;
     std::shared_ptr<rclcpp::AsyncParametersClient> _param_homography_matrix_get;
-    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _pub_config;
 
     void ros_open_laser(bool b);
     void ros_open_camera(bool b);
     void ros_set_exposure(int exposure);
     void ros_set_homography_matrix(Params ros_Params);
 
-    void ros_config_set(std::string msg);
 protected:
     StartCameraThread *StartCamera_thread;
 

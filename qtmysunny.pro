@@ -19,6 +19,7 @@ SOURCES += \
         ResultData.cpp \
         TimeFunction.cpp \
         XTcp.cpp \
+        calibration.cpp \
         cam_sen.cpp \
         cambuilddlg.cpp \
         main.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     ResultData.h \
     TimeFunction.h \
     XTcp.h \
+    calibration.h \
     cam_sen.h \
     cambuilddlg.h \
     global.h \
@@ -118,6 +120,9 @@ LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interf
 INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
 
 LIBS += /home/qubo/modbus/libmodbus/install/lib/libmodbus.so
+
+#Eigen库的添加
+INCLUDEPATH += /usr/include/eigen3
 
 #QSsh库的添加
 INCLUDEPATH += /home/qubo/QSsh/src/libs/qssh \

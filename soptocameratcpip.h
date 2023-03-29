@@ -65,6 +65,11 @@ public:
 
 class tcprcvThread;
 
+struct Params
+{
+  std::vector<double> homography_matrix;
+};
+
 class Soptocameratcpip
 {
 public:
@@ -78,6 +83,8 @@ public:
     bool b_connect;
 
     cv::Mat cv_image;
+
+    Params ros_Params;
 
     void StartRecord(QString filename);
     void StopRecord();
@@ -93,6 +100,8 @@ public:
     bool b_rcv_thread;
     bool b_stop_rcv_thread;
 
+    XTcp m_ftp;
+
     uchar *rcv_buf;
 
     bool luzhi;
@@ -105,6 +114,8 @@ public:
     IFAlgorhmitcloud IfAlgorhmitcloud;
 
     volatile bool b_updatacloud_finish;
+
+    void ros_set_homography_matrix(Params ros_Params);
 protected:
 
     PictureBox *m_lab_show;
