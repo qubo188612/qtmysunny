@@ -89,6 +89,9 @@ INCLUDEPATH += D:/libmodbus/include \
 
 LIBS += D:/libmodbus/x64/lib/*.lib
 
+#Eigen库的添加
+INCLUDEPATH += D:/eigen3
+
 #QSsh库的添加
 INCLUDEPATH += C:/Users/34638/Documents/QtProject/QSsh/src/libs/qssh \
 
