@@ -35,6 +35,8 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 
 #define DEEPIMG_CALLBACKNUM_DNUM     5
 
+#define ROB_WORK_DELAY_STEP     10000        //机器人每步循环等待时间(微秒)
+
 /*****************************/
 //相机任务号文件查询TCP传输端口
 #define PORT_ALSTCP_FTP                       1476
