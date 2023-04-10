@@ -49,6 +49,22 @@ public:
   int pID;
 };
 
+class craftinfo
+{
+public:
+    int16_t craft_Id;
+    int16_t craft_als1;
+    int16_t craft_als2;
+    int16_t craft_als3;
+    int16_t craft_als4;
+    int16_t craft_als5;
+    int16_t craft_als6;
+    int16_t craft_als7;
+    int16_t craft_als8;
+    int16_t craft_als9;
+    int16_t craft_als10;
+};
+
 class modbustcpThread;
 
 class ResultData
@@ -72,6 +88,7 @@ public:
     CAL_POSTURE P_data_cal_posture; //P变量姿态内外旋
     Eye_Hand_calibrationmode P_data_eye_hand_calibrationmode;//P寄存器激光器安装方式
     std::vector<rob_group> P_data; //P变量
+    craftinfo P_data_craftinfo;//P变量工艺
 
     modbus_t *ctx_robotset;
     modbus_t *ctx_param;
@@ -89,6 +106,7 @@ public:
     std::vector<taskinfo> taskfilename;//当前激光器有几个任务号
 
     unsigned short red_robotset[MODBUS_ROBOT_REGISTERS_NUM];
+    unsigned short red_robotresult[MODBUS_RESULT_MAXNUM];
 
     /******************/
     uint16_t alg0_99_threshold;

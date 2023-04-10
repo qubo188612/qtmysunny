@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1162</width>
+    <width>1181</width>
     <height>592</height>
    </rect>
   </property>
@@ -395,7 +395,7 @@
     <rect>
      <x>750</x>
      <y>10</y>
-     <width>401</width>
+     <width>421</width>
      <height>281</height>
     </rect>
    </property>
@@ -823,9 +823,9 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>240</y>
+     <y>320</y>
      <width>271</width>
-     <height>221</height>
+     <height>141</height>
     </rect>
    </property>
   </widget>
@@ -833,9 +833,9 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>240</y>
+     <y>320</y>
      <width>271</width>
-     <height>221</height>
+     <height>141</height>
     </rect>
    </property>
   </widget>
@@ -843,7 +843,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>220</y>
+     <y>300</y>
      <width>81</width>
      <height>17</height>
     </rect>
@@ -856,7 +856,7 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>220</y>
+     <y>300</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -1026,7 +1026,7 @@
     <rect>
      <x>750</x>
      <y>320</y>
-     <width>401</width>
+     <width>421</width>
      <height>141</height>
     </rect>
    </property>
@@ -1034,7 +1034,7 @@
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>900</x>
+     <x>920</x>
      <y>480</y>
      <width>67</width>
      <height>17</height>
@@ -1047,7 +1047,7 @@
   <widget class="QLabel" name="err">
    <property name="geometry">
     <rect>
-     <x>980</x>
+     <x>1000</x>
      <y>480</y>
      <width>81</width>
      <height>17</height>
@@ -1060,7 +1060,7 @@
   <widget class="QPushButton" name="pushButton_7">
    <property name="geometry">
     <rect>
-     <x>900</x>
+     <x>920</x>
      <y>530</y>
      <width>121</width>
      <height>51</height>
@@ -1073,7 +1073,7 @@
   <widget class="QPushButton" name="pushButton_10">
    <property name="geometry">
     <rect>
-     <x>1030</x>
+     <x>1050</x>
      <y>530</y>
      <width>121</width>
      <height>51</height>
@@ -1092,7 +1092,7 @@
      <x>190</x>
      <y>30</y>
      <width>271</width>
-     <height>121</height>
+     <height>141</height>
     </rect>
    </property>
   </widget>
@@ -1118,7 +1118,7 @@
      <x>470</x>
      <y>30</y>
      <width>271</width>
-     <height>121</height>
+     <height>141</height>
     </rect>
    </property>
   </widget>
@@ -1139,7 +1139,7 @@
    <property name="geometry">
     <rect>
      <x>620</x>
-     <y>160</y>
+     <y>180</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -1152,7 +1152,7 @@
    <property name="geometry">
     <rect>
      <x>340</x>
-     <y>160</y>
+     <y>180</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -1165,7 +1165,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>180</y>
+     <y>200</y>
      <width>131</width>
      <height>25</height>
     </rect>
@@ -1175,7 +1175,7 @@
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>160</y>
+     <y>180</y>
      <width>151</width>
      <height>17</height>
     </rect>
@@ -1188,7 +1188,7 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>180</y>
+     <y>200</y>
      <width>131</width>
      <height>25</height>
     </rect>
@@ -1198,13 +1198,52 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>160</y>
+     <y>180</y>
      <width>121</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>要删除的P变量号:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_13">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>240</y>
+     <width>121</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>点云工艺设置</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>250</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>点云工艺号:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="craft_Id">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>250</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>

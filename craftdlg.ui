@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>craftDlg</class>
+ <widget class="QDialog" name="craftDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>581</width>
+    <height>502</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="craftalstableWidget">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>30</y>
+     <width>221</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>10</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>名称</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>值</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>工艺参数1</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string>工艺参数2</string>
+    </property>
+   </item>
+   <item row="1" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string>工艺参数3</string>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="3" column="0">
+    <property name="text">
+     <string>工艺参数4</string>
+    </property>
+   </item>
+   <item row="3" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="4" column="0">
+    <property name="text">
+     <string>工艺参数5</string>
+    </property>
+   </item>
+   <item row="4" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="5" column="0">
+    <property name="text">
+     <string>工艺参数6</string>
+    </property>
+   </item>
+   <item row="5" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="6" column="0">
+    <property name="text">
+     <string>工艺参数7</string>
+    </property>
+   </item>
+   <item row="6" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="7" column="0">
+    <property name="text">
+     <string>工艺参数8</string>
+    </property>
+   </item>
+   <item row="7" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="8" column="0">
+    <property name="text">
+     <string>工艺参数9</string>
+    </property>
+   </item>
+   <item row="8" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+   <item row="9" column="0">
+    <property name="text">
+     <string>工艺参数10</string>
+    </property>
+   </item>
+   <item row="9" column="1">
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>10</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>工艺参数:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="craftalssetBtn">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>250</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="text">
+    <string>导入工艺参数</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>工艺号:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>20</y>
+     <width>113</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="craftIdsetBtn">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>50</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="text">
+    <string>导入工艺号</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="craftalsreadBtn">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>310</y>
+     <width>141</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="text">
+    <string>读取工艺参数</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>181</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
+   </attribute>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Task:</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>任务号</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>识别类型</string>
+    </property>
+   </column>
+   <item row="0" column="0">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string>无工艺</string>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string>1</string>
+    </property>
+   </item>
+   <item row="1" column="1">
+    <property name="text">
+     <string>波纹板点云</string>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string>2</string>
+    </property>
+   </item>
+   <item row="2" column="1">
+    <property name="text">
+     <string>相贯线点云</string>
+    </property>
+   </item>
+   <item row="3" column="0">
+    <property name="text">
+     <string>3</string>
+    </property>
+   </item>
+   <item row="3" column="1">
+    <property name="text">
+     <string>未定义</string>
+    </property>
+   </item>
+   <item row="4" column="0">
+    <property name="text">
+     <string>4</string>
+    </property>
+   </item>
+   <item row="4" column="1">
+    <property name="text">
+     <string>未定义</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>工艺对应表:</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="record">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>390</y>
+     <width>561</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>调试信息:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

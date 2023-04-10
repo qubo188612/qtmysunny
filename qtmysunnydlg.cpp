@@ -3051,17 +3051,43 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                 ui->record->append(QString::fromLocal8Bit("获取当前P变量设置:"));
                 if(pEn==0)
                 {
-                    msg="P变量功能:关";
+                    msg=QString::fromLocal8Bit("P变量功能:关");
                     ui->record->append(msg);
                 }
                 else
                 {
-                    msg="P变量功能:开";
+                    msg=QString::fromLocal8Bit("P变量功能:开");
                     ui->record->append(msg);
                 }
-                msg="P变量姿态:"+ui->comboBox_2->currentText();
+                msg=QString::fromLocal8Bit("P变量姿态:")+ui->comboBox_2->currentText();
                 ui->record->append(msg);
-                msg="P变量标定:"+ui->comboBox_3->currentText();
+                msg=QString::fromLocal8Bit("P变量标定:")+ui->comboBox_3->currentText();
+                ui->record->append(msg);
+            }
+        }
+
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_result,ALS_REALTIME_CRAFTID_REG_ADD,11,m_mcs->resultdata.red_robotresult);
+        if(real_readnum<0)
+        {
+            if(ui->checkBox->isChecked()==false)
+                ui->record->append(QString::fromLocal8Bit("获取当前工艺参数信息失败"));
+        }
+        else
+        {
+            m_mcs->resultdata.P_data_craftinfo.craft_Id=(int16_t)m_mcs->resultdata.red_robotresult[0];
+            m_mcs->resultdata.P_data_craftinfo.craft_als1=(int16_t)m_mcs->resultdata.red_robotresult[1];
+            m_mcs->resultdata.P_data_craftinfo.craft_als2=(int16_t)m_mcs->resultdata.red_robotresult[2];
+            m_mcs->resultdata.P_data_craftinfo.craft_als3=(int16_t)m_mcs->resultdata.red_robotresult[3];
+            m_mcs->resultdata.P_data_craftinfo.craft_als4=(int16_t)m_mcs->resultdata.red_robotresult[4];
+            m_mcs->resultdata.P_data_craftinfo.craft_als5=(int16_t)m_mcs->resultdata.red_robotresult[5];
+            m_mcs->resultdata.P_data_craftinfo.craft_als6=(int16_t)m_mcs->resultdata.red_robotresult[6];
+            m_mcs->resultdata.P_data_craftinfo.craft_als7=(int16_t)m_mcs->resultdata.red_robotresult[7];
+            m_mcs->resultdata.P_data_craftinfo.craft_als8=(int16_t)m_mcs->resultdata.red_robotresult[8];
+            m_mcs->resultdata.P_data_craftinfo.craft_als9=(int16_t)m_mcs->resultdata.red_robotresult[9];
+            m_mcs->resultdata.P_data_craftinfo.craft_als10=(int16_t)m_mcs->resultdata.red_robotresult[10];
+            if(ui->checkBox->isChecked()==false)
+            {
+                QString msg=QString::fromLocal8Bit("获取当前工艺号:")+QString::number(m_mcs->resultdata.P_data_craftinfo.craft_Id);
                 ui->record->append(msg);
             }
         }

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QListWidgetItem>
+#include <craftdlg.h>
 #include "my_parameters.h"
 #include <modbus/modbus.h>
 
@@ -21,6 +22,8 @@ public:
     ~pshowdlg();
 
     my_parameters *m_mcs;
+
+    craftDlg *craftdlg;
 
     void init_dlg_show();
     void close_dlg_show();
@@ -89,6 +92,7 @@ private slots:
     void on_robPdata_itemClicked(QListWidgetItem *item);
     void on_pushButton_12_clicked();
     void on_pushButton_11_clicked();
+    void on_pushButton_13_clicked();
 };
 
 class pshowdlgThread : public QThread

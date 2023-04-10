@@ -13,10 +13,13 @@ pshowdlg::pshowdlg(my_parameters *mcs,QWidget *parent) :
 {
     ui->setupUi(this);
     m_mcs=mcs;
+
+    craftdlg=new craftDlg(m_mcs);
 }
 
 pshowdlg::~pshowdlg()
 {
+    delete craftdlg;
     delete ui;
 }
 
@@ -173,6 +176,8 @@ void pshowdlg::updatatext()
     ui->p20_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[6],'f',3));
     ui->p21_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[7],'f',3));
     ui->p22_label->setText(QString::number(m_mcs->resultdata.pData_matrix_plane2robot[8],'f',3));
+
+    ui->craft_Id->setText(QString::number(m_mcs->resultdata.P_data_craftinfo.craft_Id));
 }
 
 void pshowdlg::getrobinfo()
@@ -910,6 +915,17 @@ void pshowdlg::on_pushButton_11_clicked()
     pullpData();
 }
 
+//点云工艺设置
+void pshowdlg::on_pushButton_13_clicked()
+{
+    craftdlg->init_dlg_show();
+    craftdlg->setWindowTitle(QString::fromLocal8Bit("查看工艺参数"));
+    craftdlg->exec();
+    craftdlg->close_dlg_show();
+    ui->craft_Id->setText(QString::number(m_mcs->resultdata.P_data_craftinfo.craft_Id));
+}
+
+
 void pshowdlg::on_robposlist_itemClicked(QListWidgetItem *item)
 {
     now_robpos=ui->robposlist->currentRow();
@@ -968,7 +984,7 @@ void pshowdlg::pulldemdl()
     {
         jarry4.append(m_mcs->resultdata.pData_matrix_plane2robot[i]);
     }
-    json["pData_matrix_camera2plane"]=jarry4;
+    json["pData_matrix_plane2robot"]=jarry4;
     jsent["echo"]=json;
 
     QString msg=JsonToQstring(jsent);
@@ -1075,5 +1091,7 @@ void pshowdlgThread::Stop()
     }
   }
 }
+
+
 
 

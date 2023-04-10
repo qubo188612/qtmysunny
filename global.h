@@ -420,6 +420,18 @@ typedef uint64_t u_int64_t; /* u_int64_t is defined in <machine/types.h> */
 #define ALS_REALTIME_TCP_REG_ADD                0x0124  //写入实时坐标，机器人坐标系号
 #define ALS_REALTIME_USERTCP_REG_ADD            0x0125  //写入实时坐标，机器人用户坐标系号
 
+#define ALS_REALTIME_CRAFTID_REG_ADD            0x0144  //工艺包ID
+#define ALS_REALTIME_CRAFTALS1_REG_ADD          0x0145  //工艺参数1
+#define ALS_REALTIME_CRAFTALS2_REG_ADD          0x0146  //工艺参数2
+#define ALS_REALTIME_CRAFTALS3_REG_ADD          0x0147  //工艺参数3
+#define ALS_REALTIME_CRAFTALS4_REG_ADD          0x0148  //工艺参数4
+#define ALS_REALTIME_CRAFTALS5_REG_ADD          0x0149  //工艺参数5
+#define ALS_REALTIME_CRAFTALS6_REG_ADD          0x014a  //工艺参数6
+#define ALS_REALTIME_CRAFTALS7_REG_ADD          0x014b  //工艺参数7
+#define ALS_REALTIME_CRAFTALS8_REG_ADD          0x014c  //工艺参数8
+#define ALS_REALTIME_CRAFTALS9_REG_ADD          0x014d  //工艺参数9
+#define ALS_REALTIME_CRAFTALS10_REG_ADD         0x014e  //工艺参数10
+
 
 
 /*****************************/

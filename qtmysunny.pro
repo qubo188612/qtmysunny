@@ -22,6 +22,7 @@ SOURCES += \
         calibration.cpp \
         cam_sen.cpp \
         cambuilddlg.cpp \
+        craftdlg.cpp \
         main.cpp \
         my_parameters.cpp \
         pshowdlg.cpp \
@@ -39,6 +40,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 FORMS += \
     cambuilddlg.ui \
+    craftdlg.ui \
     pshowdlg.ui \
     qtmysunnydlg.ui \
     showtasknumdlg.ui \
@@ -56,6 +58,7 @@ HEADERS += \
     calibration.h \
     cam_sen.h \
     cambuilddlg.h \
+    craftdlg.h \
     global.h \
     my_parameters.h \
     pshowdlg.h \
