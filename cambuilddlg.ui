@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="y1_Edit">
@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x2_Edit">
@@ -153,7 +153,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="y2_Edit">
@@ -166,7 +166,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x3_Edit">
@@ -179,7 +179,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="y3_Edit">
@@ -192,7 +192,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="x4_Edit">
@@ -205,7 +205,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QLineEdit" name="y4_Edit">
@@ -218,7 +218,7 @@
     </rect>
    </property>
    <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
   </widget>
   <widget class="QTextBrowser" name="record">

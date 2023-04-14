@@ -47,6 +47,9 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
     drowstep=0;
     drowstep_temp=0;
 
+    b_robot_serves=false;
+    ui->robot_ip->hide();
+
     ui->tabWidget->setTabText(0,QString::fromLocal8Bit("任务0-99"));
     ui->tabWidget->setTabText(1,QString::fromLocal8Bit("任务100"));
     ui->tabWidget->setTabText(2,QString::fromLocal8Bit("任务101"));
@@ -246,12 +249,45 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
         }
     });
 
+    connect(ui->comboBox,&QComboBox::currentIndexChanged,[=](){
+        u_int16_t robotmod=ui->comboBox->currentIndex();
+        UpdataRobot(robotmod);
+    });
+
     connect(ui->robotsetBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_robotset_state==true)
         {
             u_int16_t robotmod=ui->comboBox->currentIndex();
             u_int16_t robotport=ui->robotport->text().toInt();
+            QString robot_ip=ui->robot_ip->text();
+            std::vector<u_int8_t> address;
             uint16_t tab_reg[2];
+
+            if(true==ipAddrIsOK(robot_ip,address))
+            {
+                uint16_t tab_reg[4];
+                for(int i=0;i<address.size();i++)
+                {
+                    tab_reg[i]=address[i];
+                }
+                int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_ROBOTIPADDRESS_1_REG_ADD,4,tab_reg);
+                if(rc!=4)
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append(QString::fromLocal8Bit("更新机器人IP地址设置失败"));
+                }
+                else
+                {
+                    if(ui->checkBox->isChecked()==false)
+                        ui->record->append(QString::fromLocal8Bit("更新机器人IP地址设置成功"));
+                }
+            }
+            else
+            {
+                if(ui->checkBox->isChecked()==false)
+                    ui->record->append(QString::fromLocal8Bit("机器人IP地址非法,请检查"));
+            }
+
             tab_reg[0]=robotmod;
             tab_reg[1]=robotport;
             int rc=modbus_write_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_ROBOTMOD_REG_ADD,2,tab_reg);
@@ -265,6 +301,7 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
                 if(ui->checkBox->isChecked()==false)
                     ui->record->append(QString::fromLocal8Bit("更新机器人设置成功,请重启激光头"));
             }
+
         }
         else
         {
@@ -2863,12 +2900,15 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
             u_int16_t port=m_mcs->resultdata.red_robotset[1];
             ui->comboBox->setCurrentIndex(robotmod);
             ui->robotport->setText(QString::number(port));
+            UpdataRobot(robotmod);
             if(ui->checkBox->isChecked()==false)
             {
                 switch(robotmod)
                 {
                     case 0:
+                    {
                         ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:无机器人"));
+                    }
                     break;
                     case 1:
                     {
@@ -2933,7 +2973,35 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                         ui->record->append(msg);
                     }
                     break;
+                    case 10:
+                    {
+                        ui->record->append(QString::fromLocal8Bit("获取当前内部机器人设置:智昌-川崎机器人AS"));
+                        QString msg=QString::fromLocal8Bit("获取当前内部机器人端口号:")+QString::number(port);
+                        ui->record->append(msg);
+                    }
+                    break;
                 }
+            }
+        }
+
+        real_readnum=modbus_read_registers(m_mcs->resultdata.ctx_robotset,ALSROBOTCAM_ROBOTIPADDRESS_1_REG_ADD,4,m_mcs->resultdata.red_robotset);
+        if(real_readnum<0)
+        {
+            if(ui->checkBox->isChecked()==false)
+                ui->record->append(QString::fromLocal8Bit("获取当前机器人IP地址失败"));
+        }
+        else
+        {
+            u_int16_t ip1=m_mcs->resultdata.red_robotset[0];
+            u_int16_t ip2=m_mcs->resultdata.red_robotset[1];
+            u_int16_t ip3=m_mcs->resultdata.red_robotset[2];
+            u_int16_t ip4=m_mcs->resultdata.red_robotset[3];
+            QString robot_ip=QString::number(ip1)+"."+QString::number(ip2)+"."+QString::number(ip3)+"."+QString::number(ip4);
+            ui->robot_ip->setText(robot_ip);
+            if(ui->checkBox->isChecked()==false)
+            {
+                QString msg=QString::fromLocal8Bit("当前机器人IP地址:")+robot_ip;
+                ui->record->append(msg);
             }
         }
 
@@ -3229,6 +3297,67 @@ void qtmysunnyDlg::UpdataUi()
     {
         ui->connectcameraBtn->setText(QString::fromLocal8Bit("断开相机"));
     }
+}
+
+void qtmysunnyDlg::UpdataRobot(u_int16_t robotmod)
+{
+    switch(robotmod)
+    {
+        case 0:     //机器人做客户端
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        {
+            b_robot_serves=false;
+            ui->label_4->setText(QString::fromLocal8Bit("机器人端口:"));
+            ui->label_43->show();
+            ui->robot_ip->hide();
+            ui->robotport->show();
+        }
+        break;
+        case 10:    //机器人做服务器
+        {
+            b_robot_serves=true;
+            ui->label_4->setText(QString::fromLocal8Bit("机器人IP:"));
+            ui->label_43->hide();
+            ui->robot_ip->show();
+            ui->robotport->hide();
+        }
+        break;
+    }
+}
+
+bool qtmysunnyDlg::ipAddrIsOK(const QString & ip,std::vector<u_int8_t> &address)
+{
+    if (ip.isEmpty())
+    {
+        return false;
+    }
+
+    QStringList list = ip.split('.');
+    if (list.size() != 4)
+    {
+        return false;
+    }
+    address.clear();
+    for (const auto& num : list)
+    {
+        bool ok = false;
+        int temp = num.toInt(&ok);
+        if (!ok || temp < 0 || temp > 255)
+        {
+            return false;
+        }
+        address.push_back(temp);
+    }
+
+    return true;
 }
 
 void qtmysunnyDlg::open_camer_modbus()

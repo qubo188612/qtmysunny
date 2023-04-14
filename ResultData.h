@@ -10,7 +10,7 @@
 #endif
 #include "calibration.h"
 
-#define MODBUS_ROBOT_REGISTERS_NUM      0x10
+#define MODBUS_ROBOT_REGISTERS_NUM      0x20
 #define MODBUS_RESULT_MAXNUM            400
 #define MODBUS_PARAM_MAXNUM             400
 
