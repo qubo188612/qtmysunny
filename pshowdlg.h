@@ -35,8 +35,10 @@ public:
 
     modbus_t *ctx_pshow;
     bool link_pshow_state;
+    QTcpSocket *client;
 
     unsigned short pos_data[0x15];
+    unsigned short p_pos_data[0x15];
     unsigned short result_data[0x03];
     void getrobinfo();//更新机器人坐标
     void updatatext();//刷新标定矩阵显示
@@ -62,6 +64,7 @@ private:
     std::vector<rob_pinfo> P_data_leaser;
 
     rob_pinfo robposinfo;//机器人当前坐标信息
+    rob_pinfo p_robposinfo;//P寄存器当前焊缝坐标
     bool b_robposfinduv;//机器人uv坐标是否有效
 
     void updataRoblistUi();

@@ -14,11 +14,13 @@ pshowdlg::pshowdlg(my_parameters *mcs,QWidget *parent) :
     ui->setupUi(this);
     m_mcs=mcs;
 
+    client=new QTcpSocket(this);
     craftdlg=new craftDlg(m_mcs);
 }
 
 pshowdlg::~pshowdlg()
 {
+    delete client;
     delete craftdlg;
     delete ui;
 }
@@ -53,6 +55,14 @@ void pshowdlg::init_dlg_show()
         link_pshow_state=true;
     }   
 
+    QString server_port1=QString::number(PORT_ALSTCP_FTP);
+    client->connectToHost(server_ip.toUtf8(), server_port1.toInt());
+    if(!client->waitForConnected(1000))
+    {
+        ui->record->append(server_port1+QString::fromLocal8Bit("端口连接失败"));
+        return;
+    }
+
     thread1 = new pshowdlgThread(this);
     connect(thread1, SIGNAL(Send_show_pshow_text()), this, SLOT(init_show_pshow_text()));
 
@@ -73,6 +83,8 @@ void pshowdlg::close_dlg_show()
     }
     link_pshow_state=false;
     modbus_free(ctx_pshow);   
+
+    client->disconnectFromHost();
 }
 
 void pshowdlg::updataPdata()
@@ -224,6 +236,41 @@ void pshowdlg::getrobinfo()
     }
     robposinfo.uy=((int16_t)result_data[1])/100.0;
     robposinfo.vz=((int16_t)result_data[2])/100.0;
+
+
+    u16_data[0]=p_pos_data[0];
+    u16_data[1]=p_pos_data[1];
+    p_robposinfo.x=*i32_data/1000.0;
+    u16_data[0]=p_pos_data[2];
+    u16_data[1]=p_pos_data[3];
+    p_robposinfo.y=*i32_data/1000.0;
+    u16_data[0]=p_pos_data[4];
+    u16_data[1]=p_pos_data[5];
+    p_robposinfo.z=*i32_data/1000.0;
+    u16_data[0]=p_pos_data[6];
+    u16_data[1]=p_pos_data[7];
+    p_robposinfo.rx=*i32_data/10000.0;
+    u16_data[0]=p_pos_data[8];
+    u16_data[1]=p_pos_data[9];
+    p_robposinfo.ry=*i32_data/10000.0;
+    u16_data[0]=p_pos_data[10];
+    u16_data[1]=p_pos_data[11];
+    p_robposinfo.rz=*i32_data/10000.0;
+    u16_data[0]=p_pos_data[12];
+    u16_data[1]=p_pos_data[13];
+    p_robposinfo.out1=*i32_data;
+    u16_data[0]=p_pos_data[14];
+    u16_data[1]=p_pos_data[15];
+    p_robposinfo.out2=*i32_data;
+    u16_data[0]=p_pos_data[16];
+    u16_data[1]=p_pos_data[17];
+    p_robposinfo.out3=*i32_data;
+    p_robposinfo.tool=p_pos_data[18];
+    p_robposinfo.tcp=p_pos_data[19];
+    p_robposinfo.usertcp=p_pos_data[20];
+
+    p_robposinfo.uy=((int16_t)result_data[1])/100.0;
+    p_robposinfo.vz=((int16_t)result_data[2])/100.0;
 }
 
 void pshowdlg::init_show_pshow_text()
@@ -242,6 +289,21 @@ void pshowdlg::init_show_pshow_text()
     ui->realusertcp->setText(QString::number(robposinfo.usertcp));
     ui->realuy->setText(QString::number(robposinfo.uy));
     ui->realvz->setText(QString::number(robposinfo.vz));
+
+    ui->p_realposX->setText(QString::number(p_robposinfo.x,'f',3));
+    ui->p_realposY->setText(QString::number(p_robposinfo.y,'f',3));
+    ui->p_realposZ->setText(QString::number(p_robposinfo.z,'f',3));
+    ui->p_realposRX->setText(QString::number(p_robposinfo.rx,'f',4));
+    ui->p_realposRY->setText(QString::number(p_robposinfo.ry,'f',4));
+    ui->p_realposRZ->setText(QString::number(p_robposinfo.rz,'f',4));
+    ui->p_realout1->setText(QString::number(p_robposinfo.out1));
+    ui->p_realout2->setText(QString::number(p_robposinfo.out2));
+    ui->p_realout3->setText(QString::number(p_robposinfo.out3));
+    ui->p_realtool->setText(QString::number(p_robposinfo.tool));
+    ui->p_realtcp->setText(QString::number(p_robposinfo.tcp));
+    ui->p_realusertcp->setText(QString::number(p_robposinfo.usertcp));
+    ui->p_realuy->setText(QString::number(p_robposinfo.uy));
+    ui->p_realvz->setText(QString::number(p_robposinfo.vz));
     b_init_show_pshow_text_finish=true;
 }
 
@@ -633,7 +695,7 @@ void pshowdlg::on_pushButton_10_clicked()
         m_mcs->resultdata.P_data[pnum].pos[i]=P_data_leaser[i-P_data_rob.size()];
     }
     pulldemdl();
-    pullpData();
+//  pullpData();
     ui->record->append(QString::fromLocal8Bit("导入完成"));
 }
 
@@ -985,10 +1047,43 @@ void pshowdlg::pulldemdl()
         jarry4.append(m_mcs->resultdata.pData_matrix_plane2robot[i]);
     }
     json["pData_matrix_plane2robot"]=jarry4;
+
+    QJsonObject js;
+    for(int i=0;i<m_mcs->resultdata.P_data.size();i++)
+    {
+        QJsonArray jarry;
+        int id=m_mcs->resultdata.P_data[i].pID;
+        for(int j=0;j<m_mcs->resultdata.P_data[i].pos.size();j++)
+        {
+            QJsonObject pos;
+            pos["x"]=m_mcs->resultdata.P_data[i].pos[j].x;
+            pos["y"]=m_mcs->resultdata.P_data[i].pos[j].y;
+            pos["z"]=m_mcs->resultdata.P_data[i].pos[j].z;
+            pos["rx"]=m_mcs->resultdata.P_data[i].pos[j].rx;
+            pos["ry"]=m_mcs->resultdata.P_data[i].pos[j].ry;
+            pos["rz"]=m_mcs->resultdata.P_data[i].pos[j].rz;
+            pos["out1"]=m_mcs->resultdata.P_data[i].pos[j].out1;
+            pos["out2"]=m_mcs->resultdata.P_data[i].pos[j].out2;
+            pos["out3"]=m_mcs->resultdata.P_data[i].pos[j].out3;
+            pos["tool"]=m_mcs->resultdata.P_data[i].pos[j].tool;
+            pos["tcp"]=m_mcs->resultdata.P_data[i].pos[j].tcp;
+            pos["usertcp"]=m_mcs->resultdata.P_data[i].pos[j].usertcp;
+            pos["uy"]=m_mcs->resultdata.P_data[i].pos[j].uy;
+            pos["vz"]=m_mcs->resultdata.P_data[i].pos[j].vz;
+            jarry.append(pos);
+        }
+        js[QString::number(id)]=jarry;
+    }
+    json["pData_point"]=js;
+
+
     jsent["echo"]=json;
 
     QString msg=JsonToQstring(jsent);
-    m_mcs->resultdata.client->write(msg.toUtf8());
+    QByteArray arry=msg.toUtf8();
+    arry.push_back('\0');
+    client->write(arry);
+    usleep(100000);
 }
 
 void pshowdlg::pullpData()
@@ -1025,7 +1120,9 @@ void pshowdlg::pullpData()
     jsent["echo"]=json;
 
     QString msg=JsonToQstring(jsent);
-    m_mcs->resultdata.client->write(msg.toUtf8());
+    QByteArray arry=msg.toUtf8();
+    arry.push_back('\0');
+    client->write(arry);
 }
 
 QJsonObject pshowdlg::QstringToJson(QString jsonString)
@@ -1059,7 +1156,8 @@ void pshowdlgThread::run()
             {
                 int real_readnum_1=modbus_read_registers(_p->ctx_pshow,ALS_REALTIME_POSX_REG_ADD,0x15,_p->pos_data);
                 int real_readnum_2=modbus_read_registers(_p->ctx_pshow,ALS_STATE_REG_ADD,0x3,_p->result_data);
-                if(real_readnum_1==0x15&&real_readnum_2==0x03)
+                int real_readnum_3=modbus_read_registers(_p->ctx_pshow,ALS_P_REALTIME_POSX_REG_ADD,0x15,_p->p_pos_data);
+                if(real_readnum_1==0x15&&real_readnum_2==0x03&&real_readnum_3==0x15)
                 {
                     _p->getrobinfo();
                 }
