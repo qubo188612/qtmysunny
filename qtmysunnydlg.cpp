@@ -248,12 +248,12 @@ qtmysunnyDlg::qtmysunnyDlg(QWidget *parent) :
           UpdataUi();
         }
     });
-
+/*
     connect(ui->comboBox,&QComboBox::currentIndexChanged,[=](){
         u_int16_t robotmod=ui->comboBox->currentIndex();
         UpdataRobot(robotmod);
     });
-
+*/
     connect(ui->robotsetBtn,&QPushButton::clicked,[=](){
         if(m_mcs->resultdata.link_robotset_state==true)
         {

@@ -1,4 +1,4 @@
-#include "craftdlg.h"
+﻿#include "craftdlg.h"
 #include "ui_craftdlg.h"
 
 craftDlg::craftDlg(my_parameters *mcs,QWidget *parent) :

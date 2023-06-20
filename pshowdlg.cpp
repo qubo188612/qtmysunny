@@ -1,4 +1,4 @@
-#include "pshowdlg.h"
+﻿#include "pshowdlg.h"
 #include "ui_pshowdlg.h"
 
 template<typename _Tp>
@@ -781,7 +781,11 @@ void pshowdlg::on_pushButton_4_clicked()
         {
             break;
         }
+    #if _MSC_VER
+        _sleep(ROB_WORK_DELAY_STEP/1000);
+    #else
         usleep(ROB_WORK_DELAY_STEP);
+    #endif
         num++;
     }
     if(b_robposfinduv==false)
@@ -817,7 +821,11 @@ void pshowdlg::on_pushButton_5_clicked()
             {
                 break;
             }
+        #if _MSC_VER
+            _sleep(ROB_WORK_DELAY_STEP/1000);
+        #else
             usleep(ROB_WORK_DELAY_STEP);
+        #endif
             num++;
         }
         if(b_robposfinduv==false)
@@ -1083,7 +1091,11 @@ void pshowdlg::pulldemdl()
     QByteArray arry=msg.toUtf8();
     arry.push_back('\0');
     client->write(arry);
+#if _MSC_VER
+    _sleep(100);
+#else
     usleep(100000);
+#endif
 }
 
 void pshowdlg::pullpData()
