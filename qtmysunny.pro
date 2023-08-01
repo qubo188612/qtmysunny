@@ -136,3 +136,4 @@ INCLUDEPATH += /home/qubo/QSsh/src/libs/qssh \
 LIBS += /home/qubo/QSsh/build/lib/lib*
 
 }
+
