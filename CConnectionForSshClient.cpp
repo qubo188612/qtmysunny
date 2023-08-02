@@ -228,12 +228,12 @@ void CConnectionForSshClient::slotSendFile(QString file,QString scpto)
     {
         qDebug() << "SecureUploader: Invalid Job";
     }
-    /*
+/*
     QTimer timer;
     timer.start(5000);
     if(timer.isActive()) timer.stop();
     m_shell->start();
-    */
+*/
 }
 
 void CConnectionForSshClient::handleChannelInitializationFailure(const QString &reason)

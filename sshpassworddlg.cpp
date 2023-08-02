@@ -23,6 +23,10 @@ sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
         {
             ui->record->append(QString::fromLocal8Bit("选择升级文件:"));
             ui->record->append(m_mcs->resultdata.setup_file);
+
+            QString strCmd = "sudo chmod -R 777 /dev";
+            strCmd += "\n"; //添加回车
+            emit sigSend(strCmd);
         }
     });
 
@@ -30,9 +34,6 @@ sshpasswordDlg::sshpasswordDlg(my_parameters *mcs,QWidget *parent) :
         if(m_mcs->resultdata.setup_file.size()>0)
         {
         //  QString st="/home/"+m_mcs->e2proomdata.sshdlg_usename+"/sunny-tis.tar";
-            QString strCmd = "sudo chmod -R 777 /dev";
-            strCmd += "\n"; //添加回车
-            emit sigSend(strCmd);
             QString st="/dev/sunny-tis.tar";
             ui->record->append(QString::fromLocal8Bit("开始传输升级文件..."));
             emit sigSendFile(m_mcs->resultdata.setup_file,st);
@@ -156,7 +157,7 @@ void sshpasswordDlg::slotDataArrived(QString strMsg, QString strIp, int nPort)
 
     ui->record->append(strMsg);
 
-    if(strMsg.contains("password for"))
+    if(strMsg.contains("password for")||strMsg.contains("密码"))
     {
         QString strCmd = m_mcs->e2proomdata.sshdlg_password;
         strCmd += "\n"; //添加回车
