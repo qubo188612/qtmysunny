@@ -123,9 +123,9 @@ INCLUDEPATH +=/home/qubo/myRos2test/install/tutorial_interfaces/include \
 LIBS += /home/qubo/myRos2test/install/tutorial_interfaces/lib/libtutorial_interfaces*.so
 
 #modbustcp库的添加
-INCLUDEPATH += /home/qubo/modbus/libmodbus/install/include \
+INCLUDEPATH += /usr/include \
 
-LIBS += /home/qubo/modbus/libmodbus/install/lib/libmodbus.so
+LIBS += /usr/lib/x86_64-linux-gnu/libmodbus.so
 
 #Eigen库的添加
 INCLUDEPATH += /usr/include/eigen3
