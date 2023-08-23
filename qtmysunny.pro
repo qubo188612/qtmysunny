@@ -131,9 +131,9 @@ LIBS += /usr/lib/x86_64-linux-gnu/libmodbus.so
 INCLUDEPATH += /usr/include/eigen3
 
 #QSsh库的添加
-INCLUDEPATH += /home/qubo/QSsh/src/libs/qssh \
+INCLUDEPATH += /home/qubo/Qt/6.2.4/gcc_64/include/QSsh
 
-LIBS += /home/qubo/QSsh/build/lib/lib*
+unix:!macx: LIBS += -L /home/qubo/Qt/6.2.4/gcc_64/lib/ -lQSsh
 
 }
 
