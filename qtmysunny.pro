@@ -72,9 +72,9 @@ HEADERS += \
 
 win32{
 #opencv库的添加
-INCLUDEPATH += D:/opencv-4.6.0/build/include \
+INCLUDEPATH += D:/opencv/build/include \
 
-LIBS += D:/opencv-4.6.0/build/x64/vc16/lib/opencv*.lib \
+LIBS += D:/opencv/build/x64/vc16/lib/opencv*.lib \
 
 #自定义ROS接口添加
 #INCLUDEPATH += C:/Users/34638/Documents/ros2topic/myRos2test/install/tutorial_interfaces/include \
@@ -96,20 +96,20 @@ LIBS += D:/libmodbus/x64/lib/*.lib
 INCLUDEPATH += D:/eigen3
 
 #QSsh库的添加
-INCLUDEPATH += C:/Users/34638/Documents/QtProject/QSsh/src/libs/qssh \
+INCLUDEPATH += D:/Qt/6.2.4/msvc2019_64/include/Qssh \
 
-LIBS += C:/Users/34638/Documents/QtProject/QSsh/build/lib/QSsh.lib
+LIBS += D:/Qt/6.2.4/msvc2019_64/lib/QSsh.lib
 
-INCLUDEPATH += C:/Botan/include/botan-2 \
+INCLUDEPATH += C:\Botan\include\botan-2 \
 
 LIBS += C:/Botan/lib/*.lib
 }
 
 unix {
 #opencv库的添加
-INCLUDEPATH += /usr/local/OpenCV/Release/include/opencv4 \
+INCLUDEPATH += /usr/local/include/opencv4 \
 
-LIBS += /usr/local/OpenCV/Release/lib/libopencv_*
+LIBS += /usr/local/lib/libopencv_*
 
 #ROS库添加
 INCLUDEPATH +=/opt/ros/galactic/include \
