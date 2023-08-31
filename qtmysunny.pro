@@ -95,9 +95,10 @@ LIBS += D:/libmodbus/x64/lib/*.lib
 INCLUDEPATH += D:/eigen3
 
 #QSsh库的添加
-INCLUDEPATH += D:/Qt/6.2.4/msvc2019_64/include/Qssh \
+win32:CONFIG(release, debug|release): LIBS += -LD:/Qt/6.2.4/msvc2019_64/lib/ -lQSsh
+else:win32:CONFIG(debug, debug|release): LIBS += -LD:/Qt/6.2.4/msvc2019_64/lib/ -lQSshd
 
-LIBS += D:/Qt/6.2.4/msvc2019_64/lib/QSsh.lib
+INCLUDEPATH += D:/Qt/6.2.4/msvc2019_64/include/Qssh
 
 INCLUDEPATH += C:\Botan\include\botan-2 \
 
@@ -135,4 +136,6 @@ INCLUDEPATH += /home/qubo/Qt/6.2.4/gcc_64/include/QSsh
 unix:!macx: LIBS += -L /home/qubo/Qt/6.2.4/gcc_64/lib/ -lQSsh
 
 }
+
+
 
