@@ -43,11 +43,11 @@ craftDlg::craftDlg(my_parameters *mcs,QWidget *parent) :
            int rc=modbus_write_registers(ctx_craft,ALS_REALTIME_CRAFTID_REG_ADD,1,tab_reg);
            if(rc!=1)
            {
-               ui->record->append(QString::fromLocal8Bit("更新工艺号失败"));
+               ui->record->append(QStringLiteral("更新工艺号失败"));
            }
            else
            {
-               ui->record->append(QString::fromLocal8Bit("更新工艺号成功"));
+               ui->record->append(QStringLiteral("更新工艺号成功"));
            }
        }
     });
@@ -81,11 +81,11 @@ craftDlg::craftDlg(my_parameters *mcs,QWidget *parent) :
            int rc=modbus_write_registers(ctx_craft,ALS_REALTIME_CRAFTALS1_REG_ADD,10,tab_reg);
            if(rc!=10)
            {
-               ui->record->append(QString::fromLocal8Bit("更新工艺参数失败"));
+               ui->record->append(QStringLiteral("更新工艺参数失败"));
            }
            else
            {
-               ui->record->append(QString::fromLocal8Bit("更新工艺号成功"));
+               ui->record->append(QStringLiteral("更新工艺号成功"));
            }
        }
     });
@@ -98,11 +98,11 @@ craftDlg::craftDlg(my_parameters *mcs,QWidget *parent) :
            int rc=modbus_read_registers(ctx_craft,ALS_REALTIME_CRAFTALS1_REG_ADD,10,tab_reg);
            if(rc<0)
            {
-               ui->record->append(QString::fromLocal8Bit("读取工艺参数失败"));
+               ui->record->append(QStringLiteral("读取工艺参数失败"));
            }
            else
            {
-               ui->record->append(QString::fromLocal8Bit("读取工艺参数成功"));
+               ui->record->append(QStringLiteral("读取工艺参数成功"));
            }
            m_mcs->resultdata.P_data_craftinfo.craft_als1=(int16_t)tab_reg[0];
            m_mcs->resultdata.P_data_craftinfo.craft_als2=(int16_t)tab_reg[1];

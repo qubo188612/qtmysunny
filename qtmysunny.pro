@@ -4,7 +4,6 @@ CONFIG += c++17 console
 CONFIG -= app_bundle
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat
 QT       += core gui network
 
 # You can make your code fail to compile if it uses deprecated APIs.

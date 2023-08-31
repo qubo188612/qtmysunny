@@ -59,7 +59,7 @@ void pshowdlg::init_dlg_show()
     client->connectToHost(server_ip.toUtf8(), server_port1.toInt());
     if(!client->waitForConnected(1000))
     {
-        ui->record->append(server_port1+QString::fromLocal8Bit("端口连接失败"));
+        ui->record->append(server_port1+QStringLiteral("端口连接失败"));
         return;
     }
 
@@ -567,11 +567,11 @@ void pshowdlg::on_pushButton_7_clicked()
         {
             if(P_data_rob.size()!=1)
             {
-                ui->record->append(QString::fromLocal8Bit("TCP坐标点应该只能有一个"));
+                ui->record->append(QStringLiteral("TCP坐标点应该只能有一个"));
             }
             else if(P_data_leaser.size()<4)
             {
-                ui->record->append(QString::fromLocal8Bit("激光头坐标点个数要至少大于4个"));
+                ui->record->append(QStringLiteral("激光头坐标点个数要至少大于4个"));
             }
             else
             {
@@ -609,11 +609,11 @@ void pshowdlg::on_pushButton_7_clicked()
                     m_mcs->resultdata.pData_matrix_plane2robot=convertMat2Vector<double>(matrix_plane2robot);
                     updataDemarcateResult();
                     updatatext();
-                    ui->record->append(QString::fromLocal8Bit("标定完成"));
+                    ui->record->append(QStringLiteral("标定完成"));
                 }
                 else
                 {
-                    ui->record->append(QString::fromLocal8Bit("标定计算出现问题,请检查数据"));
+                    ui->record->append(QStringLiteral("标定计算出现问题,请检查数据"));
                 }
                 ui->err->setText(QString::number(err,'f',2));
             }
@@ -623,11 +623,11 @@ void pshowdlg::on_pushButton_7_clicked()
         {
             if(P_data_rob.size()!=P_data_leaser.size())
             {
-                ui->record->append(QString::fromLocal8Bit("TCP坐标点要与激光头坐标点个数相同"));
+                ui->record->append(QStringLiteral("TCP坐标点要与激光头坐标点个数相同"));
             }
             else if(P_data_rob.size()<4)
             {
-                ui->record->append(QString::fromLocal8Bit("TCP坐标点个数要至少大于4个"));
+                ui->record->append(QStringLiteral("TCP坐标点个数要至少大于4个"));
             }
             else
             {
@@ -667,7 +667,7 @@ void pshowdlg::on_pushButton_7_clicked()
                 ui->err->setText(QString::number(err,'f',2));
                 updataDemarcateResult();
                 updatatext();
-                ui->record->append(QString::fromLocal8Bit("标定完成"));
+                ui->record->append(QStringLiteral("标定完成"));
             }
         }
         break;
@@ -682,7 +682,7 @@ void pshowdlg::on_pushButton_10_clicked()
     int pnum;
     if(0!=findpDataId(m_mcs->resultdata.P_data,0,&pnum))
     {
-        ui->record->append(QString::fromLocal8Bit("导入时出现异常,请尝试重启激光器和本软件"));
+        ui->record->append(QStringLiteral("导入时出现异常,请尝试重启激光器和本软件"));
         return;
     }
     m_mcs->resultdata.P_data[pnum].pos.resize(P_data_rob.size()+P_data_leaser.size());
@@ -696,21 +696,21 @@ void pshowdlg::on_pushButton_10_clicked()
     }
     pulldemdl();
 //  pullpData();
-    ui->record->append(QString::fromLocal8Bit("导入完成"));
+    ui->record->append(QStringLiteral("导入完成"));
 }
 
 //眼在手上
 void pshowdlg::on_radio1_clicked()
 {
     m_mcs->resultdata.P_data_eye_hand_calibrationmode=HAND_IN_EYE;
-    ui->record->append(QString::fromLocal8Bit("选择眼在手上模式"));
+    ui->record->append(QStringLiteral("选择眼在手上模式"));
 }
 
 //眼在手外
 void pshowdlg::on_radio2_clicked()
 {
     m_mcs->resultdata.P_data_eye_hand_calibrationmode=HAND_OUT_EYE;
-    ui->record->append(QString::fromLocal8Bit("选择眼在手外模式"));
+    ui->record->append(QStringLiteral("选择眼在手外模式"));
 }
 
 //添加机器人TCP点
@@ -724,7 +724,7 @@ void pshowdlg::on_pushButton_clicked()
     {
         P_data_rob.insert(P_data_rob.begin()+now_robpos+1,robposinfo);
     }
-    ui->record->append(QString::fromLocal8Bit("添加TCP点成功"));
+    ui->record->append(QStringLiteral("添加TCP点成功"));
     now_robpos++;
     updataRoblistUi();
 }
@@ -735,12 +735,12 @@ void pshowdlg::on_pushButton_2_clicked()
     if(now_robpos>=0&&P_data_rob.size()>now_robpos)
     {
         P_data_rob[now_robpos]=robposinfo;
-        ui->record->append(QString::fromLocal8Bit("替换TCP点成功"));
+        ui->record->append(QStringLiteral("替换TCP点成功"));
         updataRoblistUi();
     }
     else
     {
-        ui->record->append(QString::fromLocal8Bit("请先选中要替换的TCP点"));
+        ui->record->append(QStringLiteral("请先选中要替换的TCP点"));
     }
 }
 
@@ -750,14 +750,14 @@ void pshowdlg::on_pushButton_3_clicked()
     if(now_robpos>=0&&P_data_rob.size()>now_robpos)
     {
         P_data_rob.erase(P_data_rob.begin()+now_robpos);
-        ui->record->append(QString::fromLocal8Bit("删除TCP点"));
+        ui->record->append(QStringLiteral("删除TCP点"));
         if(now_robpos>=P_data_rob.size())
             now_robpos=now_robpos-1;
         updataRoblistUi();
     }
     else
     {
-        ui->record->append(QString::fromLocal8Bit("请先选中要删除的TCP点"));
+        ui->record->append(QStringLiteral("请先选中要删除的TCP点"));
     }
 }
 
@@ -765,7 +765,7 @@ void pshowdlg::on_pushButton_3_clicked()
 void pshowdlg::on_pushButton_8_clicked()
 {
     P_data_rob.clear();
-    ui->record->append(QString::fromLocal8Bit("清空TCP点"));
+    ui->record->append(QStringLiteral("清空TCP点"));
     now_robpos=P_data_rob.size()-1;
     updataRoblistUi();
 }
@@ -790,7 +790,7 @@ void pshowdlg::on_pushButton_4_clicked()
     }
     if(b_robposfinduv==false)
     {
-        ui->record->append(QString::fromLocal8Bit("获取激光头坐标失败"));
+        ui->record->append(QStringLiteral("获取激光头坐标失败"));
     }
     else
     {
@@ -802,7 +802,7 @@ void pshowdlg::on_pushButton_4_clicked()
         {
             P_data_leaser.insert(P_data_leaser.begin()+now_leaserpos+1,robposinfo);
         }
-        ui->record->append(QString::fromLocal8Bit("添加TCP点成功"));
+        ui->record->append(QStringLiteral("添加TCP点成功"));
         now_leaserpos++;
         updataLeaserlistUi();
     }
@@ -830,18 +830,18 @@ void pshowdlg::on_pushButton_5_clicked()
         }
         if(b_robposfinduv==false)
         {
-            ui->record->append(QString::fromLocal8Bit("获取激光头坐标失败"));
+            ui->record->append(QStringLiteral("获取激光头坐标失败"));
         }
         else
         {
             P_data_leaser[now_leaserpos]=robposinfo;
-            ui->record->append(QString::fromLocal8Bit("替换激光头点成功"));
+            ui->record->append(QStringLiteral("替换激光头点成功"));
             updataLeaserlistUi();
         }
     }
     else
     {
-        ui->record->append(QString::fromLocal8Bit("请先选中要替换的激光头点"));
+        ui->record->append(QStringLiteral("请先选中要替换的激光头点"));
     }
 }
 
@@ -851,14 +851,14 @@ void pshowdlg::on_pushButton_6_clicked()
     if(now_leaserpos>=0&&P_data_leaser.size()>now_leaserpos)
     {
         P_data_leaser.erase(P_data_leaser.begin()+now_leaserpos);
-        ui->record->append(QString::fromLocal8Bit("删除激光头点"));
+        ui->record->append(QStringLiteral("删除激光头点"));
         if(now_leaserpos>=P_data_leaser.size())
             now_leaserpos=now_leaserpos-1;
         updataLeaserlistUi();
     }
     else
     {
-        ui->record->append(QString::fromLocal8Bit("请先选中要删除的激光头点"));
+        ui->record->append(QStringLiteral("请先选中要删除的激光头点"));
     }
 }
 
@@ -866,7 +866,7 @@ void pshowdlg::on_pushButton_6_clicked()
 void pshowdlg::on_pushButton_9_clicked()
 {
     P_data_leaser.clear();
-    ui->record->append(QString::fromLocal8Bit("清空激光头点"));
+    ui->record->append(QStringLiteral("清空激光头点"));
     now_leaserpos=P_data_leaser.size()-1;
     updataLeaserlistUi();
 }
@@ -879,24 +879,24 @@ void pshowdlg::on_pushButton_12_clicked()
     int pnum;
     if(ui->pidaddEdit->text().isEmpty())
     {
-        ui->record->append(QString::fromLocal8Bit("请填写要添加的P变量号"));
+        ui->record->append(QStringLiteral("请填写要添加的P变量号"));
         return;
     }
     pId=ui->pidaddEdit->text().toInt(&ok);
     if(ok==false)
     {
-        ui->record->append(QString::fromLocal8Bit("要添加的P变量号格式不正确"));
+        ui->record->append(QStringLiteral("要添加的P变量号格式不正确"));
         return;
     }
     if(pId==0||pId==1||pId==2||pId==3||pId==11||pId==1000||pId==1001||pId==1002)
     {
-        QString msg=QString::fromLocal8Bit("不能添加的P变量号")+"P["+QString::number(pId)+"]"+QString::fromLocal8Bit(",其为系统保留");
+        QString msg=QStringLiteral("不能添加的P变量号")+"P["+QString::number(pId)+"]"+QStringLiteral(",其为系统保留");
         ui->record->append(msg);
         return;
     }
     else if(pId<0||pId>65535)
     {
-        ui->record->append(QString::fromLocal8Bit("P变量号超出设置范围"));
+        ui->record->append(QStringLiteral("P变量号超出设置范围"));
         return;
     }
     if(0!=findpDataId(m_mcs->resultdata.P_data,pId,&pnum))
@@ -909,7 +909,7 @@ void pshowdlg::on_pushButton_12_clicked()
         singl.pos[0]=robposinfo;
         m_mcs->resultdata.P_data.push_back(singl);
         now_robPdata=m_mcs->resultdata.P_data.size()-1;
-        msg=QString::fromLocal8Bit("新建了P变量号")+"P["+QString::number(pId)+"]";
+        msg=QStringLiteral("新建了P变量号")+"P["+QString::number(pId)+"]";
         ui->record->append(msg);
     }
     else
@@ -922,7 +922,7 @@ void pshowdlg::on_pushButton_12_clicked()
         singl.pos[0]=robposinfo;
         m_mcs->resultdata.P_data[pnum]=singl;
         now_robPdata=pnum;
-        msg=QString::fromLocal8Bit("替换了P变量号")+"P["+QString::number(pId)+"]";
+        msg=QStringLiteral("替换了P变量号")+"P["+QString::number(pId)+"]";
         ui->record->append(msg);
     }
     updataPdata();
@@ -937,31 +937,31 @@ void pshowdlg::on_pushButton_11_clicked()
     int pnum;
     if(ui->piddelEdit->text().isEmpty())
     {
-        ui->record->append(QString::fromLocal8Bit("请填写要删除的P变量号"));
+        ui->record->append(QStringLiteral("请填写要删除的P变量号"));
         return;
     }
     pId=ui->piddelEdit->text().toInt(&ok);
     if(ok==false)
     {
-        ui->record->append(QString::fromLocal8Bit("要删除的P变量号格式不正确"));
+        ui->record->append(QStringLiteral("要删除的P变量号格式不正确"));
         return;
     }
     if(pId==0||pId==1||pId==2||pId==3||pId==11||pId==1000||pId==1001||pId==1002)
     {
-        QString msg=QString::fromLocal8Bit("不能删除的P变量号")+"P["+QString::number(pId)+"]"+QString::fromLocal8Bit(",其为系统保留");
+        QString msg=QStringLiteral("不能删除的P变量号")+"P["+QString::number(pId)+"]"+QStringLiteral(",其为系统保留");
         ui->record->append(msg);
         return;
     }
     else if(pId<0||pId>65535)
     {
-        ui->record->append(QString::fromLocal8Bit("P变量号超出设置范围"));
+        ui->record->append(QStringLiteral("P变量号超出设置范围"));
         return;
     }
     if(0!=findpDataId(m_mcs->resultdata.P_data,pId,&pnum))
     {
         //找不到
         QString msg;
-        msg=QString::fromLocal8Bit("当前系统无P变量号")+"P["+QString::number(pId)+"]";
+        msg=QStringLiteral("当前系统无P变量号")+"P["+QString::number(pId)+"]";
         ui->record->append(msg);
     }
     else
@@ -969,7 +969,7 @@ void pshowdlg::on_pushButton_11_clicked()
         //找到了删除
         QString msg;
         m_mcs->resultdata.P_data.erase(m_mcs->resultdata.P_data.begin()+pnum);
-        msg=QString::fromLocal8Bit("删除了P变量号")+"P["+QString::number(pId)+"]";
+        msg=QStringLiteral("删除了P变量号")+"P["+QString::number(pId)+"]";
         //如果当前选择的点在下方，则往上位移，如果移到0，则不再位移
         if(now_robPdata>=pnum)
         {
@@ -989,7 +989,7 @@ void pshowdlg::on_pushButton_11_clicked()
 void pshowdlg::on_pushButton_13_clicked()
 {
     craftdlg->init_dlg_show();
-    craftdlg->setWindowTitle(QString::fromLocal8Bit("查看工艺参数"));
+    craftdlg->setWindowTitle(QStringLiteral("查看工艺参数"));
     craftdlg->exec();
     craftdlg->close_dlg_show();
     ui->craft_Id->setText(QString::number(m_mcs->resultdata.P_data_craftinfo.craft_Id));
