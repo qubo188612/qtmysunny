@@ -4,12 +4,10 @@
 
 #include <opencv2/opencv.hpp>
 #include "cam_sen.h"
-#include "soptopcamera.h"
 #include "ResultData.h"
 #include "E2proomData.h"
 
 class Cam_Sen;
-class SoptopCamera;
 
 class my_parameters
 {
