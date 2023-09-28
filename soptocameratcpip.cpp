@@ -24,6 +24,7 @@ Soptocameratcpip::Soptocameratcpip()
 Soptocameratcpip::~Soptocameratcpip()
 {
     delete []rcv_buf;
+    delete rcv_thread;
 }
 
 void Soptocameratcpip::InitConnect(PictureBox *lab_show,QString hostName, int port)
@@ -234,6 +235,26 @@ void tcprcvThread::run()
                         _p->IfAlgorhmitcloud.targetpointoutcloud[i].name=qtask["name"].toString();
                     }
                     _p->IfAlgorhmitcloud.solderjoints=json["solderjoints"].toBool();
+
+                    QJsonObject robpos=json["robpos"].toObject();
+                    QJsonObject robposheader=robpos["header"].toObject();
+                    QJsonObject robposstamp=robposheader["stamp"].toObject();
+                    _p->IfAlgorhmitcloud.robpos.header.stamp.sec=robposstamp["sec"].toInt();
+                    _p->IfAlgorhmitcloud.robpos.header.stamp.nanosec=robposstamp["nanosec"].toInt();
+                    _p->IfAlgorhmitcloud.robpos.header.frame_id=robposheader["frame_id"].toString();
+                    _p->IfAlgorhmitcloud.robpos.posx=robpos["posx"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posy=robpos["posy"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posz=robpos["posz"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posrx=robpos["posrx"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posry=robpos["posry"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posrz=robpos["posrz"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posout1=robpos["posout1"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posout2=robpos["posout2"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.posout3=robpos["posout3"].toDouble();
+                    _p->IfAlgorhmitcloud.robpos.toolid=robpos["toolid"].toInt();
+                    _p->IfAlgorhmitcloud.robpos.tcpid=robpos["tcpid"].toInt();
+                    _p->IfAlgorhmitcloud.robpos.usertcpid=robpos["usertcpid"].toInt();
+
                     _p->b_updatacloud_finish=true;
                     mutex_IfAlgorhmitcloud.unlock();//解锁线程
                 }
