@@ -100,7 +100,7 @@ else:win32:CONFIG(debug, debug|release): LIBS += -LD:/Qt/6.2.4/msvc2019_64/lib/ 
 
 INCLUDEPATH += D:/Qt/6.2.4/msvc2019_64/include/Qssh
 
-INCLUDEPATH += C:\Botan\include\botan-2 \
+INCLUDEPATH += C:/Botan/include/botan-2 \
 
 LIBS += C:/Botan/lib/*.lib
 }
