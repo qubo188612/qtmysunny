@@ -3076,6 +3076,13 @@ void qtmysunnyDlg::img_windowshow(bool b_show,PictureBox *lab_show)
                         ui->record->append(msg);
                     }
                     break;
+                    case 11:
+                    {
+                        ui->record->append(QStringLiteral("获取当前内部机器人设置:钱江机器人"));
+                        QString msg=QStringLiteral("获取当前内部机器人端口号:")+QString::number(port);
+                        ui->record->append(msg);
+                    }
+                    break;
                 }
             }
         }
@@ -3425,6 +3432,8 @@ void qtmysunnyDlg::UpdataRobot(u_int16_t robotmod)
             ui->robot_ip->show();
             ui->robotport->hide();
         }
+        break;
+        case 11:
         break;
     }
 }

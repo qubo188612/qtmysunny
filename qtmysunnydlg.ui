@@ -185,6 +185,11 @@
      <string>智昌-川崎机器人AS</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>钱江机器人</string>
+    </property>
+   </item>
   </widget>
   <widget class="QCheckBox" name="checkBox">
    <property name="geometry">
