@@ -1,20 +1,4 @@
 ﻿#include "XTcp.h"
-#include <iostream>
-#include "string.h"
-
-#if _MSC_VER
-#include <Windows.h>
-#define socklen_t int
-#pragma comment(lib, "Ws2_32.lib")
-#else
-#include <arpa/inet.h>
-#define closesocket close    //宏定义替换函数
-#include <unistd.h>
-#include <fcntl.h>
-#include <pthread.h>
-
-#define strcpy_s strcpy
-#endif
 
 XTcp::XTcp(unsigned short port)
 {
@@ -53,7 +37,7 @@ XTcp::XTcp(char *ip,unsigned short port)
 
 XTcp::~XTcp()
 {
-//  delete this;
+    //  delete this;
 }
 
 
@@ -110,12 +94,12 @@ bool XTcp::SetRcvBufferlong(int bufferlong) //设置接收缓冲长度
     int tmp;
     socklen_t optlen = sizeof(int);
     setsockopt(tsock,SOL_SOCKET, SO_RCVBUF,(const char*)&sendBufLen, sizeof(int));
-  #if _MSC_VER
+#if _MSC_VER
     getsockopt(tsock,SOL_SOCKET, SO_RCVBUF,(char *)&tmp, &optlen);
-  #else
+#else
     getsockopt(tsock,SOL_SOCKET, SO_RCVBUF,(int *)&tmp, &optlen);
-  #endif
-    if(tmp==sendBufLen)
+#endif
+    if(tmp<sendBufLen)
     {
         return true;
     }
@@ -136,7 +120,7 @@ bool XTcp::SetSentBufferlong(int bufferlong) //设置发送缓冲长度
 #else
     getsockopt(tsock,SOL_SOCKET, SO_SNDBUF,(int *)&tmp, &optlen);
 #endif
-    if(tmp==sendBufLen)
+    if(tmp<sendBufLen)
     {
         return true;
     }
@@ -208,37 +192,73 @@ bool XTcp::Connect(const char *ip, unsigned short port , int sec)
         switch (selres)
         {
 
-            case -1:
-                    printf("select error\n");
+        case -1:
+            /*
+            {
+                QString qip=QString::fromUtf8(ip)+": "+QString::number(port);
+                QString fileName=qip+"select error:";
+                const wchar_t * encodedName = reinterpret_cast<const wchar_t *>(fileName.utf16());
+                MessageBoxW(NULL, encodedName, encodedName, MB_OK);
+            }
+            */
+            printf("select error\n");
+            return false;
+        case 0:
+            /*
+            {
+                QString qip=QString::fromUtf8(ip)+": "+QString::number(port);
+                QString fileName=qip+"select time:";
+                const wchar_t * encodedName = reinterpret_cast<const wchar_t *>(fileName.utf16());
+                MessageBoxW(NULL, encodedName, encodedName, MB_OK);
+            }
+            */
+            printf("select time out\n");
+            return false;
+        default:
+            if (FD_ISSET(tsock, &rfds) || FD_ISSET(tsock, &wfds))
+            {
+                /*
+                int error = 0;
+                socklen_t len = sizeof(error);
+                if(getsockopt(tsock, SOL_SOCKET, SO_ERROR, (char*)&error, &len) < 0)
+                {
                     return false;
-            case 0:
-                    printf("select time out\n");
+                }
+                if(error != 0) // 失败
+                {
                     return false;
-            default:
-                    if (FD_ISSET(tsock, &rfds) || FD_ISSET(tsock, &wfds))
-                    {
-                            connect(tsock, (sockaddr*)&saddr, sizeof(saddr));    //再次连接一次进行确认
-                            int err = errno;
-                            if  (err == EISCONN||err == EINPROGRESS)     //已经连接到该套接字 或 套接字为非阻塞套接字，且连接请求没有立即完成
-                            {
-                                printf("connect %s : %d finished(success).\n",ip,port);
-                                SetBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
-                                return true;
-                            }
-                            else
-                            {
-                                printf("connect %s : %d finished(failed). errno = %d\n",ip,port,errno);
-                               // printf("FD_ISSET(sock_fd, &rfds): %d\n FD_ISSET(sock_fd, &wfds): %d\n", FD_ISSET(sock_fd, &rfds) , FD_ISSET(sock_fd, &wfds));
-                                return false;
-                            }
-                    }
-                    else
-                        {
-                                printf("connect %s : %d finished(failed).",ip,port);
-                                return false;
-                        }
+                }
+                else
+                {
+                    SetBlock(true);
+                    return true;
+                }
+                */
+                connect(tsock, (sockaddr*)&saddr, sizeof(saddr));    //再次连接一次进行确认
+                int err = errno;
+            #if _MSC_VER
+                if  (err == EISCONN||err == EINPROGRESS||err==0)     //已经连接到该套接字 或 套接字为非阻塞套接字，且连接请求没有立即完成
+            #else
+                if  (err == EISCONN||err == EINPROGRESS)
+            #endif
+                {
+                    printf("connect %s : %d finished(success).\n",ip,port);
+                    SetBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
+                    return true;
+                }
+                else
+                {
+                    printf("connect %s : %d finished(failed). errno = %d\n",ip,port,errno);
+                    // printf("FD_ISSET(sock_fd, &rfds): %d\n FD_ISSET(sock_fd, &wfds): %d\n", FD_ISSET(sock_fd, &rfds) , FD_ISSET(sock_fd, &wfds));
+                    return false;
+                }
+            }
+            else
+            {
+                printf("connect %s : %d finished(failed).",ip,port);
+                return false;
+            }
         }
-
     }
     else  //连接正常
     {
@@ -277,35 +297,39 @@ bool XTcp::Connect(int sec)
         switch (selres)
         {
 
-            case -1:
-                    printf("select error\n");
+        case -1:
+            printf("select error\n");
+            return false;
+        case 0:
+            printf("select time out\n");
+            return false;
+        default:
+            if (FD_ISSET(tsock, &rfds) || FD_ISSET(tsock, &wfds))
+            {
+                connect(tsock, (sockaddr*)&saddr, sizeof(saddr));    //再次连接一次进行确认
+                int err = errno;
+            #if _MSC_VER
+                if  (err == EISCONN||err == EINPROGRESS||err==0)     //已经连接到该套接字 或 套接字为非阻塞套接字，且连接请求没有立即完成
+            #else
+                if  (err == EISCONN||err == EINPROGRESS)
+            #endif
+                {
+                    printf("connect %s : %d finished(success).\n",tcp_serverip,tport);
+                    SetBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
+                    return true;
+                }
+                else
+                {
+                    printf("connect %s : %d finished(failed). errno = %d\n",tcp_serverip,tport,errno);
+                    // printf("FD_ISSET(sock_fd, &rfds): %d\n FD_ISSET(sock_fd, &wfds): %d\n", FD_ISSET(sock_fd, &rfds) , FD_ISSET(sock_fd, &wfds));
                     return false;
-            case 0:
-                    printf("select time out\n");
-                    return false;
-            default:
-                    if (FD_ISSET(tsock, &rfds) || FD_ISSET(tsock, &wfds))
-                    {
-                            connect(tsock, (sockaddr*)&saddr, sizeof(saddr));    //再次连接一次进行确认
-                            int err = errno;
-                            if  (err == EISCONN||err == EINPROGRESS)     //已经连接到该套接字 或 套接字为非阻塞套接字，且连接请求没有立即完成
-                            {
-                                printf("connect %s : %d finished(success).\n",tcp_serverip,tport);
-                                SetBlock(true);   //成功之后重新把sock改成阻塞模式，以便后面发送/接收数据
-                                return true;
-                            }
-                            else
-                            {
-                                printf("connect %s : %d finished(failed). errno = %d\n",tcp_serverip,tport,errno);
-                               // printf("FD_ISSET(sock_fd, &rfds): %d\n FD_ISSET(sock_fd, &wfds): %d\n", FD_ISSET(sock_fd, &rfds) , FD_ISSET(sock_fd, &wfds));
-                                return false;
-                            }
-                    }
-                    else
-                        {
-                                printf("connect %s : %d finished(failed).",tcp_serverip,tport);
-                                return false;
-                        }
+                }
+            }
+            else
+            {
+                printf("connect %s : %d finished(failed).",tcp_serverip,tport);
+                return false;
+            }
         }
 
     }
