@@ -75,14 +75,14 @@ void Soptocameratcpip::InitConnect_cloud(QString hostName,int port)
       char data[1]={1};
       m_client.Send(data,1);
 
-      m_ftp.CreateSocket();
+/*    m_ftp.CreateSocket();
       m_ftp.Connect(ch,PORT_ALSTCP_FTP);
       m_ftp.SetBlock(0);
       if(0!=m_ftp.SetRcvBufferlong(RECVBUFFER_MAX))
       {
           printf("m_ftp setRcvBufferlong false");
       }
-
+*/
       b_rcv_thread=true;
       rcv_thread->start();
       connect_mod=1;
@@ -105,7 +105,7 @@ void Soptocameratcpip::DisConnect()
       rcv_thread->quit();
       rcv_thread->wait();
       m_client.Close();
-      m_ftp.Close();
+//    m_ftp.Close();
       b_connect=false;
     }
 }
@@ -132,19 +132,21 @@ double Soptocameratcpip::Getfps()
     return 50.0;
 }
 
-void Soptocameratcpip::ros_set_homography_matrix(Params ros_Params)
+void Soptocameratcpip::ros_set_homography_matrix(Params ros_Params,QTcpSocket *m_ftp)
 {
     QJsonObject json;
     QJsonObject js;
     QJsonArray jarry;
     for(int i=0;i<ros_Params.homography_matrix.size();i++)
     {
-        jarry.append(ros_Params.homography_matrix[i]);
+      jarry.append(ros_Params.homography_matrix[i]);
     }
     json["homography_matrix"]=jarry;
     js["echo"]=json;
     QString msg=JsonToQstring(js);
-    m_ftp.Send(msg.toUtf8(),msg.size());
+    QByteArray arry=msg.toUtf8();
+    arry.push_back('\0');
+    m_ftp->write(arry);
 }
 
 QJsonObject Soptocameratcpip::QstringToJson(QString jsonString)

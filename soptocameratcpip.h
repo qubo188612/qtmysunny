@@ -116,11 +116,11 @@ public:
     volatile int callbacknumber;
 
     XTcp m_client;
+ // XTcp m_ftp;
+
     tcprcvThread *rcv_thread;
     bool b_rcv_thread;
     bool b_stop_rcv_thread;
-
-    XTcp m_ftp;
 
     uchar *rcv_buf;
 
@@ -131,11 +131,12 @@ public:
 
     QJsonObject QstringToJson(QString jsonString);
 
-    IFAlgorhmitcloud IfAlgorhmitcloud;
+    IFAlgorhmitcloud *ros_line;
+    bool b_ros_lineEn;     //相机轮廓有效位
 
     volatile bool b_updatacloud_finish;
 
-    void ros_set_homography_matrix(Params ros_Params);
+    void ros_set_homography_matrix(Params ros_Params,QTcpSocket *m_ftp);
 protected:
 
     PictureBox *m_lab_show;
@@ -156,6 +157,21 @@ private:
     Soptocameratcpip *_p;
 
 };
+
+class tcpcloudThread: public QThread
+{
+    Q_OBJECT
+
+public:
+    tcpcloudThread(Soptocameratcpip *statci_p);
+    void Stop();
+protected:
+    void run();
+private:
+    Soptocameratcpip *_p;
+
+};
+
 
 #endif
 #endif // SOPTOCAMERATCPIP_H
