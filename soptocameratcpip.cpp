@@ -43,7 +43,7 @@ void Soptocameratcpip::InitConnect(PictureBox *lab_show,QString hostName, int po
       }
       char data[1]={1};
       m_client.Send(data,1);
-
+/*
       m_ftp.CreateSocket();
       m_ftp.Connect(ch,PORT_ALSTCP_FTP);
       m_ftp.SetBlock(0);
@@ -51,7 +51,7 @@ void Soptocameratcpip::InitConnect(PictureBox *lab_show,QString hostName, int po
       {
           printf("m_ftp setRcvBufferlong false");
       }
-
+*/
       b_rcv_thread=true;
       rcv_thread->start();
       connect_mod=0;
