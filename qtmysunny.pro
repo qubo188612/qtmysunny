@@ -70,6 +70,10 @@ HEADERS += \
     tistdtypes.h
 
 win32{
+
+QMAKE_CXXFLAGS_RELEASE = -O2  -MD  -GL
+QMAKE_CXXFLAGS_DEBUG  =  Zi  -MDd
+
 #opencv库的添加
 INCLUDEPATH += D:/opencv/build/include \
 
